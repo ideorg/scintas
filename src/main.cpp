@@ -25,52 +25,16 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     SetMenuBar( menuBar );
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
 
-    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
-    this->SetSizer(mainSizer);
-    panel = new wxPanel(this);
-    wxBoxSizer *panelSizer = new wxBoxSizer(wxVERTICAL);
-    panel->SetSizer(panelSizer);
-    mainSizer->Add(panel, 1, wxEXPAND | wxALL, 0);
-    splitter = new wxSplitterWindow(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3DSASH | wxSP_NO_XP_THEME | wxSP_LIVE_UPDATE);
-    panelSizer->Add(splitter, 1, wxEXPAND | wxALL, 0);
-
-    left = new wxPanel(splitter, wxID_ANY);
-    right = new wxPanel(splitter, wxID_ANY);
-
-    left->SetMinSize(wxSize(200, -1));
-    right->SetMinSize(wxSize(200, -1));
-
-    splitter->SplitVertically(left, right, 250);
-
-    wxBoxSizer *rightSizer = new wxBoxSizer(wxVERTICAL);
-    right->SetSizer(rightSizer);
-
-    rightTop = new wxPanel(right, wxID_ANY);
-    statuBar = new wxStatusBar(right, wxID_ANY);
-
-    rightSizer->Add(rightTop, 1, wxEXPAND | wxALL, 0);
-    rightSizer->Add(statuBar);
-
-    rightTop->SetMinSize(wxSize(-1, 200));
-
-    wxBoxSizer* left_sizer = new wxBoxSizer(wxVERTICAL);
-    left->SetSizer(left_sizer);
-
-    wxBoxSizer *rightTop_sizer = new wxBoxSizer(wxVERTICAL);
-    rightTop->SetSizer(rightTop_sizer);
-
-    wxBoxSizer *rightBottom_sizer = new wxBoxSizer(wxVERTICAL);
-    statuBar->SetSizer(rightBottom_sizer);
-
     manager.SetManagedWindow(this);
     manager.SetFlags(wxAUI_MGR_DEFAULT);
-
-    notebook = new wxAuiNotebook(rightTop, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
-            wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
-
+    notebook = new wxAuiNotebook(this, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
+                                                                                      wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
     manager.AddPane(notebook, wxAuiPaneInfo().Left().Caption(wxT("Edytor")).MaximizeButton(true).MinimizeButton(true).PinButton(true).PaneBorder(false).Dock().Resizable().FloatingSize(wxDefaultSize).CentrePane().DefaultPane());
-    rightTop_sizer->Add(notebook, 1, wxEXPAND | wxALL, 0);
 
+    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->Add(notebook, 1, wxEXPAND | wxALL, 0);
+    this->SetSizer(mainSizer);
+    CreateStatusBar();
     editorFactory = new EditorFactory(notebook);
 }
 

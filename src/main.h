@@ -26,17 +26,10 @@ public:
 
 class MyFrame : public wxFrame
 {
-    wxPanel *panel;
-    wxPanel *left;
-    wxPanel *right;
-    wxPanel *rightTop;
-    wxStatusBar *statuBar;
-
     wxAuiManager manager;
     wxAuiNotebook* notebook;
     EditorFactory* editorFactory;
 
-    wxSplitterWindow *splitter;
     void OnExit(wxCommandEvent& event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void SetEditorStyle(wxStyledTextCtrl* stc);
