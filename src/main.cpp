@@ -68,6 +68,8 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
                                                                                           wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
     manager.AddPane(notebook, wxAuiPaneInfo().Left().Caption(wxT("Edytor")).MaximizeButton(true).MinimizeButton(true).PinButton(true).PaneBorder(false).Dock().Resizable().FloatingSize(wxDefaultSize).CentrePane().DefaultPane());
     rightTop_sizer->Add(notebook, 1, wxEXPAND | wxALL, 0);
+
+    editorFactory = new EditorFactory(notebook);
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {
@@ -88,30 +90,11 @@ void MyFrame::OnOpenFile(wxCommandEvent &event) {
     OpenInEditor(openDialog.GetPath());
 }
 
-static long GetNewEditorId()
-{
-    static int id = 10000;
-    return id++;
-}
-
 wxStyledTextCtrl *MyFrame::OpenInEditor(const wxString &file_path) {
-    wxWindowID new_id = GetNewEditorId();
-    wxStyledTextCtrl* stc = new wxStyledTextCtrl(notebook, new_id, wxDefaultPosition, wxDefaultSize, 0L, file_path);
+    Editor *editor = editorFactory->CreateTabSheet(file_path);
+    wxStyledTextCtrl* stc = editor->GetWidget();
     SetEditorStyle(stc);
-    Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, new_id);
-    //stc->SetKeyWords(0, wxGetWXKeyWords());
-    //stc->SetKeyWords(1, wxGetCPP11KeyWords());
-    if (stc->LoadFile(file_path))
-    {
-        //Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, new_id);
-        //Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, new_id);
-        wxFileName file(file_path);
-        notebook->AddPage(stc, file.GetFullName(), true);
-    }
-    else
-    {
-        wxLogWarning(wxT("Can't load ") + file_path + wxT("!"));
-    }
+    Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
     int maxPos=1000;
     stc->SetMarginWidth(0, 30);
     stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);

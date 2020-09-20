@@ -9,6 +9,7 @@
 #include <wx/aui/auibook.h>
 #include <wx/stc/stc.h>
 #include <wx/statusbr.h>
+#include "EditorFactory.h"
 
 enum {
     ID_NOTEBOOK
@@ -33,6 +34,7 @@ class MyFrame : public wxFrame
 
     wxAuiManager manager;
     wxAuiNotebook* notebook;
+    EditorFactory* editorFactory;
 
     wxSplitterWindow *splitter;
     void OnExit(wxCommandEvent& event);
@@ -42,6 +44,7 @@ DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
             const wxPoint &pos, const wxSize &size, long style);
+    ~MyFrame() { delete editorFactory;}
     void OnOpenFile(wxCommandEvent& event);
     wxStyledTextCtrl* OpenInEditor(const wxString& file_path);
 };
