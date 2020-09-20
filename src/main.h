@@ -10,8 +10,9 @@
 #include <wx/stc/stc.h>
 #include <wx/statusbr.h>
 #include <wx/snglinst.h>
-#include "EditorFactory.h"
 #include <wx/timer.h>
+#include "EditorFactory.h"
+#include "Config.h"
 
 enum {
     ID_NOTEBOOK
@@ -34,6 +35,7 @@ class MyFrame : public wxFrame
     wxAuiNotebook* notebook;
     EditorFactory* editorFactory;
     wxTimer instanceTimer;
+    Config *config;
 
     void OnExit(wxCommandEvent& event);
     void OnStcMarginClick(wxStyledTextEvent& event);

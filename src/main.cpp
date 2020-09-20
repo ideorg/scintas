@@ -57,6 +57,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     this->SetSizer(mainSizer);
     CreateStatusBar();
     editorFactory = new EditorFactory(notebook);
+    config = new Config();
     CmdLineOpenFiles();
     instanceTimer.Bind(wxEVT_TIMER, &MyFrame::OnInstanceTimer, this);
     instanceTimer.Start(200);
