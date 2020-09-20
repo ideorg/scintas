@@ -46,13 +46,12 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     right->SetSizer(rightSizer);
 
     rightTop = new wxPanel(right, wxID_ANY);
-    rightBottom = new wxPanel(right, wxID_ANY);
+    statuBar = new wxStatusBar(right, wxID_ANY);
 
     rightSizer->Add(rightTop, 1, wxEXPAND | wxALL, 0);
-    rightSizer->Add(rightBottom, 1, wxEXPAND | wxALL, 0);
+    rightSizer->Add(statuBar);
 
     rightTop->SetMinSize(wxSize(-1, 200));
-    rightBottom->SetMinSize(wxSize(-1, 100));
 
     wxBoxSizer* left_sizer = new wxBoxSizer(wxVERTICAL);
     left->SetSizer(left_sizer);
@@ -61,7 +60,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     rightTop->SetSizer(rightTop_sizer);
 
     wxBoxSizer *rightBottom_sizer = new wxBoxSizer(wxVERTICAL);
-    rightBottom->SetSizer(rightBottom_sizer);
+    statuBar->SetSizer(rightBottom_sizer);
 
     manager.SetManagedWindow(this);
     manager.SetFlags(wxAUI_MGR_DEFAULT);

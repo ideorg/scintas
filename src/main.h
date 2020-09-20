@@ -8,6 +8,7 @@
 #include <wx/splitter.h>
 #include <wx/aui/auibook.h>
 #include <wx/stc/stc.h>
+#include <wx/statusbr.h>
 
 enum {
     ID_NOTEBOOK
@@ -28,7 +29,7 @@ class MyFrame : public wxFrame
     wxPanel *left;
     wxPanel *right;
     wxPanel *rightTop;
-    wxPanel *rightBottom;
+    wxStatusBar *statuBar;
 
     wxAuiManager manager;
     wxAuiNotebook* notebook;
