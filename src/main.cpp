@@ -45,17 +45,14 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     wxBoxSizer *rightSizer = new wxBoxSizer(wxVERTICAL);
     right->SetSizer(rightSizer);
 
-    splitterRight = new wxSplitterWindow(right, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                                         wxSP_3DSASH | wxSP_NO_XP_THEME | wxSP_LIVE_UPDATE);
-    rightSizer->Add(splitterRight, 1, wxEXPAND | wxALL, 0);
+    rightTop = new wxPanel(right, wxID_ANY);
+    rightBottom = new wxPanel(right, wxID_ANY);
 
-    rightTop = new wxPanel(splitterRight, wxID_ANY);
-    rightBottom = new wxPanel(splitterRight, wxID_ANY);
+    rightSizer->Add(rightTop, 1, wxEXPAND | wxALL, 0);
+    rightSizer->Add(rightBottom, 1, wxEXPAND | wxALL, 0);
 
     rightTop->SetMinSize(wxSize(-1, 200));
     rightBottom->SetMinSize(wxSize(-1, 100));
-
-    splitterRight->SplitHorizontally(rightTop, rightBottom, (this->GetSize().GetHeight() - 120));
 
     wxBoxSizer* left_sizer = new wxBoxSizer(wxVERTICAL);
     left->SetSizer(left_sizer);

@@ -34,7 +34,6 @@ class MyFrame : public wxFrame
     wxAuiNotebook* notebook;
 
     wxSplitterWindow *splitter;
-    wxSplitterWindow *splitterRight;
     void OnExit(wxCommandEvent& event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void SetEditorStyle(wxStyledTextCtrl* stc);
