@@ -9,6 +9,7 @@
 #include <wx/aui/auibook.h>
 #include <wx/stc/stc.h>
 #include <wx/statusbr.h>
+#include <wx/snglinst.h>
 #include "EditorFactory.h"
 
 enum {
@@ -20,8 +21,10 @@ enum {
 
 class MyApp : public wxApp
 {
+    wxSingleInstanceChecker *m_checker;
 public:
     virtual bool OnInit();
+    int OnExit() override;
 };
 
 class MyFrame : public wxFrame

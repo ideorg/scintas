@@ -9,9 +9,23 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 END_EVENT_TABLE()
 
 bool MyApp::OnInit() {
+    m_checker = new wxSingleInstanceChecker;
+    if ( m_checker->IsAnotherRunning() )
+    {
+        wxLogError(_("Another program instance is already running, aborting."));
+        delete m_checker; // OnExit() won't be called if we return false
+        m_checker = NULL;
+        return false;
+    }
     MyFrame *frame = new MyFrame(NULL, wxID_ANY, "Scintas", wxDefaultPosition, wxSize(800,600), wxDEFAULT_FRAME_STYLE);;
     frame->Show(true);
     return true;
+}
+
+int MyApp::OnExit()
+{
+    delete m_checker;
+    return 0;
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
