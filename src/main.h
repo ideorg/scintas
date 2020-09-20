@@ -41,6 +41,8 @@ public:
     void OnOpenFile(wxCommandEvent& event);
     void OpenInEditor(const wxString& file_path);
     void OpenOrActivate(const wxString& file_path);
+
+    void CmdLineOpenFiles();
 };
 
 #endif //SCINTAS_MAIN_H

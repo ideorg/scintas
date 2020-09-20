@@ -36,6 +36,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     this->SetSizer(mainSizer);
     CreateStatusBar();
     editorFactory = new EditorFactory(notebook);
+    CmdLineOpenFiles();
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {
@@ -91,4 +92,10 @@ void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {
         default:
             break;
     }
+}
+
+void MyFrame::CmdLineOpenFiles() {
+    wxApp &app = wxGetApp();
+    for (int i=1; i<app.argc; i++)
+        OpenOrActivate(app.argv[i]);
 }
