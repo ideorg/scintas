@@ -56,11 +56,9 @@ void MyFrame::OnOpenFile(wxCommandEvent &event) {
     OpenInEditor(openDialog.GetPath());
 }
 
-wxStyledTextCtrl *MyFrame::OpenInEditor(const wxString &file_path) {
+void MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
-    wxStyledTextCtrl* stc = editor->GetWidget();
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
-    return stc;
 }
 
 void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {

@@ -39,7 +39,7 @@ public:
             const wxPoint &pos, const wxSize &size, long style);
     ~MyFrame() { delete editorFactory;}
     void OnOpenFile(wxCommandEvent& event);
-    wxStyledTextCtrl* OpenInEditor(const wxString& file_path);
+    void OpenInEditor(const wxString& file_path);
 };
 
 #endif //SCINTAS_MAIN_H
