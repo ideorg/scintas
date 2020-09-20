@@ -8,7 +8,8 @@ set(wxWidgets_CONFIGURATION mswu)
 find_package(wxWidgets COMPONENTS core base aui stc REQUIRED)
 include(${wxWidgets_USE_FILE})
 
-set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp)
+set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp
+        IniParser/IniParser.cpp IniParser/StrTools.cpp)
 add_executable(scintas ${SOURCE_FILES})
 
 SET(GCC_COVERAGE_COMPILE_FLAGS "-Werror=return-type")
