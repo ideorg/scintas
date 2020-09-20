@@ -1,9 +1,14 @@
 #include "Editor.h"
 #include <wx/filename.h>
 
-Editor::Editor(wxStyledTextCtrl* stc, wxWindowID id):stc(stc),id(id) {}
+Editor::Editor(wxStyledTextCtrl* stc, wxWindowID id, wxAuiNotebook* notebook)
+            :stc(stc),id(id),notebook(notebook) {}
 
-void Editor::Activate() { }
+void Editor::Activate() {
+    int page = notebook->GetPageIndex(stc);
+    notebook->SetSelection(0);
+}
+
 void Editor::ActionsBeforeClose() {}
 void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose) {}
 CloseEnum Editor::AskSaveChangesBeforeReopen() { return clClose;}
@@ -12,7 +17,9 @@ void Editor::TryClose() {  }
 wxStyledTextCtrl* Editor::GetWidget() { return stc; };
 //function Editor::GetCaretPos: TPoint;
 //function Editor::GetStateStr: string;
-//std::string Editor::GetFileName() { return ""; }
+wxString Editor::GetPath() {
+    return path;
+}
 wxString Editor::GetTitle() {
     return title;
 }

@@ -53,12 +53,20 @@ void MyFrame::OnExit(wxCommandEvent &event) {
 void MyFrame::OnOpenFile(wxCommandEvent &event) {
     wxFileDialog openDialog(this, wxT("Open file"), "..", "", SUPPORTED_FILES_EXT, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openDialog.ShowModal() == wxID_CANCEL) return;
-    OpenInEditor(openDialog.GetPath());
+    OpenOrActivate(openDialog.GetPath());
 }
 
 void MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
+}
+
+void MyFrame::OpenOrActivate(const wxString& file_path) {
+    Editor *editor = editorFactory->GetEditorByPath(file_path);
+    if (editor)
+        editor->Activate();
+    else
+        OpenInEditor(file_path);
 }
 
 void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {

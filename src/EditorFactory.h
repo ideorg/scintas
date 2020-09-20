@@ -15,7 +15,8 @@ private:
     wxAuiNotebook* notebook;
     std::vector<Editor*> list;
 public:
-    EditorFactory(wxAuiNotebook* Owner);
+    EditorFactory(wxAuiNotebook* auiNotebook);
+    Editor *GetEditorByPath(const wxString &path);
 };
 
 

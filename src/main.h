@@ -40,6 +40,7 @@ public:
     ~MyFrame() { delete editorFactory;}
     void OnOpenFile(wxCommandEvent& event);
     void OpenInEditor(const wxString& file_path);
+    void OpenOrActivate(const wxString& file_path);
 };
 
 #endif //SCINTAS_MAIN_H

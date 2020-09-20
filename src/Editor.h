@@ -7,6 +7,7 @@
 #endif
 #include <string>
 #include <wx/stc/stc.h>
+#include <wx/aui/auibook.h>
 
 enum CloseEnum {clClose, clCloseAllSave, clCloseAllDiscard, clNo, clCancel, clError};
 enum ConsiderEnum {coCanClose, coCanSave, coSaveAs};
@@ -18,6 +19,7 @@ class Editor {
     wxString path;
     wxString title;
     void SetEditorStyle();
+    wxAuiNotebook* notebook;
 public:
     virtual void Activate();
     virtual void ActionsBeforeClose();
@@ -28,7 +30,7 @@ public:
     virtual wxStyledTextCtrl* GetWidget();
     //function GetCaretPos: TPoint;
     //function GetStateStr: string;
-    //virtual std::string GetFileName();
+    virtual wxString GetPath();
     virtual wxString GetTitle();
     //virtual function GetLines: TStrings;();
     //virtual function GetCurrentLine: string;();
@@ -42,7 +44,7 @@ public:
     //virtual function GetHighLighter: TSynCustomHighlighter;();
     //virtual procedure SetHighLighter(Value: TSynCustomHighlighter);();
     //virtual function GetActivateTime: TDateTime;();
-    Editor(wxStyledTextCtrl* stc, wxWindowID id);
+    Editor(wxStyledTextCtrl* stc, wxWindowID id, wxAuiNotebook* notebook);
     wxWindowID GetId() {return id;}
 };
 
