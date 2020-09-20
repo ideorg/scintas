@@ -44,9 +44,54 @@ const int menuID_Editas  = wxID_HIGHEST+1;
 
 void MyFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
-    wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, wxT("Open file\tCtrl-O"), "");
+    menuFile->Append(wxID_NEW);
+    wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, "Open file\tCtrl-O", "");
     menuFile->Append(open_file);
-    menuFile->Append(wxID_EXIT);
+    wxMenuItem *recent_file = new wxMenuItem(menuFile, wxID_OPEN, "&Recent files", "");
+    menuFile->Append(recent_file);
+    wxMenuItem *file_according_name = new wxMenuItem(menuFile, wxID_OPEN, "According to name", "");
+    menuFile->Append(file_according_name);
+    wxMenuItem *file_according_path = new wxMenuItem(menuFile, wxID_OPEN, "According to path", "");
+    menuFile->Append(file_according_path);
+    wxMenuItem *file_reopen = new wxMenuItem(menuFile, wxID_OPEN, "Reopen file", "");
+    menuFile->Append(file_reopen);
+    menuFile->Append(wxID_SEPARATOR);
+    menuFile->Append(wxID_SAVE);
+    menuFile->Append(wxID_SAVEAS);
+    wxMenuItem *file_saveall = new wxMenuItem(menuFile, wxID_OPEN, "Save all\tCtrl-Shift-S", "");
+    menuFile->Append(file_saveall);
+    menuFile->Append(wxID_CLOSE);
+    wxMenuItem *file_closeall = new wxMenuItem(menuFile, wxID_OPEN, "Close all\tCtrl-Shift-F4", "");
+    menuFile->Append(file_closeall);
+    wxMenuItem *exit_file = new wxMenuItem(menuFile, wxID_EXIT, "E&xit\tAlt-F4", "");
+    menuFile->Append(exit_file);
+
+    wxMenu *menuEdit = new wxMenu;
+    menuEdit->Append(wxID_UNDO);
+    menuEdit->Append(wxID_REDO);
+    menuEdit->Append(wxID_SEPARATOR);
+    wxMenuItem *edit_cut = new wxMenuItem(menuFile, wxID_OPEN, "Cut\tCtrl-X", "");
+    menuEdit->Append(edit_cut);
+    wxMenuItem *edit_copy = new wxMenuItem(menuFile, wxID_OPEN, "Copy\tCtrl-C", "");
+    menuEdit->Append(edit_copy);
+    wxMenuItem *edit_paste = new wxMenuItem(menuFile, wxID_OPEN, "Paste\tCtrl-V", "");
+    menuEdit->Append(edit_paste);
+    wxMenuItem *edit_delete = new wxMenuItem(menuFile, wxID_OPEN, "Delete", "");
+    menuEdit->Append(edit_delete);
+    wxMenuItem *edit_selectAll = new wxMenuItem(menuFile, wxID_OPEN, "Select all\tCtrl+A", "");
+    menuEdit->Append(edit_selectAll);
+    wxMenuItem *edit_selectWord = new wxMenuItem(menuFile, wxID_OPEN, "Select word\tCtrl+W", "");
+    menuEdit->Append(edit_selectWord);
+    wxMenuItem *edit_selectMode = new wxMenuItem(menuFile, wxID_OPEN, "Select mode", "");
+    menuEdit->Append(edit_selectMode);
+    wxMenuItem *edit_changeCase = new wxMenuItem(menuFile, wxID_OPEN, "Change case", "");
+    menuEdit->Append(edit_changeCase);
+    new wxMenuItem(menuFile, wxID_OPEN, "Block indent\tTAb", "");
+    menuEdit->Append(wxID_SEPARATOR);
+    wxMenuItem *edit_blockIndent = new wxMenuItem(menuFile, wxID_OPEN, "Block indent\tTab", "");
+    menuEdit->Append(edit_blockIndent);
+    wxMenuItem *edit_blockUnindent = new wxMenuItem(menuFile, wxID_OPEN, "Block unindent\tShift+Tab", "");
+    menuEdit->Append(edit_blockUnindent);
 
     wxMenu *menuOther = new wxMenu;
     wxMenuItem *editas = new wxMenuItem(menuOther, menuID_Editas, "Editas", "");
@@ -54,6 +99,7 @@ void MyFrame::CreateMenu() {
 
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuEdit, "&Edit");
     menuBar->Append(menuOther, "&Other");
 
     SetMenuBar( menuBar );
