@@ -17,6 +17,7 @@ class Editor {
     wxWindowID id;
     wxString path;
     wxString title;
+    void SetEditorStyle();
 public:
     virtual void Activate();
     virtual void ActionsBeforeClose();
