@@ -1,0 +1,3 @@
+[submodule "3rdparty/cpp-ipc"]
+	path = 3rdparty/cpp-ipc
+	url = https://github.com/mutouyun/cpp-ipc.git

@@ -14,4 +14,14 @@ add_executable(scintas ${SOURCE_FILES})
 SET(GCC_COVERAGE_COMPILE_FLAGS "-Werror=return-type")
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 
-target_link_libraries(scintas ${wxWidgets_LIBRARIES})
+target_include_directories(scintas
+        PRIVATE
+        ../3rdparty/cpp-ipc/include
+        )
+
+target_link_directories(scintas
+        PRIVATE
+        ../3rdparty
+        )
+
+target_link_libraries(scintas ${wxWidgets_LIBRARIES} ipc)

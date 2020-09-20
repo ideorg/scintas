@@ -1,6 +1,7 @@
 #include "main.h"
 #include <wx/event.h>
 #include <wx/filename.h>
+#include "libipc/ipc.h"
 
 wxIMPLEMENT_APP(MyApp);
 
@@ -8,11 +9,15 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
 END_EVENT_TABLE()
 
+ipc::channel sender__   { "abc", ipc::sender   };
+ipc::channel receiver__ { "abc", ipc::receiver };
+
 bool MyApp::OnInit() {
+    //ipc::buff_t buf = receiver__.recv();
     m_checker = new wxSingleInstanceChecker;
     if ( m_checker->IsAnotherRunning() )
     {
-        wxLogError(_("Another program instance is already running, aborting."));
+        sender__.send("abc");
         delete m_checker; // OnExit() won't be called if we return false
         m_checker = NULL;
         return false;
@@ -51,6 +56,16 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     CreateStatusBar();
     editorFactory = new EditorFactory(notebook);
     CmdLineOpenFiles();
+    instanceTimer.Bind(wxEVT_TIMER, &MyFrame::OnInstanceTimer, this);
+    instanceTimer.Start(200);
+}
+
+void MyFrame::OnInstanceTimer(wxTimerEvent&)
+{
+    ipc::buffer buf = receiver__.try_recv();
+    if (!buf.empty())
+        wxLogError(_("receive"));
+
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {

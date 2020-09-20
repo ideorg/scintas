@@ -11,6 +11,7 @@
 #include <wx/statusbr.h>
 #include <wx/snglinst.h>
 #include "EditorFactory.h"
+#include <wx/timer.h>
 
 enum {
     ID_NOTEBOOK
@@ -32,10 +33,12 @@ class MyFrame : public wxFrame
     wxAuiManager manager;
     wxAuiNotebook* notebook;
     EditorFactory* editorFactory;
+    wxTimer instanceTimer;
 
     void OnExit(wxCommandEvent& event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void SetEditorStyle(wxStyledTextCtrl* stc);
+    void OnInstanceTimer(wxTimerEvent&);
 DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
