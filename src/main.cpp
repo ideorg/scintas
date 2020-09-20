@@ -1,7 +1,12 @@
 #include "main.h"
 #include <wx/event.h>
 #include <wx/filename.h>
+#include <string>
+#include <vector>
 #include "libipc/ipc.h"
+#include "execute.h"
+
+using namespace std;
 
 wxIMPLEMENT_APP(MyApp);
 
@@ -35,17 +40,30 @@ int MyApp::OnExit()
     return 0;
 }
 
-MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
-        : wxFrame(parent, id, title, pos, size, style) {
+const int menuID_Editas  = wxID_HIGHEST+1;
+
+void MyFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
     wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, wxT("Open file\tCtrl-O"), "");
     menuFile->Append(open_file);
     menuFile->Append(wxID_EXIT);
+
+    wxMenu *menuOther = new wxMenu;
+    wxMenuItem *editas = new wxMenuItem(menuOther, menuID_Editas, "Editas", "");
+    menuOther->Append(editas);
+
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuOther, "&Other");
+
     SetMenuBar( menuBar );
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_MENU, &MyFrame::OnEditas, this, menuID_Editas);
+}
 
+MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
+        : wxFrame(parent, id, title, pos, size, style) {
+    CreateMenu();
     manager.SetManagedWindow(this);
     manager.SetFlags(wxAUI_MGR_DEFAULT);
     notebook = new wxAuiNotebook(this, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
@@ -75,6 +93,11 @@ void MyFrame::OnInstanceTimer(wxTimerEvent&)
 
 void MyFrame::OnExit(wxCommandEvent &event) {
     Close(true);
+}
+
+void MyFrame::OnEditas(wxCommandEvent &event) {
+    vector<string> params;
+    execute("/home/andrzej/gitmy/editas-code/editas", params, false);
 }
 
 #define SUPPORTED_FILES_EXT wxT("Headers (*.h)|*.h|" \

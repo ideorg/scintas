@@ -38,9 +38,11 @@ class MyFrame : public wxFrame
     Config *config;
 
     void OnExit(wxCommandEvent& event);
+    void OnEditas(wxCommandEvent &event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void SetEditorStyle(wxStyledTextCtrl* stc);
     void OnInstanceTimer(wxTimerEvent&);
+    void CreateMenu();
 DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
