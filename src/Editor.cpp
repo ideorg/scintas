@@ -6,7 +6,7 @@ Editor::Editor(wxStyledTextCtrl* stc, wxWindowID id, wxAuiNotebook* notebook)
 
 void Editor::Activate() {
     int page = notebook->GetPageIndex(stc);
-    notebook->SetSelection(0);
+    notebook->SetSelection(page);
 }
 
 void Editor::ActionsBeforeClose() {}
