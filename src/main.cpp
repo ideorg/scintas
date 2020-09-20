@@ -64,8 +64,10 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
 
     manager.SetManagedWindow(this);
     manager.SetFlags(wxAUI_MGR_DEFAULT);
-    notebook = new wxAuiNotebook(rightTop, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT |
-                                                                                          wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_DEFAULT_STYLE | wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
+
+    notebook = new wxAuiNotebook(rightTop, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
+            wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
+
     manager.AddPane(notebook, wxAuiPaneInfo().Left().Caption(wxT("Edytor")).MaximizeButton(true).MinimizeButton(true).PinButton(true).PaneBorder(false).Dock().Resizable().FloatingSize(wxDefaultSize).CentrePane().DefaultPane());
     rightTop_sizer->Add(notebook, 1, wxEXPAND | wxALL, 0);
 
