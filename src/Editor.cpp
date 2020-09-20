@@ -42,8 +42,8 @@ void Editor::SetEditorStyle() {
 
     stc->SetLexer(wxSTC_LEX_CPP);
 
-    wxFont font(10, wxSWISS, wxNORMAL, wxNORMAL, false, "Courier New");
-    wxFont fontb(10, wxSWISS, wxNORMAL, wxFONTWEIGHT_BOLD, false, "Courier New");
+    wxFont font(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier New");
+    wxFont fontb(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier New");
 
     stc->StyleSetFont(wxSTC_C_DEFAULT, font);
     stc->StyleSetFont(wxSTC_C_COMMENT, font);
