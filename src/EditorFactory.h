@@ -16,7 +16,8 @@ public:
     EditorFactory(wxAuiNotebook* auiNotebook);
     Editor *GetEditorByPath(const wxString &path);
     Editor *GetEditorByControl(const wxWindow* control);
-
+    int GetEditorNumberByControl(const wxWindow *control);
+    void CloseCurrent();
 };
 
 

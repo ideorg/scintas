@@ -13,6 +13,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
                 EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
+                EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
                 EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
                 EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
@@ -62,7 +63,8 @@ void MyFrame::CreateMenu() {
     menuFile->Append(wxID_SAVEAS);
     wxMenuItem *file_saveall = new wxMenuItem(menuFile, wxID_OPEN, "Save all\tCtrl-Shift-S", "");
     menuFile->Append(file_saveall);
-    menuFile->Append(wxID_CLOSE);
+    wxMenuItem *file_close = new wxMenuItem(menuFile, wxID_CLOSE, "Close file\tCtrl-F4", "");
+    menuFile->Append(file_close);
     wxMenuItem *file_closeall = new wxMenuItem(menuFile, wxID_OPEN, "Close all\tCtrl-Shift-F4", "");
     menuFile->Append(file_closeall);
     wxMenuItem *exit_file = new wxMenuItem(menuFile, wxID_EXIT, "E&xit\tAlt-F4", "");
@@ -195,6 +197,10 @@ void MyFrame::OnSaveAs(wxCommandEvent &event) {
     wxFileDialog saveDialog(this, wxT("Save as"), dir, editor->GetPath(), SUPPORTED_FILES_EXT, wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     editor->SaveAs(saveDialog.GetPath());
+}
+
+void MyFrame::OnClose(wxCommandEvent &event) {
+    editorFactory->CloseCurrent();
 }
 
 void MyFrame::OnInsertDate(wxCommandEvent &event) {

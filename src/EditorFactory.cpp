@@ -21,6 +21,7 @@ Editor* EditorFactory::CreateTabSheet(wxString path) {
 
 int EditorFactory::GetEditorCount() { return list.size(); }
 Editor* EditorFactory::GetEditor(int Index) { return list[Index]; }
+
 Editor* EditorFactory::GetCurrentEditor() {
     if (list.empty()) return nullptr;
     int n = notebook->GetSelection();
@@ -40,4 +41,24 @@ Editor *EditorFactory::GetEditorByControl(const wxWindow *control) {
         if (editor->GetWidget()==control)
             return editor;
     return nullptr;
+}
+
+int EditorFactory::GetEditorNumberByControl(const wxWindow *control) {
+    for (int i=0; i<list.size(); i++)
+    {
+        auto editor = list[i];
+        if (editor->GetWidget()==control)
+            return i;
+    }
+    return -1;
+}
+
+void EditorFactory::CloseCurrent() {
+    if (list.empty()) return;
+    int n = notebook->GetSelection();
+    wxWindow* stc = notebook->GetPage(n);
+    int nn = GetEditorNumberByControl(stc);
+    delete list[nn];
+    list.erase(list.begin()+nn);
+    notebook->DeletePage(n);
 }
