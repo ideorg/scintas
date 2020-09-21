@@ -132,7 +132,8 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     manager.SetManagedWindow(this);
     manager.SetFlags(wxAUI_MGR_DEFAULT);
     notebook = new wxAuiNotebook(this, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
-                                                                                      wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
+        wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
+    Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnPageClose, this);
     manager.AddPane(notebook, wxAuiPaneInfo().Left().Caption(wxT("Edytor")).MaximizeButton(true).MinimizeButton(true).PinButton(true).PaneBorder(false).Dock().Resizable().FloatingSize(wxDefaultSize).CentrePane().DefaultPane());
 
     wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -224,7 +225,6 @@ void MyFrame::OnInsertDateTime(wxCommandEvent &event) {
 void MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
-    Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnPageClose, this);
 }
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
