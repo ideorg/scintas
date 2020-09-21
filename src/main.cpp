@@ -228,6 +228,7 @@ void MyFrame::OnFind(wxCommandEvent& event)
         dialog_style = wxFR_REPLACEDIALOG;
     }
 
+    findData.SetFlags(wxFR_DOWN);
     findDialog = new wxFindReplaceDialog(this, &findData, dialog_title, dialog_style);
     findDialog->Show(true);
 }
