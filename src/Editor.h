@@ -41,6 +41,8 @@ public:
     virtual void Reopen(bool AskWhenModified);
     virtual FileChangeKind ChangedOutside();
     virtual void SpecialChars(bool Show);
+    void Save();
+    void SaveAs(const wxString newpath);
     void InsertDate();
     void InsertTime();
     void InsertDateTime();

@@ -215,6 +215,16 @@ void Editor::InsertDateTime() {
     stc->SetCurrentPos(stc->GetCurrentPos()+str.length());
 }
 
+void Editor::Save() {
+    stc->SaveFile(path);
+}
+
+void Editor::SaveAs(const wxString newpath) {
+    path = newpath;
+    wxFileName file(path);
+    title = file.GetFullName();
+    stc->SaveFile(path);
+}
 
 //Editor::GetHighLighter: TSynCustomHighlighter;() {}
 //Editor::SetHighLighter(Value: TSynCustomHighlighter);() {}

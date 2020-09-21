@@ -56,6 +56,8 @@ public:
             const wxPoint &pos, const wxSize &size, long style);
     ~MyFrame() { delete editorFactory;}
     void OnOpenFile(wxCommandEvent& event);
+    void OnSaveFile(wxCommandEvent &event);
+    void OnSaveAs(wxCommandEvent &event);
     void OnInsertDate(wxCommandEvent &event);
     void OnInsertTime(wxCommandEvent &event);
     void OnInsertDateTime(wxCommandEvent &event);

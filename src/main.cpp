@@ -11,6 +11,8 @@ using namespace std;
 wxIMPLEMENT_APP(MyApp);
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
+                EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
+                EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
                 EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
                 EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
@@ -158,6 +160,9 @@ void MyFrame::OnExit(wxCommandEvent &event) {
 
 void MyFrame::OnEditas(wxCommandEvent &event) {
     vector<string> params;
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (editor)
+        params.push_back(string(editor->GetPath().c_str()));
     execute("/home/andrzej/gitmy/editas-code/editas", params, false);
 }
 
@@ -173,6 +178,23 @@ void MyFrame::OnOpenFile(wxCommandEvent &event) {
     wxFileDialog openDialog(this, wxT("Open file"), "..", "", SUPPORTED_FILES_EXT, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openDialog.ShowModal() == wxID_CANCEL) return;
     OpenOrActivate(openDialog.GetPath());
+}
+
+void MyFrame::OnSaveFile(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (editor)
+        editor->Save();
+}
+
+void MyFrame::OnSaveAs(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (!editor) return;
+    wxFileName file(editor->GetPath());
+    wxString dir;
+    file.DirName(dir);
+    wxFileDialog saveDialog(this, wxT("Save as"), dir, editor->GetPath(), SUPPORTED_FILES_EXT, wxFD_SAVE);
+    if (saveDialog.ShowModal() == wxID_CANCEL) return;
+    editor->SaveAs(saveDialog.GetPath());
 }
 
 void MyFrame::OnInsertDate(wxCommandEvent &event) {
