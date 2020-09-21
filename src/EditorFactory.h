@@ -5,18 +5,18 @@
 #include "Editor.h"
 
 class EditorFactory {
+    wxAuiNotebook* notebook;
+    std::vector<Editor*> list;
 public:
     void TryCloseAll();
     Editor* CreateTabSheet(wxString path);
     int GetEditorCount();
     Editor* GetEditor(int Index);
-    //void Swap(int FirstIdx, int SecondIdx) override;
-private:
-    wxAuiNotebook* notebook;
-    std::vector<Editor*> list;
-public:
+    Editor* GetCurrentEditor();
     EditorFactory(wxAuiNotebook* auiNotebook);
     Editor *GetEditorByPath(const wxString &path);
+    Editor *GetEditorByControl(const wxWindow* control);
+
 };
 
 

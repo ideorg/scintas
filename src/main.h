@@ -29,6 +29,13 @@ public:
     int OnExit() override;
 };
 
+enum wxxMenuID {
+    wxxID_Editas  = wxID_HIGHEST + 1,
+    wxxInsertDate,
+    wxxInsertTime,
+    wxxInsertDateTime
+};
+
 class MyFrame : public wxFrame
 {
     wxAuiManager manager;
@@ -49,6 +56,9 @@ public:
             const wxPoint &pos, const wxSize &size, long style);
     ~MyFrame() { delete editorFactory;}
     void OnOpenFile(wxCommandEvent& event);
+    void OnInsertDate(wxCommandEvent &event);
+    void OnInsertTime(wxCommandEvent &event);
+    void OnInsertDateTime(wxCommandEvent &event);
     void OpenInEditor(const wxString& file_path);
     void OpenOrActivate(const wxString& file_path);
 

@@ -21,10 +21,23 @@ Editor* EditorFactory::CreateTabSheet(wxString path) {
 
 int EditorFactory::GetEditorCount() { return list.size(); }
 Editor* EditorFactory::GetEditor(int Index) { return list[Index]; }
+Editor* EditorFactory::GetCurrentEditor() {
+    if (list.empty()) return nullptr;
+    int n = notebook->GetSelection();
+    wxWindow* stc = notebook->GetPage(n);
+    return GetEditorByControl(stc);
+}
 
 Editor *EditorFactory::GetEditorByPath(const wxString &path) {
     for (auto editor: list)
         if (editor->GetPath()==path)
+            return editor;
+    return nullptr;
+}
+
+Editor *EditorFactory::GetEditorByControl(const wxWindow *control) {
+    for (auto editor: list)
+        if (editor->GetWidget()==control)
             return editor;
     return nullptr;
 }

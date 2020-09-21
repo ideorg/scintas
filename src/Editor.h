@@ -41,6 +41,9 @@ public:
     virtual void Reopen(bool AskWhenModified);
     virtual FileChangeKind ChangedOutside();
     virtual void SpecialChars(bool Show);
+    void InsertDate();
+    void InsertTime();
+    void InsertDateTime();
     //virtual function GetHighLighter: TSynCustomHighlighter;();
     //virtual procedure SetHighLighter(Value: TSynCustomHighlighter);();
     //virtual function GetActivateTime: TDateTime;();

@@ -9,9 +9,11 @@
 using namespace std;
 
 wxIMPLEMENT_APP(MyApp);
-
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
+                EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
+                EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
+                EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
 END_EVENT_TABLE()
 
 ipc::channel sender__   { "Scintas.IPC", ipc::sender   };
@@ -39,8 +41,6 @@ int MyApp::OnExit()
     delete m_checker;
     return 0;
 }
-
-const int menuID_Editas  = wxID_HIGHEST+1;
 
 void MyFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
@@ -93,18 +93,33 @@ void MyFrame::CreateMenu() {
     wxMenuItem *edit_blockUnindent = new wxMenuItem(menuFile, wxID_OPEN, "Block unindent\tShift+Tab", "");
     menuEdit->Append(edit_blockUnindent);
 
+    wxMenu *menuSearch = new wxMenu;
+    menuSearch->Append(wxID_FIND);
+    wxMenuItem *search_findNext = new wxMenuItem(menuSearch, wxID_OPEN, "Find next", "");
+    menuEdit->Append(search_findNext);
+
+    wxMenu *menuTools = new wxMenu;
+    wxMenuItem *tools_insertDate = new wxMenuItem(menuTools, wxxInsertDate, "Insert &date", "");
+    menuTools->Append(tools_insertDate);
+    wxMenuItem *tools_insertTime = new wxMenuItem(menuTools, wxxInsertTime, "Insert &time", "");
+    menuTools->Append(tools_insertTime);
+    wxMenuItem *tools_insertDateTime = new wxMenuItem(menuTools, wxxInsertDateTime, "Insert date &and time", "");
+    menuTools->Append(tools_insertDateTime);
+
     wxMenu *menuOther = new wxMenu;
-    wxMenuItem *editas = new wxMenuItem(menuOther, menuID_Editas, "Editas", "");
+    wxMenuItem *editas = new wxMenuItem(menuOther, wxxID_Editas, "Editas", "");
     menuOther->Append(editas);
 
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
     menuBar->Append(menuEdit, "&Edit");
+    menuBar->Append(menuSearch, "&Search");
+    menuBar->Append(menuTools, "&Tools");
     menuBar->Append(menuOther, "&Other");
 
     SetMenuBar( menuBar );
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
-    Bind(wxEVT_MENU, &MyFrame::OnEditas, this, menuID_Editas);
+    Bind(wxEVT_MENU, &MyFrame::OnEditas, this, wxxID_Editas);
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -158,6 +173,24 @@ void MyFrame::OnOpenFile(wxCommandEvent &event) {
     wxFileDialog openDialog(this, wxT("Open file"), "..", "", SUPPORTED_FILES_EXT, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openDialog.ShowModal() == wxID_CANCEL) return;
     OpenOrActivate(openDialog.GetPath());
+}
+
+void MyFrame::OnInsertDate(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (editor)
+        editor->InsertDate();
+}
+
+void MyFrame::OnInsertTime(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (editor)
+        editor->InsertTime();
+}
+
+void MyFrame::OnInsertDateTime(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (editor)
+        editor->InsertDateTime();
 }
 
 void MyFrame::OpenInEditor(const wxString &file_path) {
