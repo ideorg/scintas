@@ -18,6 +18,7 @@ public:
     Editor *GetEditorByControl(const wxWindow* control);
     int GetEditorNumberByControl(const wxWindow *control);
     void CloseCurrent();
+    void CloseEditorForPage(int page);
 };
 
 

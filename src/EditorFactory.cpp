@@ -56,9 +56,13 @@ int EditorFactory::GetEditorNumberByControl(const wxWindow *control) {
 void EditorFactory::CloseCurrent() {
     if (list.empty()) return;
     int n = notebook->GetSelection();
+    CloseEditorForPage(n);
+    notebook->DeletePage(n);
+}
+
+void EditorFactory::CloseEditorForPage(int n) {
     wxWindow* stc = notebook->GetPage(n);
     int nn = GetEditorNumberByControl(stc);
     delete list[nn];
     list.erase(list.begin()+nn);
-    notebook->DeletePage(n);
 }

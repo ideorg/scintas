@@ -224,6 +224,7 @@ void MyFrame::OnInsertDateTime(wxCommandEvent &event) {
 void MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
+    Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnPageClose, this);
 }
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
@@ -256,6 +257,10 @@ void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {
         default:
             break;
     }
+}
+
+void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
+    editorFactory->CloseEditorForPage(event.GetSelection());
 }
 
 void MyFrame::CmdLineOpenFiles() {
