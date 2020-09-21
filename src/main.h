@@ -11,6 +11,7 @@
 #include <wx/statusbr.h>
 #include <wx/snglinst.h>
 #include <wx/timer.h>
+#include <wx/fdrepdlg.h>
 #include "EditorFactory.h"
 #include "Config.h"
 
@@ -43,6 +44,8 @@ class MyFrame : public wxFrame
     EditorFactory* editorFactory;
     wxTimer instanceTimer;
     Config *config;
+    wxFindReplaceData findData;
+    wxFindReplaceDialog* findDialog = nullptr;
 
     void OnExit(wxCommandEvent& event);
     void OnEditas(wxCommandEvent &event);
@@ -60,6 +63,11 @@ public:
     void OnSaveFile(wxCommandEvent &event);
     void OnSaveAs(wxCommandEvent &event);
     void OnClose(wxCommandEvent &event);
+    void OnFind(wxCommandEvent& event);
+    void OnDoFind(wxFindDialogEvent& event);
+    void OnDoFindReplace(wxFindDialogEvent& event);
+    void OnFindDialogClose(wxFindDialogEvent& WXUNUSED(event));
+    int DoFind(wxStyledTextCtrl* stc, const wxString& str, int flags);
     void OnInsertDate(wxCommandEvent &event);
     void OnInsertTime(wxCommandEvent &event);
     void OnInsertDateTime(wxCommandEvent &event);

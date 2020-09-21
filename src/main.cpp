@@ -14,9 +14,16 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
                 EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
                 EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
+                EVT_MENU(wxID_FIND, MyFrame::OnFind)
+                EVT_MENU(wxID_REPLACE, MyFrame::OnFind)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
                 EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
                 EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
+                EVT_FIND(wxID_ANY, MyFrame::OnDoFind)
+                EVT_FIND_NEXT(wxID_ANY, MyFrame::OnDoFind)
+                EVT_FIND_REPLACE(wxID_ANY, MyFrame::OnDoFindReplace)
+                EVT_FIND_REPLACE_ALL(wxID_ANY, MyFrame::OnDoFindReplace)
+                EVT_FIND_CLOSE(wxID_ANY, MyFrame::OnFindDialogClose)
 END_EVENT_TABLE()
 
 ipc::channel sender__   { "Scintas.IPC", ipc::sender   };
@@ -202,6 +209,140 @@ void MyFrame::OnSaveAs(wxCommandEvent &event) {
 
 void MyFrame::OnClose(wxCommandEvent &event) {
     editorFactory->CloseCurrent();
+}
+
+void MyFrame::OnFind(wxCommandEvent& event)
+{
+    if (!editorFactory->GetCurrentEditor()) return;
+    if (findDialog)
+    {
+        wxDELETE(findDialog);
+        return;
+    }
+    wxString dialog_title = wxT("Find...");
+    int dialog_style = 0;
+
+    if(event.GetId() == wxID_REPLACE)
+    {
+        dialog_title = wxT("Find and replace...");
+        dialog_style = wxFR_REPLACEDIALOG;
+    }
+
+    findDialog = new wxFindReplaceDialog(this, &findData, dialog_title, dialog_style);
+    findDialog->Show(true);
+}
+
+
+void MyFrame::OnDoFind(wxFindDialogEvent& event)
+{
+    auto editor = editorFactory->GetCurrentEditor();
+    if (!editor) return;
+    wxStyledTextCtrl* stc = editor->GetWidget();
+    int result = DoFind(stc, event.GetFindString(), event.GetFlags());
+    if(result == -1)
+    {
+        wxMessageBox(wxT("Reached end of file\nSearch from begin."));
+        if (event.GetFlags() & wxFR_DOWN)
+        {
+            stc->DocumentStart();
+        }
+        else
+        {
+            stc->DocumentEnd();
+        }
+    }
+    else
+    {
+        stc->EnsureCaretVisible();
+    }
+}
+
+void MyFrame::OnDoFindReplace(wxFindDialogEvent& event)
+{
+    auto editor = editorFactory->GetCurrentEditor();
+    if (!editor) return;
+    wxStyledTextCtrl* stc = editor->GetWidget();
+    if (event.GetEventType() == wxEVT_FIND_REPLACE)
+    {
+        if (!stc->GetSelections())
+        {
+            stc->ReplaceSelection(event.GetReplaceString());
+        }
+        else
+        {
+            wxLogMessage(wxT("No selection, search"));
+        }
+    }
+    else // wxEVT_FIND_REPLACE_ALL
+    {
+        int count = 0;
+        int result = -1;
+
+        stc->DocumentStart();
+
+        do
+        {
+            result = DoFind(stc, event.GetFindString(), event.GetFlags());
+            if (result != -1)
+            {
+                stc->ReplaceSelection(event.GetReplaceString());
+                count++;
+            }
+        } while (result != -1);
+        wxLogMessage(wxString::Format("Number replaced: %d", count));
+    }
+}
+
+void MyFrame::OnFindDialogClose(wxFindDialogEvent& WXUNUSED(event))
+{
+    findDialog->Destroy();
+    findDialog = NULL;
+}
+
+int MyFrame::DoFind(wxStyledTextCtrl* stc, const wxString& str, int flags)
+{
+    // Ustawienie pozycji
+    int pos = stc->GetCurrentPos();
+
+    // Mapowanie flag wyszukiwania dla wxStyledTextCtrl
+    int find_flags = 0;
+    if (flags & wxFR_MATCHCASE) find_flags |= wxSTC_FIND_MATCHCASE;
+    if (flags & wxFR_WHOLEWORD) find_flags |= wxSTC_FIND_WHOLEWORD;
+
+    // Zmienna pomocnicza zmiany kierunków szukania
+    static int last_direction = wxFR_DOWN;
+
+    // WYSZUKIWANIE
+    int result = -1;
+    if (flags & wxFR_DOWN)
+    {
+        // Wyszukiwanie w dół
+        if (last_direction != wxFR_DOWN)
+        {
+            pos += str.Len();
+            stc->GotoPos(pos);
+        }
+        stc->SetAnchor(pos);
+        stc->SearchAnchor();
+        result = stc->SearchNext(find_flags, str);
+        last_direction = wxFR_DOWN;
+    }
+    else
+    {
+        // Wyszukiwanie w górę
+        stc->SearchAnchor();
+        result = stc->SearchPrev(find_flags, str);
+        last_direction = -1;
+    }
+
+    if (result != -1)
+    {
+        if (flags & wxFR_DOWN)
+        {
+            stc->SetSelection(result, stc->GetAnchor());
+        }
+    }
+    return result;
 }
 
 void MyFrame::OnInsertDate(wxCommandEvent &event) {
