@@ -32,6 +32,7 @@ public:
 
 enum wxxMenuID {
     wxxID_Editas  = wxID_HIGHEST + 1,
+    wxxID_SelectWord,
     wxxInsertDate,
     wxxInsertTime,
     wxxInsertDateTime
@@ -48,6 +49,7 @@ class MyFrame : public wxFrame
     wxFindReplaceDialog* findDialog = nullptr;
 
     void OnExit(wxCommandEvent& event);
+    void OnSelectWord(wxCommandEvent &event);
     void OnEditas(wxCommandEvent &event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);

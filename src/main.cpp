@@ -91,7 +91,7 @@ void MyFrame::CreateMenu() {
     menuEdit->Append(edit_delete);
     wxMenuItem *edit_selectAll = new wxMenuItem(menuFile, wxID_OPEN, "Select all\tCtrl+A", "");
     menuEdit->Append(edit_selectAll);
-    wxMenuItem *edit_selectWord = new wxMenuItem(menuFile, wxID_OPEN, "Select word\tCtrl+W", "");
+    wxMenuItem *edit_selectWord = new wxMenuItem(menuFile, wxxID_SelectWord, "Select word\tCtrl+W", "");
     menuEdit->Append(edit_selectWord);
     wxMenuItem *edit_selectMode = new wxMenuItem(menuFile, wxID_OPEN, "Select mode", "");
     menuEdit->Append(edit_selectMode);
@@ -131,6 +131,8 @@ void MyFrame::CreateMenu() {
     SetMenuBar( menuBar );
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_MENU, &MyFrame::OnEditas, this, wxxID_Editas);
+    Bind(wxEVT_MENU, &MyFrame::OnSelectWord, this, wxxID_SelectWord);
+
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -167,6 +169,17 @@ void MyFrame::OnInstanceTimer(wxTimerEvent&)
 void MyFrame::OnExit(wxCommandEvent &event) {
     Close(true);
 }
+
+void MyFrame::OnSelectWord(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (!editor) return;
+    wxStyledTextCtrl *stc = editor->GetWidget();
+    int pos = stc->GetCurrentPos();
+    int start = stc->WordStartPosition(pos, true);
+    int end = stc->WordEndPosition(pos, true);
+    stc->SetSelection(start, end);
+}
+
 
 void MyFrame::OnEditas(wxCommandEvent &event) {
     vector<string> params;
