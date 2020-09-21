@@ -107,7 +107,17 @@ void MyFrame::CreateMenu() {
     wxMenu *menuSearch = new wxMenu;
     menuSearch->Append(wxID_FIND);
     wxMenuItem *search_findNext = new wxMenuItem(menuSearch, wxID_OPEN, "Find next", "");
-    menuEdit->Append(search_findNext);
+    menuSearch->Append(search_findNext);
+    wxMenuItem *search_wordPrev = new wxMenuItem(menuSearch, wxxID_WordPrev, "Word next\tControl-Alt-Up", "");
+    wxAcceleratorEntry accelUp;
+    accelUp.Set(wxACCEL_ALT|wxACCEL_CTRL, WXK_UP,wxxID_WordNext);
+    search_wordPrev->SetAccel(&accelUp);
+    menuSearch->Append(search_wordPrev);
+    wxMenuItem *search_wordNext = new wxMenuItem(menuSearch, wxxID_WordNext, "Word next\tControl-Alt-Down", "");
+    wxAcceleratorEntry accelDown;
+    accelDown.Set(wxACCEL_ALT | wxACCEL_CTRL, WXK_DOWN, wxxID_WordNext);
+    search_wordNext->SetAccel(&accelDown);
+    menuSearch->Append(search_wordNext);
 
     wxMenu *menuTools = new wxMenu;
     wxMenuItem *tools_insertDate = new wxMenuItem(menuTools, wxxInsertDate, "Insert &date", "");
@@ -132,7 +142,8 @@ void MyFrame::CreateMenu() {
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_MENU, &MyFrame::OnEditas, this, wxxID_Editas);
     Bind(wxEVT_MENU, &MyFrame::OnSelectWord, this, wxxID_SelectWord);
-
+    Bind(wxEVT_MENU, &MyFrame::OnWordNext, this, wxxID_WordNext);
+    Bind(wxEVT_MENU, &MyFrame::OnWordPrev, this, wxxID_WordPrev);
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -180,6 +191,38 @@ void MyFrame::OnSelectWord(wxCommandEvent &event) {
     stc->SetSelection(start, end);
 }
 
+void MyFrame::WordNextPrev(bool prev) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (!editor) return;
+    wxStyledTextCtrl *stc = editor->GetWidget();
+    int pos = stc->GetCurrentPos();
+    int start = stc->WordStartPosition(pos, true);
+    int end = stc->WordEndPosition(pos, true);
+    stc->SetSelection(start, end);
+    wxString word = stc->GetSelectedText();
+    int flags = wxFR_WHOLEWORD;
+    if (prev)
+        pos = stc->FindText(start, 0, word, flags);
+    else
+        pos = stc->FindText(end, stc->GetTextLength(), word, flags);
+    if (pos>=0) {
+        stc->SetSelection(pos, pos);
+        int endpos = stc->WordEndPosition(pos, true);
+        stc->SetSelection(pos, endpos);
+        stc->EnsureCaretVisible();
+
+    }
+    else
+        stc->SetSelection(start, start);
+}
+
+void MyFrame::OnWordNext(wxCommandEvent &event) {
+    WordNextPrev(false);
+}
+
+void MyFrame::OnWordPrev(wxCommandEvent &event) {
+    WordNextPrev(true);
+}
 
 void MyFrame::OnEditas(wxCommandEvent &event) {
     vector<string> params;

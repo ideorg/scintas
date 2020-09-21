@@ -33,6 +33,8 @@ public:
 enum wxxMenuID {
     wxxID_Editas  = wxID_HIGHEST + 1,
     wxxID_SelectWord,
+    wxxID_WordNext,
+    wxxID_WordPrev,
     wxxInsertDate,
     wxxInsertTime,
     wxxInsertDateTime
@@ -50,6 +52,9 @@ class MyFrame : public wxFrame
 
     void OnExit(wxCommandEvent& event);
     void OnSelectWord(wxCommandEvent &event);
+    void WordNextPrev(bool prev);
+    void OnWordNext(wxCommandEvent &event);
+    void OnWordPrev(wxCommandEvent &event);
     void OnEditas(wxCommandEvent &event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);
