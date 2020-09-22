@@ -21,6 +21,8 @@ private:
     wxCheckBox *cbCANCEL;
     wxCheckBox *cbAPPLY;
     wxCheckBox *cbCLOSE;
+    wxCheckBox *cbYES_TO_ALL;
+    wxCheckBox *cbNO_TO_ALL;
     int getFlags();
     void OnWx(wxCommandEvent& event);
     void OnNew(wxCommandEvent& event);
@@ -68,6 +70,10 @@ MyFrame::MyFrame()
     sizer->Add(cbAPPLY);
     cbCLOSE = new wxCheckBox(this, 1, "wxCLOSE");
     sizer->Add(cbCLOSE);
+    cbYES_TO_ALL = new wxCheckBox(this, 1, "wxYES_TO_ALL");
+    sizer->Add(cbYES_TO_ALL);
+    cbNO_TO_ALL = new wxCheckBox(this, 1, "wxNO_TO_ALL");
+    sizer->Add(cbNO_TO_ALL);
     SetSizer(sizer);
 }
 
@@ -79,6 +85,8 @@ int MyFrame::getFlags() {
     if (cbCANCEL->IsChecked()) flags |= wxCANCEL;
     if (cbAPPLY->IsChecked()) flags |= wxAPPLY;
     if (cbCLOSE->IsChecked()) flags |= wxCLOSE;
+    if (cbYES_TO_ALL->IsChecked()) flags |= wxYES_TO_ALL;
+    if (cbNO_TO_ALL->IsChecked()) flags |= wxNO_TO_ALL;
     return flags;
 }
 
@@ -94,6 +102,6 @@ void MyFrame::OnWx(wxCommandEvent& event)
 
 void MyFrame::OnNew(wxCommandEvent& event)
 {
-    MessageBox *mesageBox = new MessageBox(this, 1, "warning","message",getFlags(),wxART_WARNING);
-    mesageBox->ShowModal();
+    unsigned result = wxxMessageBox("warning", "message", getFlags(), wxART_WARNING);
+    wxMessageBox(wxString::Format(wxT("%i"),result));
 }

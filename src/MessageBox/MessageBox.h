@@ -7,17 +7,18 @@
 #endif
 #include <wx/artprov.h>
 
+#define wxYES_TO_ALL            0x00000080
+#define wxNO_TO_ALL             0x00000100
+
 class MessageBox: public wxDialog {
     void OnClick(wxCommandEvent &ev);
     unsigned buttonFlags;
     wxString imageId;
 public:
     unsigned result;
-    ~MessageBox(){
-        wxMessageBox("destroy");
-    }
     MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId);
 };
 
+unsigned wxxMessageBox(const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId, wxWindow *parent=nullptr, wxWindowID id=wxID_ANY);
 
 #endif //SCINTAS_MESSAGEBOX_H

@@ -3,18 +3,18 @@
 
 void MessageBox::OnClick(wxCommandEvent &ev) {
     result = ev.GetId();
-    this->Destroy();
+    this->Close();
 }
 
 const wxString captions[] {
-    "","Yes","OK","No","Cancel","Apply", "Close"
+    "","Yes","OK","No","Cancel","Apply", "Close",
+    "Yes to all","No to all"
 };
 
 MessageBox::MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId)
 : wxDialog(parent, id, title, wxDefaultPosition, wxSize(300,100), wxDEFAULT_FRAME_STYLE),
 buttonFlags(buttonFlags),imageId(imageId) {
     if (!buttonFlags) buttonFlags = 1;
-    EnableCloseButton(false);
     wxPanel* p = new wxPanel(this, wxID_ANY);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL );
@@ -29,7 +29,7 @@ buttonFlags(buttonFlags),imageId(imageId) {
             wxSizerFlags().Border(wxALL, 7));
 
     wxBoxSizer *button_box = new wxBoxSizer( wxHORIZONTAL );
-    for (int idx=0; idx<=6; idx++) {
+    for (int idx=0; idx<=8; idx++) {
         unsigned idb = 1<<idx;
         if ((buttonFlags & idb) == 0 )continue;
         button_box->Add(
@@ -44,4 +44,12 @@ buttonFlags(buttonFlags),imageId(imageId) {
     // the initial size as calculated by the sizers
     sizer->SetSizeHints(this );
     result = wxCANCEL;
+}
+
+unsigned wxxMessageBox(const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId, wxWindow *parent, wxWindowID id) {
+    MessageBox *mesageBox = new MessageBox(parent, id, title,message,buttonFlags, wxART_WARNING);
+    mesageBox->ShowModal();
+    unsigned result = mesageBox->result;
+    delete mesageBox;
+    return result;
 }
