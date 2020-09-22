@@ -153,6 +153,8 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     notebook = new wxAuiNotebook(this, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
         wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
     Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnPageClose, this);
+    Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSED, &MyFrame::OnPageClosed, this);
+
     manager.AddPane(notebook, wxAuiPaneInfo().Left().Caption(wxT("Edytor")).MaximizeButton(true).MinimizeButton(true).PinButton(true).PaneBorder(false).Dock().Resizable().FloatingSize(wxDefaultSize).CentrePane().DefaultPane());
 
     wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -458,8 +460,11 @@ void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {
 }
 
 void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
-    editorFactory->CloseEditorForPage(event.GetSelection());
     //event.Veto();
+}
+
+void MyFrame::OnPageClosed(wxAuiNotebookEvent &event) {
+    editorFactory->CloseEditorForPage(event.GetSelection());
 }
 
 void MyFrame::CmdLineOpenFiles() {

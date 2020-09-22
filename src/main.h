@@ -59,6 +59,7 @@ class MyFrame : public wxFrame
     void OnEditas(wxCommandEvent &event);
     void OnStcMarginClick(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);
+    void OnPageClosed(wxAuiNotebookEvent &event);
     void SetEditorStyle(wxStyledTextCtrl* stc);
     void OnInstanceTimer(wxTimerEvent&);
     void CreateMenu();
