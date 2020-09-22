@@ -102,6 +102,8 @@ void MyFrame::OnWx(wxCommandEvent& event)
 
 void MyFrame::OnNew(wxCommandEvent& event)
 {
-    unsigned result = wxxMessageBox("warning", "message", getFlags(), wxART_WARNING);
+    wxString message = "The text in the \"Untitled1\" file has been changed.\n\n";
+    message += "Do you want to save the modifications? (No = close and discard changes)";
+    unsigned result = wxxMessageBox("warning", message, getFlags(), wxART_WARNING);
     wxMessageBox(wxString::Format(wxT("%i"),result));
 }
