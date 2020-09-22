@@ -2,6 +2,10 @@
 #include <wx/imaglist.h>
 #include <wx/artprov.h>
 
+void MessageBox::OnClick(wxCommandEvent &ev) {
+    wxMessageBox(wxString::Format(wxT("%i"),ev.GetId()));
+}
+
 MessageBox::MessageBox(wxWindow *parent, wxWindowID id, const wxString &title)
 : wxDialog(parent, id, title, wxDefaultPosition, wxSize(300,100), wxDEFAULT_FRAME_STYLE) {
     wxPanel* p = new wxPanel(this, wxID_ANY);
@@ -19,11 +23,13 @@ MessageBox::MessageBox(wxWindow *parent, wxWindowID id, const wxString &title)
 
     wxBoxSizer *button_box = new wxBoxSizer( wxHORIZONTAL );
     button_box->Add(
-            new wxButton( p, wxID_ANY, "Two buttons in a box" ),
+            new wxButton( p, 2, "Two buttons in a box" ),
             wxSizerFlags().Border(wxALL, 7));
+    Bind(wxEVT_BUTTON,&MessageBox::OnClick, this, 2);
     button_box->Add(
-            new wxButton( p, wxID_ANY, "(wxCENTER)" ),
+            new wxButton( p, 4, "(wxCENTER)" ),
             wxSizerFlags().Border(wxALL, 7));
+    Bind(wxEVT_BUTTON,&MessageBox::OnClick, this,4);
 
     sizer->Add(top_box, wxSizerFlags().Center());
     sizer->Add(button_box, wxSizerFlags().Center());
