@@ -1,5 +1,3 @@
 OnClose policy
 reload file if changed
-^w - select word
-control alt down /up - goto the same word 
-
+F3-find next, shift F3 - find prev
