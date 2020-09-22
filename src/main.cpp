@@ -1,5 +1,4 @@
 #include "main.h"
-#include <wx/event.h>
 #include <wx/filename.h>
 #include <string>
 #include <vector>
@@ -163,6 +162,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     editorFactory = new EditorFactory(notebook);
     config = new Config();
     CmdLineOpenFiles();
+    Bind(wxEVT_CLOSE_WINDOW, &MyFrame::OnCloseMain, this);
     instanceTimer.Bind(wxEVT_TIMER, &MyFrame::OnInstanceTimer, this);
     instanceTimer.Start(200);
 }
@@ -459,10 +459,27 @@ void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {
 
 void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
     editorFactory->CloseEditorForPage(event.GetSelection());
+    //event.Veto();
 }
 
 void MyFrame::CmdLineOpenFiles() {
     wxApp &app = wxGetApp();
     for (int i=1; i<app.argc; i++)
         OpenOrActivate(app.argv[i]);
+}
+
+void MyFrame::OnCloseMain(wxCloseEvent& event)
+{
+    if ( event.CanVeto() /*&& m_bFileNotSaved */)
+    {
+        if ( wxMessageBox("The file has not been saved... continue closing?",
+                          "Please confirm",
+                          wxICON_QUESTION | wxYES_NO) != wxYES )
+        {
+            event.Veto();
+            return;
+        }
+    }
+    Destroy();  // you may also do:  event.Skip();
+    // since the default event handler does call Destroy(), too
 }

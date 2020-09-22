@@ -12,6 +12,7 @@
 #include <wx/snglinst.h>
 #include <wx/timer.h>
 #include <wx/fdrepdlg.h>
+#include <wx/event.h>
 #include "EditorFactory.h"
 #include "Config.h"
 
@@ -61,6 +62,7 @@ class MyFrame : public wxFrame
     void SetEditorStyle(wxStyledTextCtrl* stc);
     void OnInstanceTimer(wxTimerEvent&);
     void CreateMenu();
+    void OnCloseMain(wxCloseEvent& event);
 DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
