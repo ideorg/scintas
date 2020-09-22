@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 #endif
 #include "MessageBox.h"
+#include <wx/artprov.h>
 
 class MyApp : public wxApp
 {
@@ -66,7 +67,7 @@ MyFrame::MyFrame()
     sizer->Add(cbCANCEL);
     cbAPPLY = new wxCheckBox(this, 1, "wxAPPLY");
     sizer->Add(cbAPPLY);
-    cbCLOSE = new wxCheckBox(this, 1, "wxCLOSEs");
+    cbCLOSE = new wxCheckBox(this, 1, "wxCLOSE");
     sizer->Add(cbCLOSE);
     SetSizer(sizer);
 }
@@ -94,6 +95,6 @@ void MyFrame::OnWx(wxCommandEvent& event)
 
 void MyFrame::OnNew(wxCommandEvent& event)
 {
-    MessageBox *mesageBox = new MessageBox(this, 1, "warning");
+    MessageBox *mesageBox = new MessageBox(this, 1, "warning","message",getFlags(),wxART_WARNING);
     mesageBox->ShowModal();
 }

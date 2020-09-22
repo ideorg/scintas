@@ -8,8 +8,10 @@
 
 class MessageBox: public wxDialog {
     void OnClick(wxCommandEvent &ev);
+    unsigned buttonFlags;
+    wxString imageId;
 public:
-    MessageBox(wxWindow *parent, wxWindowID id, const wxString &title);
+    MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId);
 };
 
 
