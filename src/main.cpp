@@ -4,6 +4,7 @@
 #include <vector>
 #include "libipc/ipc.h"
 #include "execute.h"
+#include "MessageBox/MessageBox.h"
 
 using namespace std;
 
@@ -477,9 +478,8 @@ void MyFrame::OnCloseMain(wxCloseEvent& event)
 {
     if ( event.CanVeto() /*&& m_bFileNotSaved */)
     {
-        if ( wxMessageBox("The file has not been saved... continue closing?",
-                          "Please confirm",
-                          wxICON_QUESTION | wxYES_NO) != wxYES )
+        if ( wxxMessageBox("The file has not been saved... continue closing?","Please confirm",
+                           wxYES_NO, wxART_WARNING) != wxYES )
         {
             event.Veto();
             return;

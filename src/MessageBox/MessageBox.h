@@ -19,6 +19,6 @@ public:
     MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId);
 };
 
-unsigned wxxMessageBox(const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId, wxWindow *parent=nullptr, wxWindowID id=wxID_ANY);
+unsigned wxxMessageBox(const wxString &message, const wxString &title, unsigned buttonFlags, wxString imageId, wxWindow *parent=nullptr, wxWindowID id=wxID_ANY);
 
 #endif //SCINTAS_MESSAGEBOX_H
