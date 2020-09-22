@@ -12,6 +12,10 @@ class MessageBox: public wxDialog {
     unsigned buttonFlags;
     wxString imageId;
 public:
+    unsigned result;
+    ~MessageBox(){
+        wxMessageBox("destroy");
+    }
     MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId);
 };
 

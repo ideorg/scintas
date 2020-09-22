@@ -2,7 +2,8 @@
 #include <wx/imaglist.h>
 
 void MessageBox::OnClick(wxCommandEvent &ev) {
-    wxMessageBox(wxString::Format(wxT("%i"),ev.GetId()));
+    result = ev.GetId();
+    this->Destroy();
 }
 
 const wxString captions[] {
@@ -12,6 +13,8 @@ const wxString captions[] {
 MessageBox::MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId)
 : wxDialog(parent, id, title, wxDefaultPosition, wxSize(300,100), wxDEFAULT_FRAME_STYLE),
 buttonFlags(buttonFlags),imageId(imageId) {
+    if (!buttonFlags) buttonFlags = 1;
+    EnableCloseButton(false);
     wxPanel* p = new wxPanel(this, wxID_ANY);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL );
@@ -40,4 +43,5 @@ buttonFlags(buttonFlags),imageId(imageId) {
     // don't allow frame to get smaller than what the sizers tell it and also set
     // the initial size as calculated by the sizers
     sizer->SetSizeHints(this );
+    result = wxCANCEL;
 }
