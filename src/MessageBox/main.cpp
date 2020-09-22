@@ -3,7 +3,6 @@
 #include <wx/wx.h>
 #endif
 #include "MessageBox.h"
-#include <wx/artprov.h>
 
 class MyApp : public wxApp
 {

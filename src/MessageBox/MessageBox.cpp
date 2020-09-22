@@ -1,6 +1,5 @@
 #include "MessageBox.h"
 #include <wx/imaglist.h>
-#include <wx/artprov.h>
 
 void MessageBox::OnClick(wxCommandEvent &ev) {
     wxMessageBox(wxString::Format(wxT("%i"),ev.GetId()));

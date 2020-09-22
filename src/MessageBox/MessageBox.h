@@ -5,6 +5,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+#include <wx/artprov.h>
 
 class MessageBox: public wxDialog {
     void OnClick(wxCommandEvent &ev);
