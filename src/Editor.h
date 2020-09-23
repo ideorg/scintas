@@ -13,7 +13,7 @@ enum CloseEnum {clClose, clCloseAllSave, clCloseAllDiscard, clNo, clCancel, clEr
 enum ConsiderEnum {coCanClose, coCanSave, coSaveAs};
 enum FileChangeKind {fckNothing, fckRemoved, fckEmpty, fckChanged, fckLooksIdentical};
 
-class Editor {
+class Editor: public wxObject {
     wxStyledTextCtrl* stc;
     wxWindowID id;
     wxString path;

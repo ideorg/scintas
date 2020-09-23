@@ -14,7 +14,7 @@ Editor* EditorFactory::CreateTabSheet(wxString path) {
     wxStyledTextCtrl* stc = new wxStyledTextCtrl(notebook, new_id, wxDefaultPosition, wxDefaultSize, 0L, "");
     Editor *editor = new Editor(stc, new_id, notebook);
     editor->OpenFile(path);
-    notebook->AddPage(stc, editor->GetTitle(), true);
+    notebook->AddPageEx(stc, editor, editor->GetTitle(), true);
     list.push_back(editor);
     return editor;
 }

@@ -1,7 +1,7 @@
 #ifndef SCINTAS_EDITORFACTORY_H
 #define SCINTAS_EDITORFACTORY_H
 
-#include <wx/aui/auibook.h>
+#include "../3rdparty/auimod/auibook.h"
 #include "Editor.h"
 
 class EditorFactory {
