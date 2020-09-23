@@ -1,3 +1,6 @@
 [submodule "3rdparty/cpp-ipc"]
 	path = 3rdparty/cpp-ipc
 	url = https://github.com/mutouyun/cpp-ipc.git
+[submodule "3rdparty/auimod"]
+	path = 3rdparty/auimod
+	url = https://github.com/ideorg/auimod.git
