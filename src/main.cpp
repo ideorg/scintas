@@ -12,6 +12,7 @@ using namespace std;
 wxIMPLEMENT_APP(MyApp);
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
+                EVT_MENU(wxID_NEW, MyFrame::OnNewPage)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
                 EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
                 EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
@@ -245,6 +246,10 @@ void MyFrame::OnEditas(wxCommandEvent &event) {
         "Sources (*.cxx)|*.cxx|" \
         "All |*.*")
 
+void MyFrame::OnNewPage(wxCommandEvent &event) {
+    OpenInEditor("");
+}
+
 void MyFrame::OnOpenFile(wxCommandEvent &event) {
     wxFileDialog openDialog(this, wxT("Open file"), "..", "", SUPPORTED_FILES_EXT, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openDialog.ShowModal() == wxID_CANCEL) return;
@@ -428,7 +433,7 @@ void MyFrame::OnInsertDateTime(wxCommandEvent &event) {
 void MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
-    Bind(wxEVT_STC_CHANGE, &MyFrame::OnStcChange, this, editor->GetId());
+    Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, editor->GetId());
 }
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
@@ -463,7 +468,7 @@ void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {
     }
 }
 
-void MyFrame::OnStcChange(wxStyledTextEvent& event) {
+void MyFrame::OnStcModified(wxStyledTextEvent& event) {
     notebook->Refresh();
 }
 

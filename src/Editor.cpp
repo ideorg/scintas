@@ -185,18 +185,16 @@ void Editor::SetEditorStyle() {
 
 void Editor::OpenFile(const wxString path) {
     this->path = path;
-    wxFileName file(path);
-    this->title = file.GetFullName();
-    if (stc->LoadFile(path))
-    {
-        //Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, new_id);
-        //Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, new_id);
-        //
+    if (!path.empty()) {
+        wxFileName file(path);
+        this->title = file.GetFullName();
+        if (stc->LoadFile(path)) {
+
+        } else {
+            wxLogWarning(wxT("Can't load ") + path + wxT("!"));
+        }
     }
-    else
-    {
-        wxLogWarning(wxT("Can't load ") + path + wxT("!"));
-    }
+    else this->title = "Untitled";
     SetEditorStyle();
     stc->SetMarginWidth(0, 30);
     stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);

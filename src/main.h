@@ -58,7 +58,7 @@ class MyFrame : public wxFrame
     void OnWordPrev(wxCommandEvent &event);
     void OnEditas(wxCommandEvent &event);
     void OnStcMarginClick(wxStyledTextEvent& event);
-    void OnStcChange(wxStyledTextEvent& event);
+    void OnStcModified(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);
     void SetEditorStyle(wxStyledTextCtrl* stc);
     void OnInstanceTimer(wxTimerEvent&);
@@ -69,6 +69,7 @@ public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
             const wxPoint &pos, const wxSize &size, long style);
     ~MyFrame() { delete editorFactory;}
+    void OnNewPage(wxCommandEvent& event);
     void OnOpenFile(wxCommandEvent& event);
     void OnSaveFile(wxCommandEvent &event);
     void OnSaveAs(wxCommandEvent &event);
