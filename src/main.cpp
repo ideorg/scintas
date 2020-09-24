@@ -468,9 +468,7 @@ void MyFrame::OnStcChange(wxStyledTextEvent& event) {
 }
 
 void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
-    CloseEnum canClose = clClose;
-    editorFactory->CloseEditorForPage(event.GetSelection(), canClose);
-    if (canClose==clCancel)
+    if (!editorFactory->CloseEditor(event.GetSelection()))
         event.Veto();
 }
 
@@ -484,13 +482,13 @@ void MyFrame::OnCloseMain(wxCloseEvent& event)
 {
     if ( event.CanVeto() /*&& m_bFileNotSaved */) {
         int count = editorFactory->GetEditorCount();
-        CloseEnum canClose = clClose;
         for (int i = count - 1; i >= 0; i--) {
-            editorFactory->CloseEditorForPage(i, canClose);
-            if (canClose == clCancel) {
+            if (editorFactory->CloseEditor(i))
+                notebook->DeletePage(i);
+            else {
                 event.Veto();
                 return;
-            } else notebook->DeletePage(i);
+            }
         }
     }
     Destroy();  // you may also do:  event.Skip();

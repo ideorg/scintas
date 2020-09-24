@@ -3,7 +3,7 @@
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
-#include <wx/wx.h>
+#includasdsade <wx/wx.h>
 #endif
 #include <string>
 #include <wx/stc/stc.h>

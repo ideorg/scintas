@@ -67,11 +67,19 @@ wxString Editor::GetPath() {
 wxString Editor::GetTitle() {
     return title;
 }
+
 //Editor::GetLines: TStrings;() override;
 //Editor::GetCurrentLine: string;() override;
 //Editor::LogicalToPhysicalCol(const Line: String; Index, LogicalPos: integer): integer;() override;
 //bool Editor::GetModified() {  }
-ConsiderEnum Editor::Consider() { return coCanClose;}
+ConsiderEnum Editor::Consider() {
+    if (!IsModified() || IsEmpty())
+        return coCanClose;
+    else if (!path.empty())
+        return coCanSave;
+    else
+        return coSaveAs;
+}
 
 void Editor::SetEditorStyle() {
     stc->StyleClearAll();
