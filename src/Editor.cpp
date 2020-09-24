@@ -217,13 +217,15 @@ void Editor::InsertDateTime() {
 
 void Editor::Save() {
     stc->SaveFile(path);
+    stc->SetModified(false);
+    notebook->Refresh();
 }
 
 void Editor::SaveAs(const wxString newpath) {
     path = newpath;
     wxFileName file(path);
     title = file.GetFullName();
-    stc->SaveFile(path);
+    Save();
 }
 
 bool Editor::IsModified() {
