@@ -3,7 +3,7 @@
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
-#includasdsade <wx/wx.h>
+#include <wx/wx.h>
 #endif
 #include <string>
 #include <wx/stc/stc.h>
@@ -23,7 +23,7 @@ class Editor: public wxObject {
 public:
     virtual void Activate();
     virtual void ActionsBeforeClose();
-    virtual void AskSaveChangesBeforeClosing(CloseEnum &CanClose);
+    virtual void AskSaveChangesBeforeClosing(CloseEnum &CanClose, bool extended);
     virtual CloseEnum AskSaveChangesBeforeReopen();
     virtual bool CanClose();
     virtual void TryClose();

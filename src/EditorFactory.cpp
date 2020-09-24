@@ -47,7 +47,7 @@ bool EditorFactory::CloseEditor(int n) {
     ConsiderEnum consider = editor->Consider();
     if (consider!=coCanClose) {
         CloseEnum canClose = clClose;
-        editor->AskSaveChangesBeforeClosing(canClose);
+        editor->AskSaveChangesBeforeClosing(canClose, false);
         if (canClose==clCancel) return false;
     }
     delete editor;

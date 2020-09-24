@@ -20,7 +20,7 @@ bool Editor::IsEmpty() {
 
 void Editor::ActionsBeforeClose() {}
 
-void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose) {
+void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose, bool extended) {
      if (IsEmpty()) {
          CanClose = clClose;
          return;
@@ -32,7 +32,8 @@ void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose) {
             return;
         }
     }
-    unsigned flags = wxYES|wxYES_TO_ALL|wxNO|wxNO_TO_ALL|wxCANCEL;
+    unsigned flags = wxYES | wxNO | wxCANCEL;
+    if (extended) flags |= wxYES_TO_ALL | wxNO_TO_ALL;
     wxString message = "The text in the \"%s\" file has been changed.\n\n";
     message += "Do you want to save the modifications? (No = close and discard changes)";
     message = message.Format(message,GetTitle());
