@@ -15,54 +15,41 @@ Editor* EditorFactory::CreateTabSheet(wxString path) {
     Editor *editor = new Editor(stc, new_id, notebook);
     editor->OpenFile(path);
     notebook->AddPageEx(stc, editor, editor->GetTitle(), true);
-    list.push_back(editor);
     return editor;
 }
 
-int EditorFactory::GetEditorCount() { return list.size(); }
-Editor* EditorFactory::GetEditor(int Index) { return list[Index]; }
+int EditorFactory::GetEditorCount() {
+    return notebook->GetPageCount();
+}
+
+Editor* EditorFactory::GetEditor(int Index) {
+    return dynamic_cast<Editor *>(notebook->GetPageEx(Index)->object);
+}
 
 Editor* EditorFactory::GetCurrentEditor() {
-    if (list.empty()) return nullptr;
-    int n = notebook->GetSelection();
-    wxWindow* stc = notebook->GetPage(n);
-    return GetEditorByControl(stc);
+    if (GetEditorCount()==0) return nullptr;
+    return GetEditor(notebook->GetSelection());
 }
 
 Editor *EditorFactory::GetEditorByPath(const wxString &path) {
-    for (auto editor: list)
+    int count = GetEditorCount();
+    for (int i=0; i<count; i++) {
+        Editor* editor = GetEditor(i);
         if (editor->GetPath()==path)
             return editor;
-    return nullptr;
-}
-
-Editor *EditorFactory::GetEditorByControl(const wxWindow *control) {
-    for (auto editor: list)
-        if (editor->GetWidget()==control)
-            return editor;
-    return nullptr;
-}
-
-int EditorFactory::GetEditorNumberByControl(const wxWindow *control) {
-    for (int i=0; i<list.size(); i++)
-    {
-        auto editor = list[i];
-        if (editor->GetWidget()==control)
-            return i;
     }
-    return -1;
+
+    return nullptr;
 }
 
 void EditorFactory::CloseCurrent() {
-    if (list.empty()) return;
+    if (GetEditorCount()==0) return;
     int n = notebook->GetSelection();
     CloseEditorForPage(n);
     notebook->DeletePage(n);
 }
 
 void EditorFactory::CloseEditorForPage(int n) {
-    wxWindow* stc = notebook->GetPage(n);
-    int nn = GetEditorNumberByControl(stc);
-    delete list[nn];
-    list.erase(list.begin()+nn);
+    Editor *editor = GetEditor(n);
+    delete editor;
 }

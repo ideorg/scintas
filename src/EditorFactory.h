@@ -6,7 +6,6 @@
 
 class EditorFactory {
     wxAuiNotebook* notebook;
-    std::vector<Editor*> list;
 public:
     void TryCloseAll();
     Editor* CreateTabSheet(wxString path);
@@ -15,8 +14,6 @@ public:
     Editor* GetCurrentEditor();
     EditorFactory(wxAuiNotebook* auiNotebook);
     Editor *GetEditorByPath(const wxString &path);
-    Editor *GetEditorByControl(const wxWindow* control);
-    int GetEditorNumberByControl(const wxWindow *control);
     void CloseCurrent();
     void CloseEditorForPage(int page);
 };
