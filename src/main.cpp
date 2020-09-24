@@ -468,7 +468,9 @@ void MyFrame::OnStcChange(wxStyledTextEvent& event) {
 }
 
 void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
-    if (!editorFactory->CloseEditor(event.GetSelection()))
+    CloseEnum closeEnum = clClose;
+    editorFactory->CloseEditor(event.GetSelection(), false, closeEnum);
+    if (closeEnum==clCancel)
         event.Veto();
 }
 
@@ -480,15 +482,20 @@ void MyFrame::CmdLineOpenFiles() {
 
 void MyFrame::OnCloseMain(wxCloseEvent& event)
 {
-    if ( event.CanVeto() /*&& m_bFileNotSaved */) {
-        int count = editorFactory->GetEditorCount();
-        for (int i = count - 1; i >= 0; i--) {
-            if (editorFactory->CloseEditor(i))
-                notebook->DeletePage(i);
-            else {
-                event.Veto();
-                return;
-            }
+    int count = editorFactory->GetEditorCount();
+    int considerCnt = 0;
+    for (int i = count - 1; i >= 0; i--) {
+        ConsiderEnum consider = editorFactory->GetEditor(i)->Consider();
+        if (consider!=coCanClose)considerCnt++;
+    }
+    CloseEnum closeEnum = clClose;
+    for (int i = count - 1; i >= 0; i--) {
+        editorFactory->CloseEditor(i,considerCnt>1, closeEnum);
+        if (closeEnum!=clCancel)
+            notebook->DeletePage(i);
+        else {
+            event.Veto();
+            return;
         }
     }
     Destroy();  // you may also do:  event.Skip();

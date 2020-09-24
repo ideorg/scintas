@@ -42,21 +42,24 @@ Editor *EditorFactory::GetEditorByPath(const wxString &path) {
     return nullptr;
 }
 
-bool EditorFactory::CloseEditor(int n) {
+void EditorFactory::CloseEditor(int n, bool extended, CloseEnum &closeEnum) {
     Editor *editor = GetEditor(n);
     ConsiderEnum consider = editor->Consider();
     if (consider!=coCanClose) {
-        CloseEnum canClose = clClose;
-        editor->AskSaveChangesBeforeClosing(canClose, false);
-        if (canClose==clCancel) return false;
+        editor->AskSaveChangesBeforeClosing(closeEnum, extended);
+        if (closeEnum == clCancel) {
+            closeEnum = clCancel;
+            return;
+        }
     }
     delete editor;
-    return true;
 }
 
 void EditorFactory::CloseCurrent() {
     if (GetEditorCount()==0) return;
     int n = notebook->GetSelection();
-    if (CloseEditor(n))
+    CloseEnum closeEnum = clClose;
+    CloseEditor(n, false, closeEnum);
+    if (closeEnum!=clCancel)
         notebook->DeletePage(n);
 }

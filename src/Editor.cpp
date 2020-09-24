@@ -42,12 +42,12 @@ void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose, bool extended) {
         case wxYES: if (Save())
                         CanClose = clClose;
                     else
-                        CanClose = clNo;
+                        CanClose = clCancel;
             break;
         case wxYES_TO_ALL: if (Save())
                         CanClose = clCloseAllSave;
                     else
-                        CanClose = clNo;
+                        CanClose = clCancel;
                     break;
         case wxNO: CanClose = clClose; break;
         case wxNO_TO_ALL: CanClose = clCloseAllDiscard; break;

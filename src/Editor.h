@@ -9,7 +9,7 @@
 #include <wx/stc/stc.h>
 #include "../3rdparty/auimod/auibook.h"
 
-enum CloseEnum {clClose, clCloseAllSave, clCloseAllDiscard, clNo, clCancel, clError};
+enum CloseEnum {clClose, clCloseAllSave, clCloseAllDiscard, clCancel};
 enum ConsiderEnum {coCanClose, coCanSave, coSaveAs};
 enum FileChangeKind {fckNothing, fckRemoved, fckEmpty, fckChanged, fckLooksIdentical};
 
