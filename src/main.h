@@ -6,7 +6,7 @@
 #include <wx/wx.h>
 #endif
 #include <wx/splitter.h>
-#include <wx/aui/auibook.h>
+#include "../3rdparty/auimod/auibook.h"
 #include <wx/stc/stc.h>
 #include <wx/statusbr.h>
 #include <wx/snglinst.h>

@@ -7,7 +7,7 @@
 #endif
 #include <string>
 #include <wx/stc/stc.h>
-#include <wx/aui/auibook.h>
+#include "../3rdparty/auimod/auibook.h"
 
 enum CloseEnum {clClose, clCloseAllSave, clCloseAllDiscard, clNo, clCancel, clError};
 enum ConsiderEnum {coCanClose, coCanSave, coSaveAs};

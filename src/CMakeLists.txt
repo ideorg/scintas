@@ -10,6 +10,7 @@ include(${wxWidgets_USE_FILE})
 
 set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp MessageBox/MessageBox.cpp
         IniParser/IniParser.cpp IniParser/StrTools.cpp execute.cpp
+        MyTabArt.cpp
         ../3rdparty/auimod/framemanager.cpp
         ../3rdparty/auimod/auibook.cpp
         ../3rdparty/auimod/tabmdi.cpp

@@ -5,6 +5,7 @@
 #include "libipc/ipc.h"
 #include "execute.h"
 #include "MessageBox/MessageBox.h"
+#include "MyTabArt.h"
 
 using namespace std;
 
@@ -153,6 +154,8 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     manager.SetFlags(wxAUI_MGR_DEFAULT);
     notebook = new wxAuiNotebook(this, ID_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxAUI_NB_TAB_SPLIT | wxAUI_NB_BOTTOM |
         wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_MIDDLE_CLICK_CLOSE| wxAUI_NB_CLOSE_BUTTON | wxAUI_NB_CLOSE_ON_ALL_TABS);
+    wxAuiTabArt *art = new MyTabArt;
+    notebook->SetArtProvider(art);
     Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnPageClose, this);
     Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSED, &MyFrame::OnPageClosed, this);
 
