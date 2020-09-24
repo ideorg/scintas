@@ -2,6 +2,7 @@
 #include <wx/filename.h>
 #include <chrono>
 #include <time.h>
+#include "MessageBox/MessageBox.h"
 
 using namespace std;
 
@@ -13,8 +14,47 @@ void Editor::Activate() {
     notebook->SetSelection(page);
 }
 
+bool Editor::IsEmpty() {
+    return stc->IsEmpty();
+}
+
 void Editor::ActionsBeforeClose() {}
-void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose) {}
+
+void Editor::AskSaveChangesBeforeClosing(CloseEnum &CanClose) {
+     if (IsEmpty()) {
+         CanClose = clClose;
+         return;
+     }
+    if (CanClose == clCloseAllDiscard) return;
+    if (CanClose == clCloseAllSave) {
+        if (!Save()) {
+            CanClose = clCancel;
+            return;
+        }
+    }
+    unsigned flags = wxYES|wxYES_TO_ALL|wxNO|wxNO_TO_ALL|wxCANCEL;
+    wxString message = "The text in the \"%s\" file has been changed.\n\n";
+    message += "Do you want to save the modifications? (No = close and discard changes)";
+    message = message.Format(message,GetTitle());
+    unsigned modalResult = wxxMessageBox(message , "warning", flags, wxART_WARNING);
+    switch(modalResult) {
+        case wxYES: if (Save())
+                        CanClose = clClose;
+                    else
+                        CanClose = clNo;
+            break;
+        case wxYES_TO_ALL: if (Save())
+                        CanClose = clCloseAllSave;
+                    else
+                        CanClose = clNo;
+                    break;
+        case wxNO: CanClose = clClose; break;
+        case wxNO_TO_ALL: CanClose = clCloseAllDiscard; break;
+        default:
+            CanClose = clCancel;
+    }
+}
+
 CloseEnum Editor::AskSaveChangesBeforeReopen() { return clClose;}
 bool Editor::CanClose() { return true; }
 void Editor::TryClose() {  }
@@ -215,10 +255,12 @@ void Editor::InsertDateTime() {
     stc->SetCurrentPos(stc->GetCurrentPos()+str.length());
 }
 
-void Editor::Save() {
-    stc->SaveFile(path);
+bool Editor::Save() {
+    if (path.empty()) return false;
+    if (!stc->SaveFile(path)) return false;
     stc->SetModified(false);
     notebook->Refresh();
+    return true;
 }
 
 void Editor::SaveAs(const wxString newpath) {

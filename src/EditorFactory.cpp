@@ -45,11 +45,15 @@ Editor *EditorFactory::GetEditorByPath(const wxString &path) {
 void EditorFactory::CloseCurrent() {
     if (GetEditorCount()==0) return;
     int n = notebook->GetSelection();
-    CloseEditorForPage(n);
-    notebook->DeletePage(n);
+    CloseEnum canClose = clClose;
+    CloseEditorForPage(n, canClose);
+    if (canClose!=clCancel)
+        notebook->DeletePage(n);
 }
 
-void EditorFactory::CloseEditorForPage(int n) {
+void EditorFactory::CloseEditorForPage(int n, CloseEnum &canClose) {
     Editor *editor = GetEditor(n);
-    delete editor;
+    editor->AskSaveChangesBeforeClosing(canClose);
+    if (canClose!=clCancel)
+        delete editor;
 }

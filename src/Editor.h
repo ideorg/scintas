@@ -27,6 +27,7 @@ public:
     virtual CloseEnum AskSaveChangesBeforeReopen();
     virtual bool CanClose();
     virtual void TryClose();
+    virtual bool IsEmpty();
     virtual wxStyledTextCtrl* GetWidget();
     //function GetCaretPos: TPoint;
     //function GetStateStr: string;
@@ -41,7 +42,7 @@ public:
     virtual void Reopen(bool AskWhenModified);
     virtual FileChangeKind ChangedOutside();
     virtual void SpecialChars(bool Show);
-    void Save();
+    bool Save();
     void SaveAs(const wxString newpath);
     void InsertDate();
     void InsertTime();

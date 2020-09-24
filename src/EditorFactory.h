@@ -15,7 +15,7 @@ public:
     EditorFactory(wxAuiNotebook* auiNotebook);
     Editor *GetEditorByPath(const wxString &path);
     void CloseCurrent();
-    void CloseEditorForPage(int page);
+    void CloseEditorForPage(int page, CloseEnum &canClose);
 };
 
 

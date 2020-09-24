@@ -157,7 +157,6 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     wxAuiTabArt *art = new MyTabArt;
     notebook->SetArtProvider(art);
     Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, &MyFrame::OnPageClose, this);
-    Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSED, &MyFrame::OnPageClosed, this);
 
     manager.AddPane(notebook, wxAuiPaneInfo().Left().Caption(wxT("Edytor")).MaximizeButton(true).MinimizeButton(true).PinButton(true).PaneBorder(false).Dock().Resizable().FloatingSize(wxDefaultSize).CentrePane().DefaultPane());
 
@@ -469,11 +468,10 @@ void MyFrame::OnStcChange(wxStyledTextEvent& event) {
 }
 
 void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
-    //event.Veto();
-}
-
-void MyFrame::OnPageClosed(wxAuiNotebookEvent &event) {
-    editorFactory->CloseEditorForPage(event.GetSelection());
+    CloseEnum canClose = clClose;
+    editorFactory->CloseEditorForPage(event.GetSelection(), canClose);
+    if (canClose==clCancel)
+        event.Veto();
 }
 
 void MyFrame::CmdLineOpenFiles() {
