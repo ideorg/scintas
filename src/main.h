@@ -58,6 +58,7 @@ class MyFrame : public wxFrame
     void OnWordPrev(wxCommandEvent &event);
     void OnEditas(wxCommandEvent &event);
     void OnStcMarginClick(wxStyledTextEvent& event);
+    void OnStcChange(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);
     void OnPageClosed(wxAuiNotebookEvent &event);
     void SetEditorStyle(wxStyledTextCtrl* stc);

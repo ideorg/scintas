@@ -226,6 +226,10 @@ void Editor::SaveAs(const wxString newpath) {
     stc->SaveFile(path);
 }
 
+bool Editor::IsModified() {
+    return stc->IsModified();
+}
+
 //Editor::GetHighLighter: TSynCustomHighlighter;() {}
 //Editor::SetHighLighter(Value: TSynCustomHighlighter);() {}
 //Editor::GetActivateTime: TDateTime;() {}

@@ -1,7 +1,7 @@
 #ifndef SCINTAS_MYTABART_H
 #define SCINTAS_MYTABART_H
 
-#include "../3rdparty/auimod/tabart.h"
+#include "../3rdparty/auimod/auibook.h"
 
 class MyTabArt: public wxAuiGenericTabArt {
 public:

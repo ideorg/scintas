@@ -35,7 +35,7 @@ public:
     //virtual function GetLines: TStrings;();
     //virtual function GetCurrentLine: string;();
     //virtual function LogicalToPhysicalCol(const Line: String; Index, LogicalPos: integer): integer;();
-    //virtual bool GetModified();
+    virtual bool IsModified();
     virtual ConsiderEnum Consider();
     virtual void OpenFile(const wxString path);
     virtual void Reopen(bool AskWhenModified);
