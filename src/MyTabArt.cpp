@@ -1,7 +1,7 @@
 #include "MyTabArt.h"
 
-wxColour MyTabArt::GetFontColour(bool pageActive, const wxColour& back_color) {
-    return wxAuiGenericTabArt::GetFontColour(pageActive,back_color);
+wxColour MyTabArt::GetFontColour(const wxAuiNotebookPage& page, const wxColour& back_color) {
+    return wxAuiGenericTabArt::GetFontColour(page,back_color);
     //wxColour(255,50,50);
 }
 
