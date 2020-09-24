@@ -482,13 +482,15 @@ void MyFrame::CmdLineOpenFiles() {
 
 void MyFrame::OnCloseMain(wxCloseEvent& event)
 {
-    if ( event.CanVeto() /*&& m_bFileNotSaved */)
-    {
-        if ( wxxMessageBox("The file has not been saved... continue closing?","Please confirm",
-                           wxYES_NO, wxART_WARNING) != wxYES )
-        {
-            event.Veto();
-            return;
+    if ( event.CanVeto() /*&& m_bFileNotSaved */) {
+        int count = editorFactory->GetEditorCount();
+        CloseEnum canClose = clClose;
+        for (int i = count - 1; i >= 0; i--) {
+            editorFactory->CloseEditorForPage(i, canClose);
+            if (canClose == clCancel) {
+                event.Veto();
+                return;
+            } else notebook->DeletePage(i);
         }
     }
     Destroy();  // you may also do:  event.Skip();
