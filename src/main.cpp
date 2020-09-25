@@ -171,6 +171,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     config = new Config();
     CmdLineOpenFiles();
     Bind(wxEVT_CLOSE_WINDOW, &MyFrame::OnCloseMain, this);
+    Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
     instanceTimer.Bind(wxEVT_TIMER, &MyFrame::OnInstanceTimer, this);
     instanceTimer.Start(200);
 }
@@ -525,4 +526,10 @@ void MyFrame::OnCloseMain(wxCloseEvent& event)
         Destroy();
     else
         event.Veto();
+}
+
+void MyFrame::OnKeyDown(wxKeyEvent &event) {
+    int code = event.m_keyCode;
+    if (code >= '0' && code <= '9' && event.AltDown())
+        wxMessageBox("code");
 }
