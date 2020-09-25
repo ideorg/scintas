@@ -15,6 +15,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_NEW, MyFrame::OnNewPage)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
                 EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
+                EVT_MENU(wxxID_SaveAll, MyFrame::OnSaveAll)
                 EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
                 EVT_MENU(wxID_CLOSE_ALL, MyFrame::OnCloseAll)
                 EVT_MENU(wxID_FIND, MyFrame::OnFind)
@@ -71,7 +72,7 @@ void MyFrame::CreateMenu() {
     menuFile->Append(wxID_SEPARATOR);
     menuFile->Append(wxID_SAVE);
     menuFile->Append(wxID_SAVEAS);
-    wxMenuItem *file_saveall = new wxMenuItem(menuFile, wxID_OPEN, "Save all\tCtrl-Shift-S", "");
+    wxMenuItem *file_saveall = new wxMenuItem(menuFile, wxxID_SaveAll, "Save all\tCtrl-Shift-S", "");
     menuFile->Append(file_saveall);
     wxMenuItem *file_close = new wxMenuItem(menuFile, wxID_CLOSE, "Close file\tCtrl-F4", "");
     menuFile->Append(file_close);
@@ -272,6 +273,15 @@ void MyFrame::OnSaveAs(wxCommandEvent &event) {
     wxFileDialog saveDialog(this, wxT("Save as"), dir, editor->GetPath(), SUPPORTED_FILES_EXT, wxFD_SAVE);
     if (saveDialog.ShowModal() == wxID_CANCEL) return;
     editor->SaveAs(saveDialog.GetPath());
+}
+
+void MyFrame::OnSaveAll(wxCommandEvent &event) {
+    int count = editorFactory->GetEditorCount();
+    for (int i = 0; i < count; i++) {
+        Editor* editor = editorFactory->GetEditor(i);
+        ConsiderEnum consider = editor->Consider();
+        if (consider==coCanSave) editor->Save();
+    }
 }
 
 void MyFrame::OnClose(wxCommandEvent &event) {

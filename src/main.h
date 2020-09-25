@@ -33,6 +33,7 @@ public:
 
 enum wxxMenuID {
     wxxID_Editas  = wxID_HIGHEST + 1,
+    wxxID_SaveAll,
     wxxID_SelectWord,
     wxxID_WordNext,
     wxxID_WordPrev,
@@ -74,6 +75,7 @@ public:
     void OnOpenFile(wxCommandEvent& event);
     void OnSaveFile(wxCommandEvent &event);
     void OnSaveAs(wxCommandEvent &event);
+    void OnSaveAll(wxCommandEvent &event);
     void OnClose(wxCommandEvent &event);
     void OnCloseAll(wxCommandEvent &event);
     void OnFind(wxCommandEvent& event);

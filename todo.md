@@ -3,7 +3,6 @@ F3-find next, shift F3 - find prev
 Menu:
 Recent files + according to
 Reopen files
-Save All (only when path not empty)
 Cut,Copy,Paste, Delete
 Select all, select mode,
 Change case
