@@ -6,4 +6,4 @@ Reopen files
 Cut,Copy,Paste, Delete
 Select all, select mode,
 Change case
-Block indent, unindent
+

@@ -31,6 +31,12 @@ Editor* EditorFactory::GetCurrentEditor() {
     return GetEditor(notebook->GetSelection());
 }
 
+wxStyledTextCtrl * EditorFactory::GetCurrentWidget() {
+    if (GetEditorCount()==0) return nullptr;
+    int n = notebook->GetSelection();
+    return dynamic_cast<wxStyledTextCtrl *>(notebook->GetPage(n));
+}
+
 Editor *EditorFactory::GetEditorByPath(const wxString &path) {
     int count = GetEditorCount();
     for (int i=0; i<count; i++) {

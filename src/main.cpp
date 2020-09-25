@@ -23,6 +23,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
                 EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
                 EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
+                EVT_MENU(wxxID_ChangeCaseUpper, MyFrame::OnChangeCaseUpper)
                 EVT_FIND(wxID_ANY, MyFrame::OnDoFind)
                 EVT_FIND_NEXT(wxID_ANY, MyFrame::OnDoFind)
                 EVT_FIND_REPLACE(wxID_ANY, MyFrame::OnDoFindReplace)
@@ -99,14 +100,21 @@ void MyFrame::CreateMenu() {
     menuEdit->Append(edit_selectWord);
     wxMenuItem *edit_selectMode = new wxMenuItem(menuFile, wxID_OPEN, "Select mode", "");
     menuEdit->Append(edit_selectMode);
-    wxMenuItem *edit_changeCase = new wxMenuItem(menuFile, wxID_OPEN, "Change case", "");
+    wxMenuItem *edit_changeCase = new wxMenuItem(menuFile, wxID_ANY, "Change case", "");
+    wxMenu *menuChangeCase = new wxMenu;
+    edit_changeCase->SetSubMenu(menuChangeCase);
+    wxMenuItem *edit_changeCaseUpper = new wxMenuItem(menuFile, wxxID_ChangeCaseUpper, "Upper\tCtrl-U", "");
+    wxAcceleratorEntry accelChangeCaseUpper;
+    accelChangeCaseUpper.Set(wxACCEL_CTRL, 'U',wxxID_ChangeCaseUpper);
+    edit_changeCaseUpper->SetAccel(&accelChangeCaseUpper);
+    menuChangeCase->Append(edit_changeCaseUpper);
+    wxMenuItem *edit_changeCaseLower = new wxMenuItem(menuFile, wxxID_ChangeCaseLower, "Lower\tCtrl-L", "");
+    menuChangeCase->Append(edit_changeCaseLower);
+    wxMenuItem *edit_changeCaseInvert = new wxMenuItem(menuFile, wxxID_ChangeCaseInvert, "Lower\tCtrl-I", "");
+    menuChangeCase->Append(edit_changeCaseInvert);
+    wxMenuItem *edit_changeCaseUpperFirst = new wxMenuItem(menuFile, wxxID_ChangeCaseUpperFirst, "Upper first\tCtrl-K", "");
+    menuChangeCase->Append(edit_changeCaseUpperFirst);
     menuEdit->Append(edit_changeCase);
-    new wxMenuItem(menuFile, wxID_OPEN, "Block indent\tTAb", "");
-    menuEdit->Append(wxID_SEPARATOR);
-    wxMenuItem *edit_blockIndent = new wxMenuItem(menuFile, wxID_OPEN, "Block indent\tTab", "");
-    menuEdit->Append(edit_blockIndent);
-    wxMenuItem *edit_blockUnindent = new wxMenuItem(menuFile, wxID_OPEN, "Block unindent\tShift+Tab", "");
-    menuEdit->Append(edit_blockUnindent);
 
     wxMenu *menuSearch = new wxMenu;
     menuSearch->Append(wxID_FIND);
@@ -171,7 +179,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     config = new Config();
     CmdLineOpenFiles();
     Bind(wxEVT_CLOSE_WINDOW, &MyFrame::OnCloseMain, this);
-    Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
+    //Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
     instanceTimer.Bind(wxEVT_TIMER, &MyFrame::OnInstanceTimer, this);
     instanceTimer.Start(200);
 }
@@ -190,20 +198,35 @@ void MyFrame::OnExit(wxCommandEvent &event) {
     Close(true);
 }
 
-void MyFrame::OnSelectWord(wxCommandEvent &event) {
-    Editor *editor = editorFactory->GetCurrentEditor();
-    if (!editor) return;
-    wxStyledTextCtrl *stc = editor->GetWidget();
+wxStyledTextCtrl *MyFrame::SelectWord() {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return nullptr;
     int pos = stc->GetCurrentPos();
     int start = stc->WordStartPosition(pos, true);
     int end = stc->WordEndPosition(pos, true);
     stc->SetSelection(start, end);
+    return stc;
+}
+
+void MyFrame::OnSelectWord(wxCommandEvent &event) {
+    SelectWord();
+}
+
+void MyFrame::ChangeCase() {
+    auto stc = SelectWord();
+    if (!stc) return;
+    wxString word = stc->GetSelectedText();
+    word = word.Upper();
+    stc->InsertText(stc->GetCurrentPos(),word);
+}
+
+void MyFrame::OnChangeCaseUpper(wxCommandEvent &event) {
+    ChangeCase();
 }
 
 void MyFrame::WordNextPrev(bool prev) {
-    Editor *editor = editorFactory->GetCurrentEditor();
-    if (!editor) return;
-    wxStyledTextCtrl *stc = editor->GetWidget();
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
     int pos = stc->GetCurrentPos();
     int start = stc->WordStartPosition(pos, true);
     int end = stc->WordEndPosition(pos, true);
@@ -318,9 +341,8 @@ void MyFrame::OnFind(wxCommandEvent& event)
 
 void MyFrame::OnDoFind(wxFindDialogEvent& event)
 {
-    auto editor = editorFactory->GetCurrentEditor();
-    if (!editor) return;
-    wxStyledTextCtrl* stc = editor->GetWidget();
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
     int result = DoFind(stc, event.GetFindString(), event.GetFlags());
     if(result == -1)
     {
@@ -342,9 +364,8 @@ void MyFrame::OnDoFind(wxFindDialogEvent& event)
 
 void MyFrame::OnDoFindReplace(wxFindDialogEvent& event)
 {
-    auto editor = editorFactory->GetCurrentEditor();
-    if (!editor) return;
-    wxStyledTextCtrl* stc = editor->GetWidget();
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
     if (event.GetEventType() == wxEVT_FIND_REPLACE)
     {
         if (!stc->GetSelections())

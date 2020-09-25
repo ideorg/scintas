@@ -39,7 +39,11 @@ enum wxxMenuID {
     wxxID_WordPrev,
     wxxInsertDate,
     wxxInsertTime,
-    wxxInsertDateTime
+    wxxInsertDateTime,
+    wxxID_ChangeCaseUpper,
+    wxxID_ChangeCaseLower,
+    wxxID_ChangeCaseInvert,
+    wxxID_ChangeCaseUpperFirst,
 };
 
 class MyFrame : public wxFrame
@@ -54,7 +58,10 @@ class MyFrame : public wxFrame
     bool CloseAll();
 
     void OnExit(wxCommandEvent& event);
+    wxStyledTextCtrl *SelectWord();
     void OnSelectWord(wxCommandEvent &event);
+    void ChangeCase();
+    void OnChangeCaseUpper(wxCommandEvent &event);
     void WordNextPrev(bool prev);
     void OnWordNext(wxCommandEvent &event);
     void OnWordPrev(wxCommandEvent &event);
@@ -62,7 +69,7 @@ class MyFrame : public wxFrame
     void OnStcMarginClick(wxStyledTextEvent& event);
     void OnStcModified(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);
-    void SetEditorStyle(wxStyledTextCtrl* stc);
+    //void SetEditorStyle(wxStyledTextCtrl* stc);
     void OnInstanceTimer(wxTimerEvent&);
     void CreateMenu();
     void OnCloseMain(wxCloseEvent& event);
