@@ -16,6 +16,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
                 EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
                 EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
+                EVT_MENU(wxID_CLOSE_ALL, MyFrame::OnCloseAll)
                 EVT_MENU(wxID_FIND, MyFrame::OnFind)
                 EVT_MENU(wxID_REPLACE, MyFrame::OnFind)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
@@ -74,7 +75,7 @@ void MyFrame::CreateMenu() {
     menuFile->Append(file_saveall);
     wxMenuItem *file_close = new wxMenuItem(menuFile, wxID_CLOSE, "Close file\tCtrl-F4", "");
     menuFile->Append(file_close);
-    wxMenuItem *file_closeall = new wxMenuItem(menuFile, wxID_OPEN, "Close all\tCtrl-Shift-F4", "");
+    wxMenuItem *file_closeall = new wxMenuItem(menuFile, wxID_CLOSE_ALL, "Close all\tCtrl-Shift-F4", "");
     menuFile->Append(file_closeall);
     wxMenuItem *exit_file = new wxMenuItem(menuFile, wxID_EXIT, "E&xit\tAlt-F4", "");
     menuFile->Append(exit_file);
@@ -275,6 +276,10 @@ void MyFrame::OnSaveAs(wxCommandEvent &event) {
 
 void MyFrame::OnClose(wxCommandEvent &event) {
     editorFactory->CloseCurrent();
+}
+
+void MyFrame::OnCloseAll(wxCommandEvent &event) {
+    CloseAll();
 }
 
 void MyFrame::OnFind(wxCommandEvent& event)
@@ -485,8 +490,7 @@ void MyFrame::CmdLineOpenFiles() {
         OpenOrActivate(app.argv[i]);
 }
 
-void MyFrame::OnCloseMain(wxCloseEvent& event)
-{
+bool MyFrame::CloseAll() {
     int count = editorFactory->GetEditorCount();
     int considerCnt = 0;
     for (int i = count - 1; i >= 0; i--) {
@@ -499,10 +503,16 @@ void MyFrame::OnCloseMain(wxCloseEvent& event)
         if (closeEnum!=clCancel)
             notebook->DeletePage(i);
         else {
-            event.Veto();
-            return;
+            return false;
         }
     }
-    Destroy();  // you may also do:  event.Skip();
-    // since the default event handler does call Destroy(), too
+    return true;
+}
+
+void MyFrame::OnCloseMain(wxCloseEvent& event)
+{
+    if (CloseAll())
+        Destroy();
+    else
+        event.Veto();
 }

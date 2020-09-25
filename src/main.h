@@ -50,6 +50,7 @@ class MyFrame : public wxFrame
     Config *config;
     wxFindReplaceData findData;
     wxFindReplaceDialog* findDialog = nullptr;
+    bool CloseAll();
 
     void OnExit(wxCommandEvent& event);
     void OnSelectWord(wxCommandEvent &event);
@@ -74,6 +75,7 @@ public:
     void OnSaveFile(wxCommandEvent &event);
     void OnSaveAs(wxCommandEvent &event);
     void OnClose(wxCommandEvent &event);
+    void OnCloseAll(wxCommandEvent &event);
     void OnFind(wxCommandEvent& event);
     void OnDoFind(wxFindDialogEvent& event);
     void OnDoFindReplace(wxFindDialogEvent& event);
