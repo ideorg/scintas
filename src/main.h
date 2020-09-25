@@ -48,6 +48,8 @@ enum wxxMenuID {
 
 class MyFrame : public wxFrame
 {
+    enum ChangeCaseEnum {ccUpper, ccLower};
+
     wxAuiManager manager;
     wxAuiNotebook* notebook;
     EditorFactory* editorFactory;
@@ -60,8 +62,9 @@ class MyFrame : public wxFrame
     void OnExit(wxCommandEvent& event);
     wxStyledTextCtrl *SelectWord();
     void OnSelectWord(wxCommandEvent &event);
-    void ChangeCase();
+    void ChangeCase(ChangeCaseEnum cc);
     void OnChangeCaseUpper(wxCommandEvent &event);
+    void OnChangeCaseLower(wxCommandEvent &event);
     void OnCut(wxCommandEvent &event);
     void OnCopy(wxCommandEvent &event);
     void OnPaste(wxCommandEvent &event);

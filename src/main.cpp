@@ -34,6 +34,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
                 EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
                 EVT_MENU(wxxID_ChangeCaseUpper, MyFrame::OnChangeCaseUpper)
+                EVT_MENU(wxxID_ChangeCaseLower, MyFrame::OnChangeCaseLower)
                 EVT_FIND(wxID_ANY, MyFrame::OnDoFind)
                 EVT_FIND_NEXT(wxID_ANY, MyFrame::OnDoFind)
                 EVT_FIND_REPLACE(wxID_ANY, MyFrame::OnDoFindReplace)
@@ -114,16 +115,9 @@ void MyFrame::CreateMenu() {
     wxMenu *menuChangeCase = new wxMenu;
     edit_changeCase->SetSubMenu(menuChangeCase);
     wxMenuItem *edit_changeCaseUpper = new wxMenuItem(menuFile, wxxID_ChangeCaseUpper, "Upper\tCtrl-U", "");
-    wxAcceleratorEntry accelChangeCaseUpper;
-    accelChangeCaseUpper.Set(wxACCEL_CTRL, 'U',wxxID_ChangeCaseUpper);
-    edit_changeCaseUpper->SetAccel(&accelChangeCaseUpper);
     menuChangeCase->Append(edit_changeCaseUpper);
     wxMenuItem *edit_changeCaseLower = new wxMenuItem(menuFile, wxxID_ChangeCaseLower, "Lower\tCtrl-L", "");
     menuChangeCase->Append(edit_changeCaseLower);
-    wxMenuItem *edit_changeCaseInvert = new wxMenuItem(menuFile, wxxID_ChangeCaseInvert, "Lower\tCtrl-I", "");
-    menuChangeCase->Append(edit_changeCaseInvert);
-    wxMenuItem *edit_changeCaseUpperFirst = new wxMenuItem(menuFile, wxxID_ChangeCaseUpperFirst, "Upper first\tCtrl-K", "");
-    menuChangeCase->Append(edit_changeCaseUpperFirst);
     menuEdit->Append(edit_changeCase);
 
     wxMenu *menuSearch = new wxMenu;
@@ -217,16 +211,23 @@ void MyFrame::OnSelectWord(wxCommandEvent &event) {
     SelectWord();
 }
 
-void MyFrame::ChangeCase() {
-    auto stc = SelectWord();
+void MyFrame::ChangeCase(ChangeCaseEnum cc) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
     if (!stc) return;
-    wxString word = stc->GetSelectedText();
-    word = word.Upper();
-    stc->InsertText(stc->GetCurrentPos(),word);
+    if (!stc->HasSelection())
+        SelectWord();
+    int cmd;
+    if (cc==ccUpper) cmd = wxSTC_CMD_UPPERCASE;
+    else cmd = wxSTC_CMD_LOWERCASE;
+    stc->CmdKeyExecute(cmd);
 }
 
 void MyFrame::OnChangeCaseUpper(wxCommandEvent &event) {
-    ChangeCase();
+    ChangeCase(ccUpper);
+}
+
+void MyFrame::OnChangeCaseLower(wxCommandEvent &event) {
+    ChangeCase(ccLower);
 }
 
 void MyFrame::WordNextPrev(bool prev) {
