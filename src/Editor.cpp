@@ -88,8 +88,8 @@ void Editor::SetEditorStyle() {
     //line numbering
     stc->SetMarginWidth(0, 30);
     stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);
-    stc->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(155, 255, 255));
-    stc->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(0, 128, 255));
+    stc->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(100, 100, 100));
+    stc->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(200, 200, 200));
 
     stc->SetWrapMode(0);
 

@@ -4,4 +4,6 @@ Menu:
 Recent files + according to
 Reopen files
 select mode,
+MRU class
+Accel class
 
