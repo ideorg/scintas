@@ -66,6 +66,7 @@ class MyFrame : public wxFrame
     void OnCopy(wxCommandEvent &event);
     void OnPaste(wxCommandEvent &event);
     void OnDelete(wxCommandEvent &event);
+    void OnSelectAll(wxCommandEvent &event);
     void WordNextPrev(bool prev);
     void OnWordNext(wxCommandEvent &event);
     void OnWordPrev(wxCommandEvent &event);

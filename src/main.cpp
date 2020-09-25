@@ -27,6 +27,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_COPY, MyFrame::OnCopy)
                 EVT_MENU(wxID_PASTE, MyFrame::OnPaste)
                 EVT_MENU(wxID_DELETE, MyFrame::OnDelete)
+                EVT_MENU(wxID_SELECTALL, MyFrame::OnSelectAll)
                 EVT_MENU(wxID_FIND, MyFrame::OnFind)
                 EVT_MENU(wxID_REPLACE, MyFrame::OnFind)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
@@ -592,4 +593,10 @@ void MyFrame::OnDelete(wxCommandEvent &event) {
     wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
     if (!stc) return;
     stc->CmdKeyExecute(wxSTC_CMD_CLEAR);
+}
+
+void MyFrame::OnSelectAll(wxCommandEvent &event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    stc->CmdKeyExecute(wxSTC_CMD_SELECTALL);
 }
