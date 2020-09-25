@@ -6,4 +6,4 @@ Reopen files
 select mode,
 MRU class
 Accel class
-
+.een - encrypted files
