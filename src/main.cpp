@@ -530,6 +530,17 @@ void MyFrame::OnCloseMain(wxCloseEvent& event)
 
 void MyFrame::OnKeyDown(wxKeyEvent &event) {
     int code = event.m_keyCode;
-    if (code >= '0' && code <= '9' && event.AltDown())
-        wxMessageBox("code");
+    if (code >= '0' && code <= '9' && event.AltDown()
+                    && !event.ControlDown()  && !event.ShiftDown()) {
+        int n;
+        if (code=='0') n=9;
+        else n=code-'1';
+        int count = editorFactory->GetEditorCount();
+        if (n<count)
+        {
+            Editor *editor = editorFactory->GetEditor(n);
+            editor->Activate();
+        }
+    }
+    else event.Skip();
 }
