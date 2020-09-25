@@ -221,8 +221,8 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign(wxSTC_KEY_RETURN, wxSTC_KEYMOD_NORM, wxSTC_CMD_NEWLINE);
     stc->CmdKeyAssign(wxSTC_KEY_HOME, wxSTC_KEYMOD_NORM, wxSTC_CMD_VCHOME);
     stc->CmdKeyAssign(wxSTC_KEY_HOME, wxSTC_KEYMOD_SHIFT, wxSTC_CMD_VCHOMEEXTEND);
-    stc->CmdKeyAssign('+', wxSTC_KEYMOD_CTRL, wxSTC_CMD_ZOOMIN);
-    stc->CmdKeyAssign('-', wxSTC_KEYMOD_CTRL, wxSTC_CMD_ZOOMIN);
+    stc->CmdKeyAssign('=', wxSTC_KEYMOD_CTRL, wxSTC_CMD_ZOOMIN);
+    stc->CmdKeyAssign('-', wxSTC_KEYMOD_CTRL, wxSTC_CMD_ZOOMOUT);
     stc->CmdKeyAssign(wxSTC_KEY_BACK, wxSTC_KEYMOD_CTRL, wxSTC_CMD_DELWORDLEFT);
     stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_CTRL, wxSTC_CMD_DELWORDRIGHTEND);
     stc->CmdKeyAssign('Y', wxSTC_KEYMOD_CTRL,wxSTC_CMD_LINEDELETE);
