@@ -251,14 +251,14 @@ void Editor::OpenFile(const wxString path) {
     stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);
     stc->SetMarginCursor(0,0);
     stc->SetMarginCursor(1,8);
-    int maxPos=1000;
+    /*int maxPos=1000;
     stc->IndicatorClearRange(0, maxPos);
     stc->IndicatorSetStyle(1, wxSTC_INDIC_ROUNDBOX);
     stc->IndicatorSetAlpha(1, 100);
     stc->IndicatorSetUnder(1, true);
     stc->IndicatorSetForeground(1, wxColor(0, 255, 0));
     stc->SetIndicatorCurrent(1);
-    stc->IndicatorFillRange(100, 20);
+    stc->IndicatorFillRange(100, 20);*/
 }
 void Editor::Reopen(bool AskWhenModified) {}
 FileChangeKind Editor::ChangedOutside() {return fckNothing;}
