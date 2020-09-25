@@ -216,6 +216,7 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign(wxSTC_KEY_INSERT, wxSTC_KEYMOD_NORM, wxSTC_CMD_EDITTOGGLEOVERTYPE);
     stc->CmdKeyAssign(wxSTC_KEY_ESCAPE, wxSTC_KEYMOD_NORM, wxSTC_CMD_CANCEL);
     stc->CmdKeyAssign(wxSTC_KEY_BACK, wxSTC_KEYMOD_NORM, wxSTC_CMD_DELETEBACK);
+    stc->CmdKeyAssign(wxSTC_KEY_BACK, wxSTC_KEYMOD_SHIFT, wxSTC_CMD_DELETEBACK);
     stc->CmdKeyAssign(wxSTC_KEY_TAB, wxSTC_KEYMOD_NORM, wxSTC_CMD_TAB);
     stc->CmdKeyAssign(wxSTC_KEY_TAB, wxSTC_KEYMOD_SHIFT, wxSTC_CMD_BACKTAB);
     stc->CmdKeyAssign(wxSTC_KEY_RETURN, wxSTC_KEYMOD_NORM, wxSTC_CMD_NEWLINE);
