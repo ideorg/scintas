@@ -1,2 +1,2 @@
 # scintas
-Editor with Scintilla, like Editas
+Editor with Scintilla. Clone it with submodules.
