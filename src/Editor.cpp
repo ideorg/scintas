@@ -181,6 +181,8 @@ void Editor::SetEditorStyle() {
     // block content
     stc->MarkerDefine(wxSTC_MARKNUM_FOLDERSUB, wxSTC_MARK_VLINE);
     stc->MarkerSetBackground(wxSTC_MARKNUM_FOLDERSUB, custom);
+    stc->CmdKeyClear('Y', wxSTC_KEYMOD_CTRL);
+    stc->CmdKeyAssign('Z', wxSTC_KEYMOD_SHIFT|wxSTC_KEYMOD_CTRL,wxSTC_CMD_REDO);
 }
 
 void Editor::OpenFile(const wxString path) {
