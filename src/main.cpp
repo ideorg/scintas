@@ -11,6 +11,11 @@ using namespace std;
 
 wxIMPLEMENT_APP(MyApp);
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
+                EVT_MENU(wxID_EXIT, MyFrame::OnExit)
+                EVT_MENU(wxxID_Editas, MyFrame::OnEditas)
+                EVT_MENU(wxxID_SelectWord, MyFrame::OnSelectWord)
+                EVT_MENU(wxxID_WordNext, MyFrame::OnWordNext)
+                EVT_MENU(wxxID_WordPrev, MyFrame::OnWordPrev)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
                 EVT_MENU(wxID_NEW, MyFrame::OnNewPage)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
@@ -18,6 +23,10 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxxID_SaveAll, MyFrame::OnSaveAll)
                 EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
                 EVT_MENU(wxID_CLOSE_ALL, MyFrame::OnCloseAll)
+                EVT_MENU(wxID_CUT, MyFrame::OnCut)
+                EVT_MENU(wxID_COPY, MyFrame::OnCopy)
+                EVT_MENU(wxID_PASTE, MyFrame::OnPaste)
+                EVT_MENU(wxID_DELETE, MyFrame::OnDelete)
                 EVT_MENU(wxID_FIND, MyFrame::OnFind)
                 EVT_MENU(wxID_REPLACE, MyFrame::OnFind)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
@@ -86,19 +95,19 @@ void MyFrame::CreateMenu() {
     menuEdit->Append(wxID_UNDO);
     menuEdit->Append(wxID_REDO);
     menuEdit->Append(wxID_SEPARATOR);
-    wxMenuItem *edit_cut = new wxMenuItem(menuFile, wxID_OPEN, "Cut\tCtrl-X", "");
+    wxMenuItem *edit_cut = new wxMenuItem(menuFile, wxID_CUT, "Cut\tCtrl-X", "");
     menuEdit->Append(edit_cut);
-    wxMenuItem *edit_copy = new wxMenuItem(menuFile, wxID_OPEN, "Copy\tCtrl-C", "");
+    wxMenuItem *edit_copy = new wxMenuItem(menuFile, wxID_COPY, "Copy\tCtrl-C", "");
     menuEdit->Append(edit_copy);
-    wxMenuItem *edit_paste = new wxMenuItem(menuFile, wxID_OPEN, "Paste\tCtrl-V", "");
+    wxMenuItem *edit_paste = new wxMenuItem(menuFile, wxID_PASTE, "Paste\tCtrl-V", "");
     menuEdit->Append(edit_paste);
-    wxMenuItem *edit_delete = new wxMenuItem(menuFile, wxID_OPEN, "Delete", "");
+    wxMenuItem *edit_delete = new wxMenuItem(menuFile, wxID_DELETE, "Delete", "");
     menuEdit->Append(edit_delete);
-    wxMenuItem *edit_selectAll = new wxMenuItem(menuFile, wxID_OPEN, "Select all\tCtrl+A", "");
+    wxMenuItem *edit_selectAll = new wxMenuItem(menuFile, wxID_SELECTALL, "Select all\tCtrl+A", "");
     menuEdit->Append(edit_selectAll);
     wxMenuItem *edit_selectWord = new wxMenuItem(menuFile, wxxID_SelectWord, "Select word\tCtrl+W", "");
     menuEdit->Append(edit_selectWord);
-    wxMenuItem *edit_selectMode = new wxMenuItem(menuFile, wxID_OPEN, "Select mode", "");
+    wxMenuItem *edit_selectMode = new wxMenuItem(menuFile, wxID_ANY, "Select mode", "");
     menuEdit->Append(edit_selectMode);
     wxMenuItem *edit_changeCase = new wxMenuItem(menuFile, wxID_ANY, "Change case", "");
     wxMenu *menuChangeCase = new wxMenu;
@@ -151,11 +160,6 @@ void MyFrame::CreateMenu() {
     menuBar->Append(menuOther, "&Other");
 
     SetMenuBar( menuBar );
-    Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
-    Bind(wxEVT_MENU, &MyFrame::OnEditas, this, wxxID_Editas);
-    Bind(wxEVT_MENU, &MyFrame::OnSelectWord, this, wxxID_SelectWord);
-    Bind(wxEVT_MENU, &MyFrame::OnWordNext, this, wxxID_WordNext);
-    Bind(wxEVT_MENU, &MyFrame::OnWordPrev, this, wxxID_WordPrev);
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -564,4 +568,28 @@ void MyFrame::OnKeyDown(wxKeyEvent &event) {
         }
     }
     else event.Skip();
+}
+
+void MyFrame::OnCut(wxCommandEvent &event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    stc->CmdKeyExecute(wxSTC_CMD_CUT);
+}
+
+void MyFrame::OnCopy(wxCommandEvent &event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    stc->CmdKeyExecute(wxSTC_CMD_COPY);
+}
+
+void MyFrame::OnPaste(wxCommandEvent &event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    stc->CmdKeyExecute(wxSTC_CMD_PASTE);
+}
+
+void MyFrame::OnDelete(wxCommandEvent &event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    stc->CmdKeyExecute(wxSTC_CMD_CLEAR);
 }

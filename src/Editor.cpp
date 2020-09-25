@@ -188,7 +188,7 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign('X', wxSTC_KEYMOD_CTRL,wxSTC_CMD_CUT);
     stc->CmdKeyAssign('C', wxSTC_KEYMOD_CTRL,wxSTC_CMD_COPY);
     stc->CmdKeyAssign('V', wxSTC_KEYMOD_CTRL,wxSTC_CMD_PASTE);
-    //stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_CLEAR);
+    stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_CLEAR);
     stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_NORM, wxSTC_CMD_LINEDOWN);
     stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_SHIFT, wxSTC_CMD_LINEDOWNEXTEND);
     stc->CmdKeyAssign(wxSTC_KEY_UP,  wxSTC_KEYMOD_NORM, wxSTC_CMD_LINEUP);
@@ -230,7 +230,7 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign('U', wxSTC_KEYMOD_CTRL,wxSTC_CMD_UPPERCASE);
     stc->CmdKeyAssign(wxSTC_KEY_UP,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLDOWN);
     stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLUP);
-    stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_DELETEBACKNOTLINE);
+    //stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_DELETEBACKNOTLINE);
 
 }
 

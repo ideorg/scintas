@@ -62,6 +62,10 @@ class MyFrame : public wxFrame
     void OnSelectWord(wxCommandEvent &event);
     void ChangeCase();
     void OnChangeCaseUpper(wxCommandEvent &event);
+    void OnCut(wxCommandEvent &event);
+    void OnCopy(wxCommandEvent &event);
+    void OnPaste(wxCommandEvent &event);
+    void OnDelete(wxCommandEvent &event);
     void WordNextPrev(bool prev);
     void OnWordNext(wxCommandEvent &event);
     void OnWordPrev(wxCommandEvent &event);
