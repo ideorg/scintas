@@ -14,7 +14,7 @@
 #include "wx/ipc.h"
 
 // the default service name
-#define IPC_SERVICE "4242"
+#define IPC_SERVICE "42421"
 //#define IPC_SERVICE "/tmp/wxsrv424"
 
 // the hostname
