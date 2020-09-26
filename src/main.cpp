@@ -6,6 +6,7 @@
 #include "execute.h"
 #include "MessageBox/MessageBox.h"
 #include "MyTabArt.h"
+#include <wx/clipbrd.h>
 
 using namespace std;
 
@@ -538,8 +539,10 @@ bool MyFrame::CloseAll() {
     CloseEnum closeEnum = clClose;
     for (int i = count - 1; i >= 0; i--) {
         editorFactory->CloseEditor(i,considerCnt>1, closeEnum);
-        if (closeEnum!=clCancel)
+        if (closeEnum!=clCancel) {
+            wxTheClipboard->Flush();
             notebook->DeletePage(i);
+        }
         else {
             return false;
         }
@@ -549,8 +552,10 @@ bool MyFrame::CloseAll() {
 
 void MyFrame::OnCloseMain(wxCloseEvent& event)
 {
-    if (CloseAll())
+    if (CloseAll()) {
+        wxTheClipboard->Flush();
         Destroy();
+    }
     else
         event.Veto();
 }

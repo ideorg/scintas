@@ -1,4 +1,5 @@
 #include "EditorFactory.h"
+#include <wx/clipbrd.h>
 
 EditorFactory::EditorFactory(wxAuiNotebook* auiNotebook): notebook(auiNotebook) {}
 void EditorFactory::TryCloseAll() { }
@@ -66,6 +67,8 @@ void EditorFactory::CloseCurrent() {
     int n = notebook->GetSelection();
     CloseEnum closeEnum = clClose;
     CloseEditor(n, false, closeEnum);
-    if (closeEnum!=clCancel)
+    if (closeEnum!=clCancel) {
+        wxTheClipboard->Flush();
         notebook->DeletePage(n);
+    }
 }
