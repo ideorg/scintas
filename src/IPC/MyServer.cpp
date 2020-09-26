@@ -16,7 +16,6 @@ wxConnectionBase *MyServer::OnAcceptConnection(const wxString& topic)
     if ( topic == IPC_TOPIC )
     {
         m_connection = new MyConnectionServer(eventWindow);
-        wxLogMessage("[server] Connection accepted");
         return m_connection;
     }
     //else: unknown topic

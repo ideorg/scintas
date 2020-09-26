@@ -45,7 +45,7 @@ END_EVENT_TABLE()
 
 bool MyApp::OnInit() {
     auto client = new MyClient;
-    /*if (client->Connect()) {
+    if (client->Connect()) {
         wxApp &app = wxGetApp();
         vector<wxString> argv;
         for (int i=0; i<app.argc; i++)
@@ -54,7 +54,7 @@ bool MyApp::OnInit() {
         wxDELETE(client);
         return false;
     }
-    wxDELETE(client);*/
+    wxDELETE(client);
     MyFrame *frame = new MyFrame(NULL, wxID_ANY, "Scintas", wxDefaultPosition, wxSize(800,600), wxDEFAULT_FRAME_STYLE);;
     frame->Show(true);
     return true;
@@ -73,7 +73,6 @@ bool MyFrame::StartServer()
     wxString servername = IPC_SERVICE;
     if (m_server->Create(servername))
     {
-        wxLogMessage("[server] Server %s started", servername);
         return true;
     }
     else
@@ -173,7 +172,7 @@ void MyFrame::CreateMenu() {
 
     SetMenuBar( menuBar );
 
-    //StartServer();
+    StartServer();
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -201,7 +200,6 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {
-    //wxDELETE(m_server);
     Close(true);
 }
 
@@ -561,6 +559,7 @@ void MyFrame::OnCloseMain(wxCloseEvent& event)
 {
     if (CloseAll()) {
         wxTheClipboard->Flush();
+        wxDELETE(m_server);
         Destroy();
     }
     else
