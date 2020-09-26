@@ -14,6 +14,7 @@
 #include <wx/event.h>
 #include "EditorFactory.h"
 #include "Config.h"
+#include "IPC/MyServer.h"
 
 enum {
     ID_NOTEBOOK
@@ -46,6 +47,8 @@ enum wxxMenuID {
 
 class MyFrame : public wxFrame
 {
+    MyServer *m_server;
+    bool StartServer();
     enum ChangeCaseEnum {ccUpper, ccLower};
 
     wxAuiManager manager;

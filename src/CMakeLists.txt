@@ -5,12 +5,15 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(wxWidgets_ROOT_DIR /usr/include/wx-3.0)
 set(wxWidgets_CONFIGURATION mswu)
-find_package(wxWidgets COMPONENTS core base stc REQUIRED)
+find_package(wxWidgets COMPONENTS core base stc net REQUIRED)
 include(${wxWidgets_USE_FILE})
 
 set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp MessageBox/MessageBox.cpp
         IniParser/IniParser.cpp IniParser/StrTools.cpp execute.cpp
         MyTabArt.cpp
+        IPC/MyServer.cpp IPC/CmdStruct.cpp
+        IPC/MyClient.cpp IPC/MyConnectionClient.cpp
+        IPC/MyConnectionServer.cpp
         ../3rdparty/auimod/framemanager.cpp
         ../3rdparty/auimod/auibook.cpp
         ../3rdparty/auimod/tabmdi.cpp

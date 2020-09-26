@@ -59,7 +59,6 @@ void EditorFactory::CloseEditor(int n, bool extended, CloseEnum &closeEnum) {
             return;
         }
     }
-    delete editor;
 }
 
 void EditorFactory::CloseCurrent() {

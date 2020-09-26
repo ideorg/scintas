@@ -6,6 +6,7 @@
 #include "MessageBox/MessageBox.h"
 #include "MyTabArt.h"
 #include <wx/clipbrd.h>
+#include "IPC/MyClient.h"
 
 using namespace std;
 
@@ -43,6 +44,17 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 END_EVENT_TABLE()
 
 bool MyApp::OnInit() {
+    auto client = new MyClient;
+    /*if (client->Connect()) {
+        wxApp &app = wxGetApp();
+        vector<wxString> argv;
+        for (int i=0; i<app.argc; i++)
+            argv.push_back(app.argv[i]);
+        client->Poke(argv);
+        wxDELETE(client);
+        return false;
+    }
+    wxDELETE(client);*/
     MyFrame *frame = new MyFrame(NULL, wxID_ANY, "Scintas", wxDefaultPosition, wxSize(800,600), wxDEFAULT_FRAME_STYLE);;
     frame->Show(true);
     return true;
@@ -51,6 +63,26 @@ bool MyApp::OnInit() {
 int MyApp::OnExit()
 {
     return 0;
+}
+
+
+bool MyFrame::StartServer()
+{
+    // Create a new server
+    m_server = new MyServer(this);
+    wxString servername = IPC_SERVICE;
+    if (m_server->Create(servername))
+    {
+        wxLogMessage("[server] Server %s started", servername);
+        return true;
+    }
+    else
+    {
+        wxLogMessage("[server] Server %s failed to start", servername);
+        wxDELETE(m_server);
+        return false;
+    }
+    //UpdateUI();
 }
 
 void MyFrame::CreateMenu() {
@@ -140,6 +172,8 @@ void MyFrame::CreateMenu() {
     menuBar->Append(menuOther, "&Other");
 
     SetMenuBar( menuBar );
+
+    //StartServer();
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -167,6 +201,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {
+    //wxDELETE(m_server);
     Close(true);
 }
 
