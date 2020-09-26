@@ -2,7 +2,6 @@
 #include <wx/filename.h>
 #include <string>
 #include <vector>
-#include "libipc/ipc.h"
 #include "execute.h"
 #include "MessageBox/MessageBox.h"
 #include "MyTabArt.h"
@@ -43,17 +42,11 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_FIND_CLOSE(wxID_ANY, MyFrame::OnFindDialogClose)
 END_EVENT_TABLE()
 
-ipc::channel sender__   { "Scintas.IPC", ipc::sender   };
-ipc::channel receiver__ { "Scintas.IPC", ipc::receiver };
-
 bool MyApp::OnInit() {
     //ipc::buff_t buf = receiver__.recv();
     m_checker = new wxSingleInstanceChecker;
     if ( m_checker->IsAnotherRunning() )
     {
-        wxApp &app = wxGetApp();
-        for (int i=1; i<app.argc; i++)
-            sender__.send(std::string(app.argv[i].c_str()));
         delete m_checker; // OnExit() won't be called if we return false
         m_checker = NULL;
         return false;
@@ -180,18 +173,6 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     CmdLineOpenFiles();
     Bind(wxEVT_CLOSE_WINDOW, &MyFrame::OnCloseMain, this);
     //Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
-    instanceTimer.Bind(wxEVT_TIMER, &MyFrame::OnInstanceTimer, this);
-    instanceTimer.Start(200);
-}
-
-void MyFrame::OnInstanceTimer(wxTimerEvent&)
-{
-    ipc::buffer buf = receiver__.try_recv();
-    while (!buf.empty()) {
-        std::string param {buf.get < char const *>(), buf.size() - 1 };
-        OpenOrActivate(param);
-        buf = receiver__.try_recv();
-    }
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {

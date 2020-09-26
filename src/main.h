@@ -53,7 +53,6 @@ class MyFrame : public wxFrame
     wxAuiManager manager;
     wxAuiNotebook* notebook;
     EditorFactory* editorFactory;
-    wxTimer instanceTimer;
     Config *config;
     wxFindReplaceData findData;
     wxFindReplaceDialog* findDialog = nullptr;
@@ -78,7 +77,6 @@ class MyFrame : public wxFrame
     void OnStcModified(wxStyledTextEvent& event);
     void OnPageClose(wxAuiNotebookEvent &event);
     //void SetEditorStyle(wxStyledTextCtrl* stc);
-    void OnInstanceTimer(wxTimerEvent&);
     void CreateMenu();
     void OnCloseMain(wxCloseEvent& event);
 DECLARE_EVENT_TABLE()
