@@ -206,7 +206,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     config = new Config();
     CmdLineOpenFiles();
     Bind(wxEVT_CLOSE_WINDOW, &MyFrame::OnCloseMain, this);
-    //Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
+    Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
 }
 
 void MyFrame::OnExit(wxCommandEvent &event) {
