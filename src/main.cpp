@@ -43,14 +43,6 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 END_EVENT_TABLE()
 
 bool MyApp::OnInit() {
-    //ipc::buff_t buf = receiver__.recv();
-    m_checker = new wxSingleInstanceChecker;
-    if ( m_checker->IsAnotherRunning() )
-    {
-        delete m_checker; // OnExit() won't be called if we return false
-        m_checker = NULL;
-        return false;
-    }
     MyFrame *frame = new MyFrame(NULL, wxID_ANY, "Scintas", wxDefaultPosition, wxSize(800,600), wxDEFAULT_FRAME_STYLE);;
     frame->Show(true);
     return true;
@@ -58,7 +50,6 @@ bool MyApp::OnInit() {
 
 int MyApp::OnExit()
 {
-    delete m_checker;
     return 0;
 }
 

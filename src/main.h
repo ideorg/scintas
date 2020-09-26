@@ -9,7 +9,6 @@
 #include "../3rdparty/auimod/auibook.h"
 #include <wx/stc/stc.h>
 #include <wx/statusbr.h>
-#include <wx/snglinst.h>
 #include <wx/timer.h>
 #include <wx/fdrepdlg.h>
 #include <wx/event.h>
@@ -25,7 +24,6 @@ enum {
 
 class MyApp : public wxApp
 {
-    wxSingleInstanceChecker *m_checker;
 public:
     virtual bool OnInit();
     int OnExit() override;
