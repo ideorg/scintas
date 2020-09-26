@@ -7,6 +7,7 @@
 #include "MyTabArt.h"
 #include <wx/clipbrd.h>
 #include "IPC/MyClient.h"
+#include "IPC/CmdStruct.h"
 
 using namespace std;
 
@@ -41,6 +42,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_FIND_REPLACE(wxID_ANY, MyFrame::OnDoFindReplace)
                 EVT_FIND_REPLACE_ALL(wxID_ANY, MyFrame::OnDoFindReplace)
                 EVT_FIND_CLOSE(wxID_ANY, MyFrame::OnFindDialogClose)
+                EVT_BUTTON(ID_SERVER_ONPOKE,MyFrame::OnPoke)
 END_EVENT_TABLE()
 
 bool MyApp::OnInit() {
@@ -65,6 +67,14 @@ int MyApp::OnExit()
     return 0;
 }
 
+void MyFrame::OnPoke(wxCommandEvent &event) {
+    SetFocus();
+    CmdStruct cmdStruct;
+    char *data = (char*)event.GetClientData();
+    auto argv = cmdStruct.unpack(data);
+    for (int i=1; i<argv.size(); i++)
+        OpenOrActivate(argv[i]);
+}
 
 bool MyFrame::StartServer()
 {

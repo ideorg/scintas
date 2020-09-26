@@ -7,12 +7,8 @@ bool MyConnectionServer::OnPoke(const wxString& topic,
                                 size_t size,
                                 wxIPCFormat format)
 {
-    Log("[server] OnPoke", topic, item, data, size, format);
-    CmdStruct cmdStruct;
-    auto argv = cmdStruct.unpack((char*)data);
-    for (auto &arg: argv)
-        wxLogMessage("[server] argv \"%s\"", arg);
     wxCommandEvent cmdevent(wxEVT_BUTTON, ID_SERVER_ONPOKE);
+    cmdevent.SetClientData((char*)data);
     cmdevent.SetEventObject(eventWindow);
     eventWindow->HandleWindowEvent(cmdevent);
     return true;

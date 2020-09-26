@@ -11,8 +11,6 @@ MyServer::~MyServer()
 
 wxConnectionBase *MyServer::OnAcceptConnection(const wxString& topic)
 {
-    wxLogMessage("[server] OnAcceptConnection(\"%s\")", topic);
-
     if ( topic == IPC_TOPIC )
     {
         m_connection = new MyConnectionServer(eventWindow);

@@ -49,6 +49,7 @@ class MyFrame : public wxFrame
 {
     MyServer *m_server;
     bool StartServer();
+    void OnPoke(wxCommandEvent &event);
     enum ChangeCaseEnum {ccUpper, ccLower};
 
     wxAuiManager manager;
