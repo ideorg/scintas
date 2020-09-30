@@ -506,6 +506,7 @@ void MyFrame::OnGoto(wxCommandEvent& event) {
         pos += gotoCol-1;
         stc->SetCurrentPos(pos);
         stc->SetSelection(pos,pos);
+        stc->EnsureCaretVisible();
     }
 }
 

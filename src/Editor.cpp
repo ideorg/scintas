@@ -148,7 +148,6 @@ void Editor::SetEditorStyle() {
     stc->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(128, 128, 128));
     stc->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(242, 242, 242));
 
-
     stc->SetProperty(wxT("fold"), wxT("1"));
 
     wxColour custom(100, 100, 100);
