@@ -85,12 +85,6 @@ ConsiderEnum Editor::Consider() {
 void Editor::SetEditorStyle() {
     stc->StyleClearAll();
 
-    //line numbering
-    stc->SetMarginWidth(0, 30);
-    stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);
-    stc->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(128, 128, 128));
-    stc->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(242, 242, 242));
-
     stc->SetWrapMode(0);
 
     stc->SetLexer(wxSTC_LEX_CPP);
@@ -141,11 +135,19 @@ void Editor::SetEditorStyle() {
     stc->StyleSetBold(wxSTC_C_COMMENTDOCKEYWORD, true);
 
     // code asemble
+    stc->SetMarginWidth(0, 50);
+    stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);
     stc->SetMarginWidth(1, 16);
     stc->SetMarginType(1, wxSTC_MARGIN_SYMBOL);
     stc->SetMarginMask(1, wxSTC_MASK_FOLDERS);
     stc->StyleSetBackground(1, wxColor(200, 200, 200));
     stc->SetMarginSensitive(1, true);
+    stc->SetMarginCursor(0,0);
+    stc->SetMarginCursor(1,8);
+    //line numbering
+    stc->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColour(128, 128, 128));
+    stc->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(242, 242, 242));
+
 
     stc->SetProperty(wxT("fold"), wxT("1"));
 
@@ -248,10 +250,6 @@ void Editor::OpenFile(const wxString path) {
     }
     else this->title = "Untitled";
     SetEditorStyle();
-    stc->SetMarginWidth(0, 30);
-    stc->SetMarginType(0, wxSTC_MARGIN_NUMBER);
-    stc->SetMarginCursor(0,0);
-    stc->SetMarginCursor(1,8);
     /*int maxPos=1000;
     stc->IndicatorClearRange(0, maxPos);
     stc->IndicatorSetStyle(1, wxSTC_INDIC_ROUNDBOX);
