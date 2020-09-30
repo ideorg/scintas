@@ -6,6 +6,7 @@
 #include "MessageBox/MessageBox.h"
 #include "MyTabArt.h"
 #include <wx/clipbrd.h>
+#include <wx/textdlg.h>
 #include "IPC/MyClient.h"
 #include "IPC/CmdStruct.h"
 
@@ -32,6 +33,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_SELECTALL, MyFrame::OnSelectAll)
                 EVT_MENU(wxID_FIND, MyFrame::OnFind)
                 EVT_MENU(wxID_REPLACE, MyFrame::OnFind)
+                EVT_MENU(wxxID_Goto, MyFrame::OnGoto)
                 EVT_MENU(wxxInsertDate, MyFrame::OnInsertDate)
                 EVT_MENU(wxxInsertTime, MyFrame::OnInsertTime)
                 EVT_MENU(wxxInsertDateTime, MyFrame::OnInsertDateTime)
@@ -150,16 +152,19 @@ void MyFrame::CreateMenu() {
     menuSearch->Append(wxID_FIND);
     wxMenuItem *search_findNext = new wxMenuItem(menuSearch, wxID_OPEN, "Find next", "");
     menuSearch->Append(search_findNext);
-    wxMenuItem *search_wordPrev = new wxMenuItem(menuSearch, wxxID_WordPrev, "Word next\tControl-Alt-Up", "");
+    wxMenuItem *search_wordPrev = new wxMenuItem(menuSearch, wxxID_WordPrev, "Word next\tCtrl-Alt-Up", "");
     wxAcceleratorEntry accelUp;
     accelUp.Set(wxACCEL_ALT|wxACCEL_CTRL, WXK_UP,wxxID_WordNext);
     search_wordPrev->SetAccel(&accelUp);
     menuSearch->Append(search_wordPrev);
-    wxMenuItem *search_wordNext = new wxMenuItem(menuSearch, wxxID_WordNext, "Word next\tControl-Alt-Down", "");
+    wxMenuItem *search_wordNext = new wxMenuItem(menuSearch, wxxID_WordNext, "Word next\tCtrl-Alt-Down", "");
     wxAcceleratorEntry accelDown;
     accelDown.Set(wxACCEL_ALT | wxACCEL_CTRL, WXK_DOWN, wxxID_WordNext);
     search_wordNext->SetAccel(&accelDown);
     menuSearch->Append(search_wordNext);
+    menuSearch->Append(wxID_SEPARATOR);
+    wxMenuItem *search_goto = new wxMenuItem(menuSearch, wxxID_Goto, "Goto\tCtrl-G", "");
+    menuSearch->Append(search_goto);
 
     wxMenu *menuTools = new wxMenu;
     wxMenuItem *tools_insertDate = new wxMenuItem(menuTools, wxxInsertDate, "Insert &date", "");
@@ -469,6 +474,39 @@ int MyFrame::DoFind(wxStyledTextCtrl* stc, const wxString& str, int flags)
         }
     }
     return result;
+}
+
+void MyFrame::OnGoto(wxCommandEvent& event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    int pos = stc->GetCurrentPos();
+    wxTextEntryDialog dialog(this,
+                             "Please enter position",
+                             "Go to line:row",
+                             wxString::Format("%d:%d",stc->GetCurrentLine()+1, stc->GetColumn(pos)+1),
+                             wxOK | wxCANCEL);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        wxString str = dialog.GetValue();
+        int gotoLine, gotoCol;
+        int posColon = str.Find(":");
+        if (posColon==wxNOT_FOUND) {
+            gotoCol = 1;
+            gotoLine =  wxAtoi(str);
+        }
+        else {
+            gotoCol = wxAtoi(str.SubString(posColon + 1, str.Length()));
+            gotoLine =  wxAtoi(str.SubString(0, posColon));
+        }
+        if (gotoLine==0 || gotoCol==0) {
+            wxMessageBox("Bad input string");
+            return;
+        }
+        int pos = stc->PositionFromLine(gotoLine-1);
+        pos += gotoCol-1;
+        stc->SetCurrentPos(pos);
+        stc->SetSelection(pos,pos);
+    }
 }
 
 void MyFrame::OnInsertDate(wxCommandEvent &event) {

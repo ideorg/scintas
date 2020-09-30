@@ -36,6 +36,7 @@ enum wxxMenuID {
     wxxID_SelectWord,
     wxxID_WordNext,
     wxxID_WordPrev,
+    wxxID_Goto,
     wxxInsertDate,
     wxxInsertTime,
     wxxInsertDateTime,
@@ -98,6 +99,7 @@ public:
     void OnDoFindReplace(wxFindDialogEvent& event);
     void OnFindDialogClose(wxFindDialogEvent& WXUNUSED(event));
     int DoFind(wxStyledTextCtrl* stc, const wxString& str, int flags);
+    void OnGoto(wxCommandEvent& event);
     void OnInsertDate(wxCommandEvent &event);
     void OnInsertTime(wxCommandEvent &event);
     void OnInsertDateTime(wxCommandEvent &event);
