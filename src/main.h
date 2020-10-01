@@ -37,6 +37,7 @@ enum wxxMenuID {
     wxxID_WordNext,
     wxxID_WordPrev,
     wxxID_Goto,
+    wxxID_Reopen,
     wxxInsertDate,
     wxxInsertTime,
     wxxInsertDateTime,
@@ -89,6 +90,7 @@ public:
     ~MyFrame() { delete editorFactory;}
     void OnNewPage(wxCommandEvent& event);
     void OnOpenFile(wxCommandEvent& event);
+    void OnReopenFile(wxCommandEvent &event);
     void OnSaveFile(wxCommandEvent &event);
     void OnSaveAs(wxCommandEvent &event);
     void OnSaveAll(wxCommandEvent &event);

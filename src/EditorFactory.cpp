@@ -16,6 +16,7 @@ Editor* EditorFactory::CreateTabSheet(wxString path) {
     Editor *editor = new Editor(stc, new_id, notebook);
     editor->OpenFile(path);
     notebook->AddPageEx(stc, editor, editor->GetTitle(), true);
+    stc->SetFocus();
     return editor;
 }
 

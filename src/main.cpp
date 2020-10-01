@@ -20,6 +20,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxxID_WordNext, MyFrame::OnWordNext)
                 EVT_MENU(wxxID_WordPrev, MyFrame::OnWordPrev)
                 EVT_MENU(wxID_OPEN, MyFrame::OnOpenFile)
+                EVT_MENU(wxxID_Reopen, MyFrame::OnReopenFile)
                 EVT_MENU(wxID_NEW, MyFrame::OnNewPage)
                 EVT_MENU(wxID_SAVE, MyFrame::OnSaveFile)
                 EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
@@ -101,13 +102,13 @@ void MyFrame::CreateMenu() {
     menuFile->Append(wxID_NEW);
     wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, "Open file\tCtrl-O", "");
     menuFile->Append(open_file);
-    wxMenuItem *recent_file = new wxMenuItem(menuFile, wxID_OPEN, "&Recent files", "");
+    wxMenuItem *recent_file = new wxMenuItem(menuFile, wxID_OPEN, "Recent files", "");
     menuFile->Append(recent_file);
     wxMenuItem *file_according_name = new wxMenuItem(menuFile, wxID_OPEN, "According to name", "");
     menuFile->Append(file_according_name);
     wxMenuItem *file_according_path = new wxMenuItem(menuFile, wxID_OPEN, "According to path", "");
     menuFile->Append(file_according_path);
-    wxMenuItem *file_reopen = new wxMenuItem(menuFile, wxID_OPEN, "Reopen file", "");
+    wxMenuItem *file_reopen = new wxMenuItem(menuFile, wxxID_Reopen, "&Reopen file", "");
     menuFile->Append(file_reopen);
     menuFile->Append(wxID_SEPARATOR);
     menuFile->Append(wxID_SAVE);
@@ -307,6 +308,12 @@ void MyFrame::OnOpenFile(wxCommandEvent &event) {
     wxFileDialog openDialog(this, wxT("Open file"), "..", "", SUPPORTED_FILES_EXT, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openDialog.ShowModal() == wxID_CANCEL) return;
     OpenOrActivate(openDialog.GetPath());
+}
+
+void MyFrame::OnReopenFile(wxCommandEvent &event) {
+    Editor *editor = editorFactory->GetCurrentEditor();
+    if (editor)
+        editor->Reopen(false);
 }
 
 void MyFrame::OnSaveFile(wxCommandEvent &event) {
@@ -536,8 +543,11 @@ void MyFrame::OpenInEditor(const wxString &file_path) {
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
     Editor *editor = editorFactory->GetEditorByPath(file_path);
-    if (editor)
+    if (editor) {
+        editor->Reopen(false);
         editor->Activate();
+        editor->GetWidget()->SetFocus();
+    }
     else
         OpenInEditor(file_path);
 }

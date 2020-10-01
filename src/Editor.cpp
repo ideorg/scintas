@@ -190,6 +190,7 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign('C', wxSTC_KEYMOD_CTRL,wxSTC_CMD_COPY);
     stc->CmdKeyAssign('V', wxSTC_KEYMOD_CTRL,wxSTC_CMD_PASTE);
     stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_CLEAR);
+    stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_SHIFT, wxSTC_CMD_CLEAR);
     stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_NORM, wxSTC_CMD_LINEDOWN);
     stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_SHIFT, wxSTC_CMD_LINEDOWNEXTEND);
     stc->CmdKeyAssign(wxSTC_KEY_UP,  wxSTC_KEYMOD_NORM, wxSTC_CMD_LINEUP);
@@ -199,7 +200,7 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign(wxSTC_KEY_RIGHT,  wxSTC_KEYMOD_NORM, wxSTC_CMD_CHARRIGHT);
     stc->CmdKeyAssign(wxSTC_KEY_RIGHT,  wxSTC_KEYMOD_SHIFT, wxSTC_CMD_CHARRIGHTEXTEND);
     stc->CmdKeyAssign(wxSTC_KEY_LEFT,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_WORDLEFT);
-    stc->CmdKeyAssign(wxSTC_KEY_LEFT,  wxSTC_KEYMOD_CTRL|wxSTC_KEYMOD_SHIFT, wxSTC_CMD_WORDLEFTENDEXTEND);
+    stc->CmdKeyAssign(wxSTC_KEY_LEFT,  wxSTC_KEYMOD_CTRL|wxSTC_KEYMOD_SHIFT, wxSTC_CMD_WORDLEFTEXTEND);
     stc->CmdKeyAssign(wxSTC_KEY_RIGHT,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_WORDRIGHT);
     stc->CmdKeyAssign(wxSTC_KEY_RIGHT,  wxSTC_KEYMOD_CTRL|wxSTC_KEYMOD_SHIFT, wxSTC_CMD_WORDRIGHTENDEXTEND);
     //stc->CmdKeyAssign(wxSTC_KEY_HOME, wxSTC_KEYMOD_NORM, wxSTC_CMD_HOME);
@@ -227,6 +228,7 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign('-', wxSTC_KEYMOD_CTRL, wxSTC_CMD_ZOOMOUT);
     stc->CmdKeyAssign(wxSTC_KEY_BACK, wxSTC_KEYMOD_CTRL, wxSTC_CMD_DELWORDLEFT);
     stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_CTRL, wxSTC_CMD_DELWORDRIGHTEND);
+    stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_CTRL|wxSTC_KEYMOD_SHIFT, wxSTC_CMD_DELWORDRIGHTEND);
     stc->CmdKeyAssign('Y', wxSTC_KEYMOD_CTRL,wxSTC_CMD_LINEDELETE);
     //stc->CmdKeyAssign('L', wxSTC_KEYMOD_CTRL,wxSTC_CMD_LOWERCASE);
     //stc->CmdKeyAssign('U', wxSTC_KEYMOD_CTRL,wxSTC_CMD_UPPERCASE);
@@ -234,6 +236,16 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLUP);
     //stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_DELETEBACKNOTLINE);
 
+}
+
+void Editor::Reopen(bool AskWhenModified) {
+    if (AskWhenModified && stc->IsModified())
+        wxMessageBox("Reopen modified file");
+    int pos = stc->GetCurrentPos();
+    OpenFile(path);
+    stc->SetCurrentPos(pos);
+    stc->SetSelection(pos,pos);
+    stc->EnsureCaretVisible();
 }
 
 void Editor::OpenFile(const wxString path) {
@@ -258,7 +270,7 @@ void Editor::OpenFile(const wxString path) {
     stc->SetIndicatorCurrent(1);
     stc->IndicatorFillRange(100, 20);*/
 }
-void Editor::Reopen(bool AskWhenModified) {}
+
 FileChangeKind Editor::ChangedOutside() {return fckNothing;}
 void Editor::SpecialChars(bool Show) {}
 
@@ -313,6 +325,7 @@ void Editor::InsertDateTime() {
 
 bool Editor::Save() {
     if (path.empty()) return false;
+    stc->GetText().Trim();
     if (!stc->SaveFile(path)) return false;
     stc->SetModified(false);
     notebook->Refresh();
