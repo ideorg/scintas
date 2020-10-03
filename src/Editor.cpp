@@ -325,8 +325,17 @@ void Editor::InsertDateTime() {
 
 bool Editor::Save() {
     if (path.empty()) return false;
-    stc->GetText().Trim();
-    if (!stc->SaveFile(path)) return false;
+    wxString  str = stc->GetText();
+    wxArrayString lines = wxSplit(str, '\n');
+    for (auto &line: lines)
+            line = line.Trim();
+    str = wxJoin(lines, '\n');
+    wxFile file( path, wxFile::read_write );
+    if( file.IsOpened() )
+    {
+        file.Write(str);
+        file.Close();
+    } else return false;
     stc->SetModified(false);
     notebook->Refresh();
     return true;
