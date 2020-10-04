@@ -232,8 +232,8 @@ void Editor::SetEditorStyle() {
     stc->CmdKeyAssign('Y', wxSTC_KEYMOD_CTRL,wxSTC_CMD_LINEDELETE);
     //stc->CmdKeyAssign('L', wxSTC_KEYMOD_CTRL,wxSTC_CMD_LOWERCASE);
     //stc->CmdKeyAssign('U', wxSTC_KEYMOD_CTRL,wxSTC_CMD_UPPERCASE);
-    stc->CmdKeyAssign(wxSTC_KEY_UP,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLDOWN);
-    stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLUP);
+    stc->CmdKeyAssign(wxSTC_KEY_UP,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLUP);
+    stc->CmdKeyAssign(wxSTC_KEY_DOWN,  wxSTC_KEYMOD_CTRL, wxSTC_CMD_LINESCROLLDOWN);
     //stc->CmdKeyAssign(wxSTC_KEY_DELETE, wxSTC_KEYMOD_NORM, wxSTC_CMD_DELETEBACKNOTLINE);
 
 }
