@@ -323,19 +323,28 @@ void Editor::InsertDateTime() {
     stc->SetCurrentPos(stc->GetCurrentPos()+str.length());
 }
 
+void Editor::StripTrailingSpaces() {
+    const int maxLines = stc->GetLineCount();
+    for (int line = 0; line < maxLines; line++) {
+        const int lineStart = stc->GetLineSelStartPosition(line);
+        const int lineEnd = stc->GetLineSelEndPosition(line);
+        int i = lineEnd - 1;
+        char ch = stc->GetCharAt(i);
+        while ((i >= lineStart) && ((ch == ' ') || (ch == '\t'))) {
+            i--;
+            ch = stc->GetCharAt(i);
+        }
+        if (i < (lineEnd - 1)) {
+            stc->SetTargetRange(i + 1, lineEnd);
+            stc->ReplaceTarget("");
+        }
+    }
+}
+
 bool Editor::Save() {
     if (path.empty()) return false;
-    wxString  str = stc->GetText();
-    wxArrayString lines = wxSplit(str, '\n');
-    for (auto &line: lines)
-            line = line.Trim();
-    str = wxJoin(lines, '\n');
-    wxFile file( path, wxFile::read_write );
-    if( file.IsOpened() )
-    {
-        file.Write(str);
-        file.Close();
-    } else return false;
+    StripTrailingSpaces();
+    if (!stc->SaveFile(path)) return false;
     stc->SetModified(false);
     notebook->Refresh();
     return true;

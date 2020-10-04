@@ -20,6 +20,7 @@ class Editor: public wxObject {
     wxString title;
     void SetEditorStyle();
     wxAuiNotebook* notebook;
+    void StripTrailingSpaces();
 public:
     virtual void Activate();
     virtual void ActionsBeforeClose();
