@@ -197,8 +197,8 @@ void MyFrame::UpdateMenuWindow() {
     for (int i=menuWindow->GetMenuItemCount()-1; i>=0; i--) {
         menuWindow->Remove(menuWindow->FindItemByPosition(i));
     }
-    for (int i=0; i<4; i++) {
-        wxMenuItem *menuItem = new wxMenuItem(menuWindow, /*wxxID_Window+i*/0, to_string(i), "");
+    for (int i=0; i<editorFactory->GetEditorCount(); i++) {
+        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, to_string(i), "");
         menuWindow->Append(menuItem);
         Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
     }
@@ -690,5 +690,6 @@ void MyFrame::OnSelectAll(wxCommandEvent &event) {
 
 void MyFrame::OnWindow(wxCommandEvent& event)
 {
-    wxMessageBox(to_string(event.GetId()), "caption");
+    Editor *editor = editorFactory->GetEditor(event.GetId()-wxxID_Window);
+    editor->Activate();
 }
