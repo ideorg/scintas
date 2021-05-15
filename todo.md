@@ -2,7 +2,7 @@ Lexer C only for C/C++
 Correct search, find next/prev
 status bar - column
 menu Window
-reload on activate- only if time,size changed, only if not edites
+reload on activate - only if time,size changed, only if not edites
 shift + del - handle it
 setfosus to stc
 on save - trim right
