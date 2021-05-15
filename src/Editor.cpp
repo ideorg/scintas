@@ -13,6 +13,7 @@ Editor::Editor(wxStyledTextCtrl* stc, wxWindowID id, wxWindowID untitled_id,
 void Editor::Activate() {
     int page = notebook->GetPageIndex(stc);
     notebook->SetSelection(page);
+    wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame)->SetTitle(GetExPath());
 }
 
 bool Editor::IsEmpty() {
@@ -267,6 +268,7 @@ void Editor::OpenFile(const wxString path) {
         }
     }
     else this->title = "Untitled"+to_string(untitled_id);
+    wxDynamicCast(wxTheApp->GetTopWindow(), wxFrame)->SetTitle(GetExPath());
     SetEditorStyle();
     /*int maxPos=1000;
     stc->IndicatorClearRange(0, maxPos);
