@@ -6,8 +6,9 @@
 
 using namespace std;
 
-Editor::Editor(wxStyledTextCtrl* stc, wxWindowID id, wxAuiNotebook* notebook)
-            :stc(stc),id(id),notebook(notebook) {}
+Editor::Editor(wxStyledTextCtrl* stc, wxWindowID id, wxWindowID untitled_id,
+               wxAuiNotebook* notebook)
+            :stc(stc),id(id),untitled_id(untitled_id), notebook(notebook) {}
 
 void Editor::Activate() {
     int page = notebook->GetPageIndex(stc);
@@ -259,7 +260,7 @@ void Editor::OpenFile(const wxString path) {
             wxLogWarning(wxT("Can't load ") + path + wxT("!"));
         }
     }
-    else this->title = "Untitled";
+    else this->title = "Untitled"+to_string(untitled_id);
     SetEditorStyle();
     /*int maxPos=1000;
     stc->IndicatorClearRange(0, maxPos);

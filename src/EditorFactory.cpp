@@ -10,10 +10,17 @@ static long GetNewEditorId()
     return id++;
 }
 
+static long GetNewUntitledId()
+{
+    static int id = 0;
+    return ++id;
+}
+
 Editor* EditorFactory::CreateTabSheet(wxString path) {
     wxWindowID new_id = GetNewEditorId();
+    wxWindowID untitled_id = wxIsEmpty(path)?GetNewUntitledId():0;
     wxStyledTextCtrl* stc = new wxStyledTextCtrl(notebook, new_id, wxDefaultPosition, wxDefaultSize, 0L, "");
-    Editor *editor = new Editor(stc, new_id, notebook);
+    Editor *editor = new Editor(stc, new_id, untitled_id, notebook);
     editor->OpenFile(path);
     notebook->AddPageEx(stc, editor, editor->GetTitle(), true);
     stc->SetFocus();

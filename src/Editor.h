@@ -16,6 +16,7 @@ enum FileChangeKind {fckNothing, fckRemoved, fckEmpty, fckChanged, fckLooksIdent
 class Editor: public wxObject {
     wxStyledTextCtrl* stc;
     wxWindowID id;
+    wxWindowID untitled_id;
     wxString path;
     wxString title;
     void SetEditorStyle();
@@ -51,7 +52,7 @@ public:
     //virtual function GetHighLighter: TSynCustomHighlighter;();
     //virtual procedure SetHighLighter(Value: TSynCustomHighlighter);();
     //virtual function GetActivateTime: TDateTime;();
-    Editor(wxStyledTextCtrl* stc, wxWindowID id, wxAuiNotebook* notebook);
+    Editor(wxStyledTextCtrl* stc, wxWindowID id, wxWindowID untitled_id, wxAuiNotebook* notebook);
     wxWindowID GetId() {return id;}
 };
 
