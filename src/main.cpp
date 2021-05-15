@@ -194,6 +194,9 @@ void MyFrame::CreateMenu() {
 }
 
 void MyFrame::UpdateMenuWindow() {
+    for (int i=menuWindow->GetMenuItemCount()-1; i>=0; i--) {
+        menuWindow->Remove(menuWindow->FindItemByPosition(i));
+    }
     for (int i=0; i<4; i++) {
         wxMenuItem *menuItem = new wxMenuItem(menuWindow, /*wxxID_Window+i*/0, to_string(i), "");
         menuWindow->Append(menuItem);
