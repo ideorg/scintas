@@ -380,7 +380,15 @@ void MyFrame::OnSaveAll(wxCommandEvent &event) {
 }
 
 void MyFrame::OnClose(wxCommandEvent &event) {
-    editorFactory->CloseCurrent();
+    if (editorFactory->GetEditorCount()==0) return;
+    int n = notebook->GetSelection();
+    wxString path = editorFactory->GetEditor(n)->GetPath();
+    if (editorFactory->CloseCurrent()) {
+        if (!wxIsEmpty(path)) {
+            config->UpdateMRUPageClose(path);
+            UpdateMenuMRU();
+        }
+    }
 }
 
 void MyFrame::OnCloseAll(wxCommandEvent &event) {
@@ -654,8 +662,10 @@ bool MyFrame::CloseAll() {
         if (closeEnum!=clCancel) {
             wxTheClipboard->Flush();
             wxString path = editorFactory->GetEditor(i)->GetPath();
-            if (!wxIsEmpty(path))
+            if (!wxIsEmpty(path)) {
                 config->UpdateMRUPageClose(path);
+                UpdateMenuMRU();
+            }
             notebook->DeletePage(i);
         }
         else {

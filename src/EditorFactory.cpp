@@ -69,13 +69,15 @@ void EditorFactory::CloseEditor(int n, bool extended, CloseEnum &closeEnum) {
     }
 }
 
-void EditorFactory::CloseCurrent() {
-    if (GetEditorCount()==0) return;
+bool EditorFactory::CloseCurrent() {
+    if (GetEditorCount()==0) return false;
     int n = notebook->GetSelection();
     CloseEnum closeEnum = clClose;
     CloseEditor(n, false, closeEnum);
     if (closeEnum!=clCancel) {
         wxTheClipboard->Flush();
         notebook->DeletePage(n);
+        return true;
     }
+    return false;
 }
