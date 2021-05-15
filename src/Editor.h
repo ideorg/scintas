@@ -5,7 +5,6 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include <string>
 #include <wx/stc/stc.h>
 #include "../3rdparty/auimod/auibook.h"
 

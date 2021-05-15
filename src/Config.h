@@ -1,13 +1,16 @@
 #ifndef SCINTAS_CONFIG_H
 #define SCINTAS_CONFIG_H
 
-#include <string>
+#ifndef WX_PRECOMP
+#include <wx/wx.h>
+#endif
+
 #include <vector>
 
 class Config {
-    std::string iniPath;
-    std::vector<std::string> mru;
+    wxString iniPath;
 public:
+    std::vector<wxString> mru;
     Config();
 };
 

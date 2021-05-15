@@ -45,7 +45,8 @@ enum wxxMenuID {
     wxxID_ChangeCaseLower,
     wxxID_ChangeCaseInvert,
     wxxID_ChangeCaseUpperFirst,
-    wxxID_Window
+    wxxID_Window,
+    wxxID_MRU=wxxID_Window+10+26
 };
 
 class MyFrame : public wxFrame
@@ -55,6 +56,7 @@ class MyFrame : public wxFrame
     void OnPoke(wxCommandEvent &event);
     enum ChangeCaseEnum {ccUpper, ccLower};
 
+    wxMenu *recent_file;
     wxMenu *menuWindow;
     wxAuiManager manager;
     wxAuiNotebook* notebook;
@@ -85,8 +87,13 @@ class MyFrame : public wxFrame
     //void SetEditorStyle(wxStyledTextCtrl* stc);
     void CreateMenu();
     void UpdateMenuWindow();
+    void UpdateMenuMRU();
+    void UpdateMRUPageClose(wxString path);
+    void UpdateMRUPageOpen(wxString path);
     void OnCloseMain(wxCloseEvent& event);
     void OnWindow(wxCommandEvent& event);
+    void OnMRU(wxCommandEvent& event);
+
 DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,

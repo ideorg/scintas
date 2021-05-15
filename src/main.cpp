@@ -103,8 +103,8 @@ void MyFrame::CreateMenu() {
     menuFile->Append(wxID_NEW);
     wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, "Open file\tCtrl-O", "");
     menuFile->Append(open_file);
-    wxMenuItem *recent_file = new wxMenuItem(menuFile, wxID_OPEN, "Recent files", "");
-    menuFile->Append(recent_file);
+    recent_file = new wxMenu;
+    menuFile->AppendSubMenu(recent_file, "Recent files");
     wxMenuItem *file_according_name = new wxMenuItem(menuFile, wxID_OPEN, "According to name", "");
     menuFile->Append(file_according_name);
     wxMenuItem *file_according_path = new wxMenuItem(menuFile, wxID_OPEN, "According to path", "");
@@ -208,6 +208,26 @@ void MyFrame::UpdateMenuWindow() {
         menuWindow->Append(menuItem);
         Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
     }
+}
+
+void MyFrame::UpdateMenuMRU() {
+    for (int i=recent_file->GetMenuItemCount()-1; i>=0; i--) {
+        recent_file->Remove(recent_file->FindItemByPosition(i));
+    }
+    for (int i=0; i<config->mru.size(); i++) {
+        wxMenuItem *menuItem = new wxMenuItem(recent_file, wxxID_MRU+i,
+                                              config->mru[i], "");
+        recent_file->Append(menuItem);
+        Bind(wxEVT_MENU, &MyFrame::OnMRU, this, wxxID_MRU+i);
+    }
+}
+
+void MyFrame::UpdateMRUPageClose(wxString path) {
+    config->mru.insert(config->mru.begin(), path);
+}
+
+void MyFrame::UpdateMRUPageOpen(wxString path) {
+
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -559,6 +579,8 @@ void MyFrame::OpenInEditor(const wxString &file_path) {
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
     Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, editor->GetId());
     UpdateMenuWindow();
+    UpdateMRUPageOpen(file_path);
+    UpdateMenuMRU();
 }
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
@@ -605,8 +627,14 @@ void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
     editorFactory->CloseEditor(event.GetSelection(), false, closeEnum);
     if (closeEnum==clCancel)
         event.Veto();
-    else
+    else {
         UpdateMenuWindow();
+        wxString path = editorFactory->GetEditor(event.GetSelection())->GetPath();
+        if (!wxIsEmpty(path)) {
+            UpdateMRUPageClose(path);
+            UpdateMenuMRU();
+        }
+    }
 }
 
 void MyFrame::CmdLineOpenFiles() {
@@ -698,4 +726,9 @@ void MyFrame::OnWindow(wxCommandEvent& event)
 {
     Editor *editor = editorFactory->GetEditor(event.GetId()-wxxID_Window);
     editor->Activate();
+}
+
+void MyFrame::OnMRU(wxCommandEvent& event)
+{
+    OpenOrActivate(config->mru[event.GetId()-wxxID_MRU]);
 }
