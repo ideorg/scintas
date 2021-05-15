@@ -7,6 +7,7 @@
 #include "MyTabArt.h"
 #include <wx/clipbrd.h>
 #include <wx/textdlg.h>
+#include <wx/msgdlg.h>
 #include "IPC/MyClient.h"
 #include "IPC/CmdStruct.h"
 
@@ -179,6 +180,7 @@ void MyFrame::CreateMenu() {
     for (int i=0; i<10; i++) {
         wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, to_string(i), "");
         menuWindow->Append(menuItem);
+        Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
     }
 
     wxMenu *menuOther = new wxMenu;
@@ -677,4 +679,9 @@ void MyFrame::OnSelectAll(wxCommandEvent &event) {
     wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
     if (!stc) return;
     stc->CmdKeyExecute(wxSTC_CMD_SELECTALL);
+}
+
+void MyFrame::OnWindow(wxCommandEvent& event)
+{
+    wxMessageBox(to_string(event.GetId()), "caption");
 }

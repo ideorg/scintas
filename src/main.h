@@ -84,6 +84,7 @@ class MyFrame : public wxFrame
     //void SetEditorStyle(wxStyledTextCtrl* stc);
     void CreateMenu();
     void OnCloseMain(wxCloseEvent& event);
+    void OnWindow(wxCommandEvent& event);
 DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
