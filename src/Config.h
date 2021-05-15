@@ -11,11 +11,14 @@
 class Config {
     std::string iniPath;
     IniParser *iniParser;
+    const int mru_hard_limit = 50;
+    int mru_limit = mru_hard_limit;
 public:
-    std::vector<wxString> mru;
     Config();
     ~Config();
+    std::vector<wxString> mru;
+    void UpdateMRUPageClose(wxString path);
+    void UpdateMRUPageOpen(wxString path);
 };
-
 
 #endif //SCINTAS_CONFIG_H

@@ -222,14 +222,6 @@ void MyFrame::UpdateMenuMRU() {
     }
 }
 
-void MyFrame::UpdateMRUPageClose(wxString path) {
-    config->mru.insert(config->mru.begin(), path);
-}
-
-void MyFrame::UpdateMRUPageOpen(wxString path) {
-
-}
-
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
         : wxFrame(parent, id, title, pos, size, style) {
     CreateMenu();
@@ -580,7 +572,7 @@ void MyFrame::OpenInEditor(const wxString &file_path) {
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
     Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, editor->GetId());
     UpdateMenuWindow();
-    UpdateMRUPageOpen(file_path);
+    config->UpdateMRUPageOpen(file_path);
     UpdateMenuMRU();
 }
 
@@ -632,7 +624,7 @@ void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
         UpdateMenuWindow();
         wxString path = editorFactory->GetEditor(event.GetSelection())->GetPath();
         if (!wxIsEmpty(path)) {
-            UpdateMRUPageClose(path);
+            config->UpdateMRUPageClose(path);
             UpdateMenuMRU();
         }
     }
