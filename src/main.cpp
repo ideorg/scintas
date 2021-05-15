@@ -198,7 +198,8 @@ void MyFrame::UpdateMenuWindow() {
         menuWindow->Remove(menuWindow->FindItemByPosition(i));
     }
     for (int i=0; i<editorFactory->GetEditorCount(); i++) {
-        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, to_string(i), "");
+        Editor *editor = editorFactory->GetEditor(i);
+        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, /*to_string(i)*/editor->GetTitle(), "");
         menuWindow->Append(menuItem);
         Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
     }
