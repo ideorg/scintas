@@ -249,6 +249,7 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     CreateStatusBar();
     editorFactory = new EditorFactory(notebook);
     config = new Config();
+    UpdateMenuMRU();
     CmdLineOpenFiles();
     Bind(wxEVT_CLOSE_WINDOW, &MyFrame::OnCloseMain, this);
     Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);

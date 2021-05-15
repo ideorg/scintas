@@ -6,12 +6,15 @@
 #endif
 
 #include <vector>
+#include "IniParser/IniParser.h"
 
 class Config {
-    wxString iniPath;
+    std::string iniPath;
+    IniParser *iniParser;
 public:
     std::vector<wxString> mru;
     Config();
+    ~Config();
 };
 
 

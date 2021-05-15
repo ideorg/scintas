@@ -4,18 +4,18 @@
 using namespace std;
 
 Config::Config() {
-    string appPath;
 #ifdef __unix__
-    char buf[4096];
-    ssize_t len = readlink("/proc/self/exe", buf, 4095);
-    buf[len] = 0;
-    appPath = buf;
+    iniPath =  "/home/andrzej/.config/scintas/scintas.ini";
 #else
-    Windows: GetModuleFileName
-    error
-    int n = appPath.find_last_of('.');
-    if (n!=string::npos)
-        appPath = appPath.substr(0,n);
+
 #endif
-    iniPath =  appPath + ".ini";
+    iniParser = new IniParser(iniPath, false);
+    int count = iniParser->readInt32Def("MRUFiles","Count",0);
+    mru.clear();
+    for (int i=1; i<=count; i++)
+        mru.push_back(iniParser->readStringDef("MRUFiles","File"+to_string(i),""));
+}
+
+Config::~Config() {
+    delete iniParser;
 }
