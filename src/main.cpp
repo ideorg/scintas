@@ -247,6 +247,11 @@ MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const w
     Bind(wxEVT_CHAR_HOOK, &MyFrame::OnKeyDown, this);
 }
 
+MyFrame::~MyFrame() {
+    delete config;
+    delete editorFactory;
+}
+
 void MyFrame::OnExit(wxCommandEvent &event) {
     Close(true);
 }
@@ -648,6 +653,9 @@ bool MyFrame::CloseAll() {
         editorFactory->CloseEditor(i,considerCnt>1, closeEnum);
         if (closeEnum!=clCancel) {
             wxTheClipboard->Flush();
+            wxString path = editorFactory->GetEditor(i)->GetPath();
+            if (!wxIsEmpty(path))
+                config->UpdateMRUPageClose(path);
             notebook->DeletePage(i);
         }
         else {

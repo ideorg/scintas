@@ -98,7 +98,7 @@ DECLARE_EVENT_TABLE()
 public:
     MyFrame(wxWindow *parent, wxWindowID id, const wxString &title,
             const wxPoint &pos, const wxSize &size, long style);
-    ~MyFrame() { delete editorFactory;}
+    ~MyFrame();
     void OnNewPage(wxCommandEvent& event);
     void OnOpenFile(wxCommandEvent& event);
     void OnReopenFile(wxCommandEvent &event);

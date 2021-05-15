@@ -12,10 +12,12 @@ class Config {
     std::string iniPath;
     IniParser *iniParser;
     const int mru_hard_limit = 50;
+    const int mru_def_limit = 15;
     int mru_limit = mru_hard_limit;
 public:
     Config();
     ~Config();
+    void Flush();
     std::vector<wxString> mru;
     void UpdateMRUPageClose(wxString path);
     void UpdateMRUPageOpen(wxString path);
