@@ -175,14 +175,7 @@ void MyFrame::CreateMenu() {
     menuTools->Append(tools_insertTime);
     wxMenuItem *tools_insertDateTime = new wxMenuItem(menuTools, wxxInsertDateTime, "Insert date &and time", "");
     menuTools->Append(tools_insertDateTime);
-
-    wxMenu *menuWindow = new wxMenu;
-    for (int i=0; i<10; i++) {
-        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, to_string(i), "");
-        menuWindow->Append(menuItem);
-        Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
-    }
-
+    menuWindow = new wxMenu;
     wxMenu *menuOther = new wxMenu;
     wxMenuItem *editas = new wxMenuItem(menuOther, wxxID_Editas, "Editas", "");
     menuOther->Append(editas);
@@ -198,6 +191,14 @@ void MyFrame::CreateMenu() {
     SetMenuBar( menuBar );
 
     StartServer();
+}
+
+void MyFrame::UpdateMenuWindow() {
+    for (int i=0; i<4; i++) {
+        wxMenuItem *menuItem = new wxMenuItem(menuWindow, /*wxxID_Window+i*/0, to_string(i), "");
+        menuWindow->Append(menuItem);
+        Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
+    }
 }
 
 MyFrame::MyFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style)
@@ -548,6 +549,7 @@ void MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
     Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, editor->GetId());
+    UpdateMenuWindow();
 }
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
@@ -594,6 +596,8 @@ void MyFrame::OnPageClose(wxAuiNotebookEvent &event) {
     editorFactory->CloseEditor(event.GetSelection(), false, closeEnum);
     if (closeEnum==clCancel)
         event.Veto();
+    else
+        UpdateMenuWindow();
 }
 
 void MyFrame::CmdLineOpenFiles() {

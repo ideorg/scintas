@@ -55,6 +55,7 @@ class MyFrame : public wxFrame
     void OnPoke(wxCommandEvent &event);
     enum ChangeCaseEnum {ccUpper, ccLower};
 
+    wxMenu *menuWindow;
     wxAuiManager manager;
     wxAuiNotebook* notebook;
     EditorFactory* editorFactory;
@@ -83,6 +84,7 @@ class MyFrame : public wxFrame
     void OnPageClose(wxAuiNotebookEvent &event);
     //void SetEditorStyle(wxStyledTextCtrl* stc);
     void CreateMenu();
+    void UpdateMenuWindow();
     void OnCloseMain(wxCloseEvent& event);
     void OnWindow(wxCommandEvent& event);
 DECLARE_EVENT_TABLE()
