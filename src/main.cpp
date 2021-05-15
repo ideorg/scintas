@@ -175,6 +175,12 @@ void MyFrame::CreateMenu() {
     wxMenuItem *tools_insertDateTime = new wxMenuItem(menuTools, wxxInsertDateTime, "Insert date &and time", "");
     menuTools->Append(tools_insertDateTime);
 
+    wxMenu *menuWindow = new wxMenu;
+    for (int i=0; i<10; i++) {
+        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, to_string(i), "");
+        menuWindow->Append(menuItem);
+    }
+
     wxMenu *menuOther = new wxMenu;
     wxMenuItem *editas = new wxMenuItem(menuOther, wxxID_Editas, "Editas", "");
     menuOther->Append(editas);
@@ -184,6 +190,7 @@ void MyFrame::CreateMenu() {
     menuBar->Append(menuEdit, "&Edit");
     menuBar->Append(menuSearch, "&Search");
     menuBar->Append(menuTools, "&Tools");
+    menuBar->Append(menuWindow, "&Window");
     menuBar->Append(menuOther, "&Other");
 
     SetMenuBar( menuBar );

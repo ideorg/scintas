@@ -45,6 +45,7 @@ enum wxxMenuID {
     wxxID_ChangeCaseLower,
     wxxID_ChangeCaseInvert,
     wxxID_ChangeCaseUpperFirst,
+    wxxID_Window
 };
 
 class MyFrame : public wxFrame
