@@ -63,9 +63,15 @@ void Editor::TryClose() {  }
 wxStyledTextCtrl* Editor::GetWidget() { return stc; };
 //function Editor::GetCaretPos: TPoint;
 //function Editor::GetStateStr: string;
+
 wxString Editor::GetPath() {
     return path;
 }
+
+wxString Editor::GetExPath() {
+    return wxIsEmpty(path)?title:path;
+}
+
 wxString Editor::GetTitle() {
     return title;
 }

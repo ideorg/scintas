@@ -197,9 +197,14 @@ void MyFrame::UpdateMenuWindow() {
     for (int i=menuWindow->GetMenuItemCount()-1; i>=0; i--) {
         menuWindow->Remove(menuWindow->FindItemByPosition(i));
     }
-    for (int i=0; i<editorFactory->GetEditorCount(); i++) {
+    for (int i=0; i<min(10+26,editorFactory->GetEditorCount()); i++) {
+        wxString altChar;
+        if (i<9) altChar = to_string(i + 1);
+        else if (i==9) altChar = "0";
+        else altChar = wxChar('a' + (i - 10));
         Editor *editor = editorFactory->GetEditor(i);
-        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i, /*to_string(i)*/editor->GetTitle(), "");
+        wxMenuItem *menuItem = new wxMenuItem(menuWindow, wxxID_Window+i,
+                                              "&" + altChar + " " + editor->GetExPath(), "");
         menuWindow->Append(menuItem);
         Bind(wxEVT_MENU, &MyFrame::OnWindow, this, wxxID_Window+i);
     }

@@ -34,6 +34,7 @@ public:
     //function GetCaretPos: TPoint;
     //function GetStateStr: string;
     virtual wxString GetPath();
+    virtual wxString GetExPath();
     virtual wxString GetTitle();
     //virtual function GetLines: TStrings;();
     //virtual function GetCurrentLine: string;();
