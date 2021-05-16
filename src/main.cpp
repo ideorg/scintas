@@ -101,15 +101,15 @@ bool MyFrame::StartServer()
 void MyFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(wxID_NEW);
-    wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, "Open file\tCtrl-O", "");
+    wxMenuItem *open_file = new wxMenuItem(menuFile, wxID_OPEN, "&Open file\tCtrl-O", "");
     menuFile->Append(open_file);
     recent_file = new wxMenu;
-    menuFile->AppendSubMenu(recent_file, "Recent files");
+    menuFile->AppendSubMenu(recent_file, "&Recent files");
     wxMenuItem *file_according_name = new wxMenuItem(menuFile, wxID_OPEN, "According to name", "");
     menuFile->Append(file_according_name);
     wxMenuItem *file_according_path = new wxMenuItem(menuFile, wxID_OPEN, "According to path", "");
     menuFile->Append(file_according_path);
-    wxMenuItem *file_reopen = new wxMenuItem(menuFile, wxxID_Reopen, "&Reopen file", "");
+    wxMenuItem *file_reopen = new wxMenuItem(menuFile, wxxID_Reopen, "Reopen file", "");
     menuFile->Append(file_reopen);
     menuFile->Append(wxID_SEPARATOR);
     menuFile->Append(wxID_SAVE);
