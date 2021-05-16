@@ -26,8 +26,9 @@ void MyServer::Disconnect()
 {
     if ( m_connection )
     {
-        wxDELETE(m_connection);
-        wxLogMessage("[server] Disconnected client");
+        //wxDELETE(m_connection);
+        //wxLogMessage("[server] Disconnected client");
+        //commented because is already disconnected
     }
 }
 
