@@ -10,7 +10,7 @@ Config::Config() {
 
 #endif
     iniParser = new IniParser(iniPath, false);
-    mru_limit = min(iniParser->readInt32Def("MRUFiles","Max",mru_hard_limit), mru_def_limit);
+    mru_limit = min(iniParser->readInt32Def("MRUFiles","Max",mru_def_limit), mru_hard_limit);
     int count = min(iniParser->readInt32Def("MRUFiles","Count",0), mru_limit);
     mru.clear();
     for (int i=1; i<=count; i++)
