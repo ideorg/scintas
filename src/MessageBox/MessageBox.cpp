@@ -1,7 +1,7 @@
 #include "MessageBox.h"
 #include <wx/imaglist.h>
 
-void MessageBox::OnClick(wxCommandEvent &ev) {
+void MessageBoxDialog::OnClick(wxCommandEvent &ev) {
     result = ev.GetId();
     this->Close();
 }
@@ -11,7 +11,7 @@ const wxString captions[] {
     "Yes to all","No to all"
 };
 
-MessageBox::MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId)
+MessageBoxDialog::MessageBoxDialog(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId)
 : wxDialog(parent, id, title, wxDefaultPosition, wxSize(300,100), wxDEFAULT_FRAME_STYLE),
 buttonFlags(buttonFlags),imageId(imageId) {
     if (!buttonFlags) buttonFlags = 1;
@@ -35,7 +35,7 @@ buttonFlags(buttonFlags),imageId(imageId) {
         button_box->Add(
                 new wxButton( p, idb, captions[idx]),
                 wxSizerFlags().Border(wxALL, 7));
-        Bind(wxEVT_BUTTON,&MessageBox::OnClick, this, idb);
+        Bind(wxEVT_BUTTON,&MessageBoxDialog::OnClick, this, idb);
     }
     sizer->Add(top_box, wxSizerFlags().Center());
     sizer->Add(button_box, wxSizerFlags().Center());
@@ -46,8 +46,8 @@ buttonFlags(buttonFlags),imageId(imageId) {
     result = wxCANCEL;
 }
 
-unsigned wxxMessageBox(const wxString &message, const wxString &title, unsigned buttonFlags, wxString imageId, wxWindow *parent, wxWindowID id) {
-    MessageBox *mesageBox = new MessageBox(parent, id, title,message,buttonFlags, wxART_WARNING);
+unsigned wxxMessageBoxDialog(const wxString &message, const wxString &title, unsigned buttonFlags, wxString imageId, wxWindow *parent, wxWindowID id) {
+    MessageBoxDialog *mesageBox = new MessageBoxDialog(parent, id, title,message,buttonFlags, wxART_WARNING);
     mesageBox->ShowModal();
     unsigned result = mesageBox->result;
     delete mesageBox;

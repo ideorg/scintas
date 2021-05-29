@@ -10,13 +10,13 @@
 #define wxYES_TO_ALL            0x00000080
 #define wxNO_TO_ALL             0x00000100
 
-class MessageBox: public wxDialog {
+class MessageBoxDialog: public wxDialog {
     void OnClick(wxCommandEvent &ev);
     unsigned buttonFlags;
     wxString imageId;
 public:
     unsigned result;
-    MessageBox(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId);
+    MessageBoxDialog(wxWindow *parent, wxWindowID id, const wxString &title, const wxString &message, unsigned buttonFlags, wxString imageId);
 };
 
 unsigned wxxMessageBox(const wxString &message, const wxString &title, unsigned buttonFlags, wxString imageId, wxWindow *parent=nullptr, wxWindowID id=wxID_ANY);
