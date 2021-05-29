@@ -1,5 +1,7 @@
 #include "Config.h"
+#ifdef __unix__
 #include <unistd.h>
+#endif
 
 using namespace std;
 
@@ -7,6 +9,7 @@ Config::Config() {
 #ifdef __unix__
     iniPath =  "/home/andrzej/.config/scintas/scintas.ini";
 #else
+    iniPath = "c:/Users/boruc/.config/scintas/scintas.ini";
 
 #endif
     iniParser = new IniParser(iniPath, false);
