@@ -1,6 +1,8 @@
 #include "execute.h"
+#ifdef __unix__
 #include <unistd.h>
 #include <sys/wait.h>
+#endif
 #include <cstring>
 
 using namespace std;

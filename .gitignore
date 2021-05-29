@@ -7,3 +7,4 @@ Release/
 *.db
 *.opendb
 *.user
+src/build
