@@ -46,7 +46,7 @@ buttonFlags(buttonFlags),imageId(imageId) {
     result = wxCANCEL;
 }
 
-unsigned wxxMessageBoxDialog(const wxString &message, const wxString &title, unsigned buttonFlags, wxString imageId, wxWindow *parent, wxWindowID id) {
+unsigned wxxMessageBox(const wxString &message, const wxString &title, unsigned buttonFlags, wxString imageId, wxWindow *parent, wxWindowID id) {
     MessageBoxDialog *mesageBox = new MessageBoxDialog(parent, id, title,message,buttonFlags, wxART_WARNING);
     mesageBox->ShowModal();
     unsigned result = mesageBox->result;
