@@ -5,6 +5,8 @@ The MIT License (MIT), see file LICENSE */
 #include "StrTools.h"
 #include "IniParser.h"
 
+using namespace std;
+
 IniParser::IniParser(const string &filename, bool mustExist) : filename(filename)
 {
 	dirty = false;

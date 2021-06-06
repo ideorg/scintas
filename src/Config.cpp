@@ -2,6 +2,7 @@
 #ifdef __unix__
 #include <unistd.h>
 #endif
+#include <algorithm>
 
 Config::Config() {
 #ifdef __unix__
@@ -11,11 +12,11 @@ Config::Config() {
 
 #endif
     iniParser = new IniParser(iniPath, false);
-    mru_limit = min(iniParser->readInt32Def("MRUFiles","Max",mru_def_limit), mru_hard_limit);
-    int count = min(iniParser->readInt32Def("MRUFiles","Count",0), mru_limit);
+    mru_limit = std::min(iniParser->readInt32Def("MRUFiles","Max",mru_def_limit), mru_hard_limit);
+    int count = std::min(iniParser->readInt32Def("MRUFiles","Count",0), mru_limit);
     mru.clear();
     for (int i=1; i<=count; i++)
-        mru.push_back(iniParser->readStringDef("MRUFiles","File"+to_string(i),""));
+        mru.push_back(iniParser->readStringDef("MRUFiles","File"+std::to_string(i),""));
 }
 
 void Config::Flush() {
@@ -24,7 +25,7 @@ void Config::Flush() {
     iniParser->writeLong("MRUFiles", "Max", mru_limit);
     iniParser->writeLong("MRUFiles", "Count", mru.size());
     for (int i=0; i<mru.size(); i++)
-        iniParser->writeString("MRUFiles","File"+to_string(i+1),mru[i].ToStdString());
+        iniParser->writeString("MRUFiles","File"+std::to_string(i+1),mru[i].ToStdString());
     iniParser->endUpdate();
 }
 
