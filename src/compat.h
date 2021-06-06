@@ -1,5 +1,4 @@
-#ifndef SCINTAS_COMPAT_H
-#define SCINTAS_COMPAT_H
+#pragma once
 
 #ifdef wxOVERRIDE
 #define new_wxWidgets
@@ -18,9 +17,8 @@
 
 #define SCI_SETTARGETRANGE 2686
 
-void STC_SetTargetRange(wxStyledTextCtrl *stc, int start, int end)
+static void STC_SetTargetRange(wxStyledTextCtrl *stc, int start, int end)
 {
     stc->SendMsg(SCI_SETTARGETRANGE, start, end);
 }
 
-#endif //SCINTAS_COMPAT_H
