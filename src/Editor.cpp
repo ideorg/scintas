@@ -344,7 +344,7 @@ void Editor::StripTrailingSpaces() {
             ch = stc->GetCharAt(i);
         }
         if (i < (lineEnd - 1)) {
-            stc->SetTargetRange(i + 1, lineEnd);
+            STC_SetTargetRange(stc, i + 1, lineEnd);
             stc->ReplaceTarget("");
         }
     }

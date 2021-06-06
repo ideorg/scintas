@@ -3,6 +3,7 @@
 
 #include "ipcsetup.h"
 #include <wx/log.h>
+#include "../compat.h"
 
 // This simple connection class adds logging of all operations
 class MyConnectionBase : public wxConnection

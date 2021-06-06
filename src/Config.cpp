@@ -3,8 +3,6 @@
 #include <unistd.h>
 #endif
 
-using namespace std;
-
 Config::Config() {
 #ifdef __unix__
     iniPath =  "/home/andrzej/.config/scintas/scintas.ini";

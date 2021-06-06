@@ -7,6 +7,7 @@
 #endif
 #include <wx/stc/stc.h>
 #include "../3rdparty/auimod/auibook.h"
+#include "compat.h"
 
 enum CloseEnum {clClose, clCloseAllSave, clCloseAllDiscard, clCancel};
 enum ConsiderEnum {coCanClose, coCanSave, coSaveAs};

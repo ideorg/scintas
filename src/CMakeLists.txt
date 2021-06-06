@@ -33,7 +33,7 @@ set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp MessageBox/Mes
         ../3rdparty/auimod/dockart.cpp
         ../3rdparty/auimod/floatpane.cpp
         ../3rdparty/auimod/auibar.cpp
-        )
+        compat.h)
 add_executable(scintas ${SOURCE_FILES})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
