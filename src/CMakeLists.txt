@@ -15,7 +15,7 @@ set(wxWidgets_ROOT_DIR c:/wxWidgets-3.1.5)
         set(wxWidgets_CONFIGURATION vc_mswu_x64)
     endif()
 endif()
-find_package(wxWidgets COMPONENTS core base stc net REQUIRED)
+find_package(wxWidgets COMPONENTS core base stc net aui REQUIRED)
 include("${wxWidgets_USE_FILE}")
 message(STATUS "foo include dir: ${wxWidgets_LIBRARIES}")
 
@@ -25,6 +25,7 @@ set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp MessageBox/Mes
         IPC/MyServer.cpp IPC/CmdStruct.cpp
         IPC/MyClient.cpp IPC/MyConnectionClient.cpp
         IPC/MyConnectionServer.cpp
+        MessageBox/MessageBox.cpp
         ../3rdparty/auimod/framemanager.cpp
         ../3rdparty/auimod/auibook.cpp
         ../3rdparty/auimod/tabmdi.cpp
