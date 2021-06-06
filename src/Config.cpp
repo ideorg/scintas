@@ -1,14 +1,34 @@
 #include "Config.h"
 #ifdef __unix__
 #include <unistd.h>
+#include <pwd.h>
+#else
+#include <windows.h>
+#include <Lmcons.h>
 #endif
 #include <algorithm>
 
+static std::string getUserName() {
+#ifdef __unix__
+    uid_t uid = geteuid ();
+    struct passwd *pw = getpwuid (uid);
+    if (pw) {
+        return std::string(pw->pw_name);
+    }
+#else
+    char username[UNLEN+1];
+    DWORD username_len = UNLEN+1;
+    GetUserName(username, &username_len);
+    return username;
+#endif
+    return {};
+}
+
 Config::Config() {
 #ifdef __unix__
-    iniPath =  "/home/andrzej/.config/scintas/scintas.ini";
+    iniPath =  "/home/"+getUserName()+"/.config/scintas/scintas.ini";
 #else
-    iniPath = "c:/Users/boruc/.config/scintas/scintas.ini";
+    iniPath = "c:/Users/"+getUserName()+"/.config/scintas/scintas.ini";
 
 #endif
     iniParser = new IniParser(iniPath, false);
