@@ -1,4 +1,5 @@
 #include "Screen.h"
+#ifdef __unix__
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <unistd.h>
@@ -74,3 +75,19 @@ void BringToFront() {
     XRaiseWindow ( dsp, id );
     XCloseDisplay ( dsp );
 }
+#endif
+
+#ifdef _WIN32
+void BringToFront() {
+    /*HWND hCurWnd = ::GetForegroundWindow();
+    DWORD dwMyID = ::GetCurrentThreadId();
+    DWORD dwCurID = ::GetWindowThreadProcessId(hCurWnd, NULL);
+    ::AttachThreadInput(dwCurID, dwMyID, TRUE);
+    ::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+    ::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
+    ::SetForegroundWindow(m_hWnd);
+    ::SetFocus(m_hWnd);
+    ::SetActiveWindow(m_hWnd);
+    ::AttachThreadInput(dwCurID, dwMyID, FALSE);*/
+}
+#endif
