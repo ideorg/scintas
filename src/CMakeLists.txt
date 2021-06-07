@@ -34,7 +34,7 @@ set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp MessageBox/Mes
         ../3rdparty/auimod/dockart.cpp
         ../3rdparty/auimod/floatpane.cpp
         ../3rdparty/auimod/auibar.cpp
-        compat.h)
+        compat.h Screen.cpp Screen.h)
 add_executable(scintas ${SOURCE_FILES})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -55,4 +55,4 @@ target_link_directories(scintas
         ../3rdparty
         )
 
-target_link_libraries(scintas ${wxWidgets_LIBRARIES})
+target_link_libraries(scintas ${wxWidgets_LIBRARIES} X11)

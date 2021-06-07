@@ -116,7 +116,7 @@ public:
     void OnInsertDate(wxCommandEvent &event);
     void OnInsertTime(wxCommandEvent &event);
     void OnInsertDateTime(wxCommandEvent &event);
-    void OpenInEditor(const wxString& file_path);
+    Editor* OpenInEditor(const wxString& file_path);
     void OpenOrActivate(const wxString& file_path);
     void OnKeyDown(wxKeyEvent& event);
 

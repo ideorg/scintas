@@ -10,6 +10,7 @@
 #include <wx/msgdlg.h>
 #include "IPC/MyClient.h"
 #include "IPC/CmdStruct.h"
+#include "Screen.h"
 
 using namespace std;
 
@@ -78,6 +79,7 @@ void MyFrame::OnPoke(wxCommandEvent &event) {
     auto argv = cmdStruct.unpack(data);
     for (int i=1; i<argv.size(); i++)
         OpenOrActivate(argv[i]);
+    BringToFront();
 }
 
 bool MyFrame::StartServer()
@@ -580,24 +582,25 @@ void MyFrame::OnInsertDateTime(wxCommandEvent &event) {
         editor->InsertDateTime();
 }
 
-void MyFrame::OpenInEditor(const wxString &file_path) {
+Editor* MyFrame::OpenInEditor(const wxString &file_path) {
     Editor *editor = editorFactory->CreateTabSheet(file_path);
     Bind(wxEVT_STC_MARGINCLICK, &MyFrame::OnStcMarginClick, this, editor->GetId());
     Bind(wxEVT_STC_MODIFIED, &MyFrame::OnStcModified, this, editor->GetId());
     UpdateMenuWindow();
     config->UpdateMRUPageOpen(file_path);
     UpdateMenuMRU();
+    return editor;
 }
 
 void MyFrame::OpenOrActivate(const wxString& file_path) {
     Editor *editor = editorFactory->GetEditorByPath(file_path);
     if (editor) {
         editor->Reopen(false);
-        editor->Activate();
-        editor->GetWidget()->SetFocus();
     }
     else
-        OpenInEditor(file_path);
+        editor = OpenInEditor(file_path);
+    editor->Activate();
+    editor->GetWidget()->SetFocus();
 }
 
 void MyFrame::OnStcMarginClick(wxStyledTextEvent &event) {
