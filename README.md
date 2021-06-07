@@ -11,4 +11,3 @@ cd build <br>
 cmake ../src <br>
 make -j4 <br>
 strip scintas <br>
-
