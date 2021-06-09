@@ -8,6 +8,6 @@ sudo apt install cmake <br>
 sudo apt install libwxgtk3.0-dev <br>
 mkdir build <br>
 cd build <br>
-cmake ../src <br>
+cmake .. <br>
 make -j4 <br>
 strip scintas <br>
