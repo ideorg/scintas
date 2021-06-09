@@ -19,22 +19,23 @@ find_package(wxWidgets COMPONENTS core base stc net aui REQUIRED)
 include("${wxWidgets_USE_FILE}")
 message(STATUS "foo include dir: ${wxWidgets_LIBRARIES}")
 
-set(SOURCE_FILES main.cpp Editor.cpp EditorFactory.cpp Config.cpp MessageBox/MessageBox.cpp
-        IniParser/IniParser.cpp IniParser/StrTools.cpp execute.cpp
-        MyTabArt.cpp
-        IPC/MyServer.cpp IPC/CmdStruct.cpp
-        IPC/MyClient.cpp IPC/MyConnectionClient.cpp
-        IPC/MyConnectionServer.cpp
-        MessageBox/MessageBox.cpp
-        ../3rdparty/auimod/framemanager.cpp
-        ../3rdparty/auimod/auibook.cpp
-        ../3rdparty/auimod/tabmdi.cpp
-        ../3rdparty/auimod/tabart.cpp
-        ../3rdparty/auimod/tabartmsw.cpp
-        ../3rdparty/auimod/dockart.cpp
-        ../3rdparty/auimod/floatpane.cpp
-        ../3rdparty/auimod/auibar.cpp
-        compat.h Screen.cpp Screen.h)
+set(SOURCE_FILES src/main.cpp src/Editor.cpp src/EditorFactory.cpp
+		  src/Config.cpp src/execute.cpp
+		  src/MessageBox/MessageBox.cpp
+        src/IniParser/IniParser.cpp src/IniParser/StrTools.cpp
+        src/MyTabArt.cpp
+        src/IPC/MyServer.cpp src/IPC/CmdStruct.cpp
+        src/IPC/MyClient.cpp src/IPC/MyConnectionClient.cpp
+        src/IPC/MyConnectionServer.cpp
+        3rdparty/auimod/framemanager.cpp
+        3rdparty/auimod/auibook.cpp
+        3rdparty/auimod/tabmdi.cpp
+        3rdparty/auimod/tabart.cpp
+        3rdparty/auimod/tabartmsw.cpp
+        3rdparty/auimod/dockart.cpp
+        3rdparty/auimod/floatpane.cpp
+        3rdparty/auimod/auibar.cpp
+        src/compat.h src/Screen.cpp src/Screen.h)
 add_executable(scintas ${SOURCE_FILES})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -47,12 +48,12 @@ add_definitions(-DwxUSE_UNICODE=1)
 
 target_include_directories(scintas
         PRIVATE
-        ../3rdparty/cpp-ipc/include
+        3rdparty/cpp-ipc/include
         )
 
 target_link_directories(scintas
         PRIVATE
-        ../3rdparty
+        3rdparty
         )
 
 target_link_libraries(scintas ${wxWidgets_LIBRARIES} X11)
