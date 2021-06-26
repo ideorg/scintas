@@ -33,6 +33,7 @@ public:
 enum wxxMenuID {
     wxxID_Editas  = wxID_HIGHEST + 1,
     wxxID_SaveAll,
+    wxxID_SpecialChars,
     wxxID_SelectWord,
     wxxID_WordNext,
     wxxID_WordPrev,
@@ -68,6 +69,7 @@ class MyFrame : public wxFrame
 
     void OnExit(wxCommandEvent& event);
     wxStyledTextCtrl *SelectWord();
+    void OnSpecialChars(wxCommandEvent &event);
     void OnSelectWord(wxCommandEvent &event);
     void ChangeCase(ChangeCaseEnum cc);
     void OnChangeCaseUpper(wxCommandEvent &event);

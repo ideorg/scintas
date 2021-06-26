@@ -18,6 +18,7 @@ wxIMPLEMENT_APP(MyApp);
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
                 EVT_MENU(wxID_EXIT, MyFrame::OnExit)
                 EVT_MENU(wxxID_Editas, MyFrame::OnEditas)
+                EVT_MENU(wxxID_SpecialChars, MyFrame::OnSpecialChars)
                 EVT_MENU(wxxID_SelectWord, MyFrame::OnSelectWord)
                 EVT_MENU(wxxID_WordNext, MyFrame::OnWordNext)
                 EVT_MENU(wxxID_WordPrev, MyFrame::OnWordPrev)
@@ -125,6 +126,10 @@ void MyFrame::CreateMenu() {
     wxMenuItem *exit_file = new wxMenuItem(menuFile, wxID_EXIT, "E&xit\tAlt-F4", "");
     menuFile->Append(exit_file);
 
+    wxMenu *menuView = new wxMenu;
+    wxMenuItem *view_special = new wxMenuItem(menuView, wxxID_SpecialChars, "Special chars", "");
+    menuView->Append(view_special);
+
     wxMenu *menuEdit = new wxMenu;
     menuEdit->Append(wxID_UNDO);
     menuEdit->Append(wxID_REDO);
@@ -184,6 +189,7 @@ void MyFrame::CreateMenu() {
 
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuView, "&View");
     menuBar->Append(menuEdit, "&Edit");
     menuBar->Append(menuSearch, "&Search");
     menuBar->Append(menuTools, "&Tools");
@@ -266,6 +272,12 @@ wxStyledTextCtrl *MyFrame::SelectWord() {
     int end = stc->WordEndPosition(pos, true);
     stc->SetSelection(start, end);
     return stc;
+}
+
+void MyFrame::OnSpecialChars(wxCommandEvent &event) {
+    wxStyledTextCtrl *stc = editorFactory->GetCurrentWidget();
+    if (!stc) return;
+    stc->SetViewWhiteSpace(!stc->GetViewWhiteSpace());
 }
 
 void MyFrame::OnSelectWord(wxCommandEvent &event) {
