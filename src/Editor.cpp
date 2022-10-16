@@ -91,12 +91,10 @@ ConsiderEnum Editor::Consider() {
 }
 
 void Editor::SetEditorStyle() {
+    stc->SetUseHorizontalScrollBar(false);
     stc->StyleClearAll();
-
     stc->SetWrapMode(0);
-
     stc->SetLexer(wxSTC_LEX_CPP);
-
     wxFont font(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier New");
     wxFont fontb(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier New");
 
